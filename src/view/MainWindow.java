@@ -43,11 +43,11 @@ public class MainWindow extends BorderPane
 
 	private void initToolBar(ToolBar t)
 	{
-		
-		Image imagebNew = new Image("file:file.png");
-		Button bNew = new Button();//"New", new ImageView(imagebNew));
+
+		Image imagebNew = new Image(getClass().getResourceAsStream(Settings.IMAGE_BNEW));
+		Button bNew = new Button();// "New", new ImageView(imagebNew));
 		bNew.setGraphic(new ImageView(imagebNew));
 		t.getItems().add(bNew);
-		
+
 	}
 }
