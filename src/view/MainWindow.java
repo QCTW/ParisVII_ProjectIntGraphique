@@ -1,5 +1,6 @@
 package view;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
@@ -8,7 +9,7 @@ import javafx.scene.layout.HBox;
 public class MainWindow extends BorderPane
 {
 	ToolBar toolBar = new ToolBar();
-	HBox controlBar = new HBox();
+	HBox controlBar = new HBox(5);
 
 	public MainWindow()
 	{
@@ -19,10 +20,12 @@ public class MainWindow extends BorderPane
 		this.setBottom(controlBar);
 	}
 
-	private void initControlBar(HBox controlBar2)
+	private void initControlBar(HBox h)
 	{
-		// TODO Auto-generated method stub
-
+		Ball b = new Ball();
+		Cube c = new Cube();
+		h.setPadding(new Insets(Settings.PADDING_IN_BAR));
+		h.getChildren().addAll(b, c);
 	}
 
 	private void initToolBar(ToolBar t)
