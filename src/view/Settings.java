@@ -7,4 +7,6 @@ public class Settings
 	public static int CONTENT_AREA_WIDTH = 600;
 	public static int CONTENT_AREA_HEIGHT = 600;
 	public static String IMAGE_BNEW = "../resource/file.png";
+	public static String IMAGE_BLOAD = "../resource/load.png";
+	public static String IMAGE_BSAVE = "../resource/save.png";
 }

@@ -45,9 +45,16 @@ public class MainWindow extends BorderPane
 	{
 
 		Image imagebNew = new Image(getClass().getResourceAsStream(Settings.IMAGE_BNEW));
-		Button bNew = new Button();// "New", new ImageView(imagebNew));
-		bNew.setGraphic(new ImageView(imagebNew));
+		Button bNew = new Button("New", new ImageView(imagebNew));
+		//bNew.setGraphic(new ImageView(imagebNew));
 		t.getItems().add(bNew);
+		Image imagebLoad = new Image(getClass().getResourceAsStream(Settings.IMAGE_BLOAD));
+		Button bLoad = new Button("Load", new ImageView(imagebLoad));
+		t.getItems().add(bLoad);
+		Image imagebSave = new Image(getClass().getResourceAsStream(Settings.IMAGE_BSAVE));
+		Button bSave = new Button("SAVE", new ImageView(imagebSave));
+		t.getItems().add(bSave);
+		
 
 	}
 }
