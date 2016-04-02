@@ -4,6 +4,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -41,7 +43,11 @@ public class MainWindow extends BorderPane
 
 	private void initToolBar(ToolBar t)
 	{
-		Button bNew = new Button("New");
+		
+		Image imagebNew = new Image("file:file.png");
+		Button bNew = new Button();//"New", new ImageView(imagebNew));
+		bNew.setGraphic(new ImageView(imagebNew));
 		t.getItems().add(bNew);
+		
 	}
 }
