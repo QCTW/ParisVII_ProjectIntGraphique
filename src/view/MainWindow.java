@@ -4,8 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -43,18 +42,21 @@ public class MainWindow extends BorderPane
 
 	private void initToolBar(ToolBar t)
 	{
+		Icon iconNew = new Icon(Settings.IMAGE_BNEW);
+		Button bNew = new Button();
+		bNew.setGraphic(iconNew);
+		bNew.setTooltip(new Tooltip("Start a new design graph"));
 
-		Image imagebNew = new Image(getClass().getResourceAsStream(Settings.IMAGE_BNEW));
-		Button bNew = new Button("New", new ImageView(imagebNew));
-		//bNew.setGraphic(new ImageView(imagebNew));
-		t.getItems().add(bNew);
-		Image imagebLoad = new Image(getClass().getResourceAsStream(Settings.IMAGE_BLOAD));
-		Button bLoad = new Button("Load", new ImageView(imagebLoad));
-		t.getItems().add(bLoad);
-		Image imagebSave = new Image(getClass().getResourceAsStream(Settings.IMAGE_BSAVE));
-		Button bSave = new Button("SAVE", new ImageView(imagebSave));
-		t.getItems().add(bSave);
-		
+		Icon iconLoad = new Icon(Settings.IMAGE_BLOAD);
+		Button bLoad = new Button();
+		bLoad.setGraphic(iconLoad);
+		bLoad.setTooltip(new Tooltip("Load an existing graph"));
+
+		Icon iconSave = new Icon(Settings.IMAGE_BSAVE);
+		Button bSave = new Button();
+		bSave.setTooltip(new Tooltip("Save current graph to a file"));
+		bSave.setGraphic(iconSave);
+		t.getItems().addAll(bNew, bLoad, bSave);
 
 	}
 }
