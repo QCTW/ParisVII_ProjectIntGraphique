@@ -4,6 +4,7 @@ import controller.EventHandlerMouseOverGlow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
@@ -59,7 +60,13 @@ public class MainWindow extends BorderPane
 		Button bSave = new Button();
 		bSave.setTooltip(new Tooltip("Save current graph to a file"));
 		bSave.setGraphic(iconSave);
-		t.getItems().addAll(bNew, bLoad, bSave);
+
+		Separator sep = new Separator();
+
+		ControlButton bControlButton = new ControlButton();
+		StepButton bStepButton = new StepButton();
+
+		t.getItems().addAll(bNew, bLoad, bSave, sep, bControlButton, bStepButton);
 
 	}
 }
