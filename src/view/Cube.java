@@ -11,7 +11,7 @@ public class Cube extends Box
 	{
 		super(Settings.NODE_SIZE, Settings.NODE_SIZE, Settings.NODE_SIZE);
 		PhongMaterial material = new PhongMaterial();
-		material.setDiffuseColor(Color.CORNFLOWERBLUE);
+		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		material.setSpecularColor(Color.WHITE);
 		this.setMaterial(material);
 	}

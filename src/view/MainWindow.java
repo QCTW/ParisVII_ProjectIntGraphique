@@ -1,10 +1,12 @@
 package view;
 
+import controller.EventHandlerMouseOverGlow;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -34,6 +36,7 @@ public class MainWindow extends BorderPane
 	private void initControlBar(HBox h)
 	{
 		Ball b = new Ball();
+		b.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverGlow(b));
 		Cube c = new Cube();
 		h.setPadding(new Insets(Settings.PADDING_IN_BAR));
 		h.alignmentProperty().set(Pos.CENTER);
