@@ -10,7 +10,7 @@ public class ControlButton extends Button
 	{
 		super();
 		Icon iconControl = new Icon(Settings.IMAGE_BPLAY);
-		this.setTooltip(new Tooltip("Save current graph to a file"));
+		this.setTooltip(new Tooltip("Start to demonstrate the algorithm"));
 		this.setGraphic(iconControl);
 	}
 

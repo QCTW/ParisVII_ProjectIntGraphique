@@ -12,6 +12,7 @@ public class StepButton extends Button
 		Icon iconControl = new Icon(Settings.IMAGE_BSTEP);
 		this.setTooltip(new Tooltip("Play one step"));
 		this.setGraphic(iconControl);
+		this.focusTraversableProperty().setValue(false);
 	}
 
 }

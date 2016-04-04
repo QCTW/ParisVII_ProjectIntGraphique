@@ -48,16 +48,19 @@ public class MainWindow extends BorderPane
 	{
 		Icon iconNew = new Icon(Settings.IMAGE_BNEW);
 		Button bNew = new Button();
+		bNew.focusTraversableProperty().setValue(false);
 		bNew.setGraphic(iconNew);
 		bNew.setTooltip(new Tooltip("Start a new design graph"));
 
 		Icon iconLoad = new Icon(Settings.IMAGE_BLOAD);
 		Button bLoad = new Button();
+		bLoad.focusTraversableProperty().setValue(false);
 		bLoad.setGraphic(iconLoad);
 		bLoad.setTooltip(new Tooltip("Load an existing graph"));
 
 		Icon iconSave = new Icon(Settings.IMAGE_BSAVE);
 		Button bSave = new Button();
+		bSave.focusTraversableProperty().setValue(false);
 		bSave.setTooltip(new Tooltip("Save current graph to a file"));
 		bSave.setGraphic(iconSave);
 
@@ -67,6 +70,5 @@ public class MainWindow extends BorderPane
 		StepButton bStepButton = new StepButton();
 
 		t.getItems().addAll(bNew, bLoad, bSave, sep, bControlButton, bStepButton);
-
 	}
 }

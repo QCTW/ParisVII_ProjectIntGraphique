@@ -8,7 +8,7 @@ public class Ball extends Sphere
 
 	public Ball()
 	{
-		super(Settings.NODE_SIZE / 2);
+		super(Settings.NODE_SIZE);
 		PhongMaterial material = new PhongMaterial();
 		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		material.setSpecularColor(Settings.SPECULAR_COLOR);
