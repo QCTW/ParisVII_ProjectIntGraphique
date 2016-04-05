@@ -63,7 +63,8 @@ public class MainWindow extends BorderPane
 		StepButton bStepButton = new StepButton();
 
 		Ball b = new Ball();
-		b.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverGlow(b));
+		b.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverGlow(b));
+		b.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverGlow(b));
 		Cube c = new Cube();
 		t.setPadding(new Insets(Settings.PADDING_IN_BAR));
 		// t.alignmentProperty().set(Pos.CENTER);

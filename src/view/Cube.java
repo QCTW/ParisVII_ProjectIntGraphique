@@ -1,9 +1,7 @@
 package view;
 
-import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
-import javafx.scene.transform.Rotate;
 
 public class Cube extends Box
 {
@@ -13,10 +11,12 @@ public class Cube extends Box
 		super(Settings.NODE_SIZE, Settings.NODE_SIZE, Settings.NODE_SIZE);
 		PhongMaterial material = new PhongMaterial();
 		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
-		material.setSpecularColor(Color.WHITE);
+		material.setSpecularColor(Settings.SPECULAR_COLOR);
 		this.setMaterial(material);
-		this.getTransforms().add(new Rotate(45, 0, 0, 0, Rotate.X_AXIS));
-		this.getTransforms().add(new Rotate(45, 0, 0, 0, Rotate.Y_AXIS));
+		// this.getTransforms().add(new Rotate(30, 0, 0, 0, Rotate.X_AXIS));
+		// this.getTransforms().add(new Rotate(30, 0, 0, 0, Rotate.Y_AXIS));
+		// this.setCullFace(CullFace.NONE);
+		// this.setDrawMode(DrawMode.LINE);
 	}
 
 }

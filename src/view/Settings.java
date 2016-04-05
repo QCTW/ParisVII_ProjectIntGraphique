@@ -6,9 +6,9 @@ public class Settings
 {
 	public static final double ICON_WIDTH_SIZE = 25;
 	public static final int NODE_SIZE = 25;
-	public static final int PADDING_IN_BAR = 1;
-	public static final int CONTENT_AREA_WIDTH = 600;
-	public static final int CONTENT_AREA_HEIGHT = 600;
+	public static final int PADDING_IN_BAR = 5;
+	public static final int CONTENT_AREA_WIDTH = 800;
+	public static final int CONTENT_AREA_HEIGHT = 400;
 	public static final Color DIFFUSE_COLOR = Color.CORNFLOWERBLUE;
 	public static final Color SPECULAR_COLOR = Color.WHITE;
 	public static final String CSS_PATH = "resource/stylesheets.css"; // Note that this file is read from the Main.java
