@@ -2,46 +2,41 @@ package view;
 
 import controller.EventHandlerMouseOverGlow;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 public class MainWindow extends BorderPane
 {
 	ToolBar toolBar = new ToolBar();
 	StackPane contentArea = new StackPane();
-	HBox controlBar = new HBox(5);
+	Label msgBox = new Label("Drag and drop a ball or cube to start your graph");
 
 	public MainWindow()
 	{
 		super();
 		initToolBar(toolBar);
 		initContentArea(contentArea);
-		initControlBar(controlBar);
+		initMessageBox(msgBox);
 		this.setTop(toolBar);
 		this.setCenter(contentArea);
-		this.setBottom(controlBar);
+		this.setBottom(msgBox);
 	}
 
 	private void initContentArea(StackPane s)
 	{
+		s.getStyleClass().add("stackpane");
 		s.setPrefSize(Settings.CONTENT_AREA_WIDTH, Settings.CONTENT_AREA_HEIGHT);
 	}
 
-	private void initControlBar(HBox h)
+	private void initMessageBox(Label l)
 	{
-		Ball b = new Ball();
-		b.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverGlow(b));
-		Cube c = new Cube();
-		h.setPadding(new Insets(Settings.PADDING_IN_BAR));
-		h.alignmentProperty().set(Pos.CENTER);
-		h.getChildren().addAll(b, c);
+
 	}
 
 	private void initToolBar(ToolBar t)
@@ -64,11 +59,16 @@ public class MainWindow extends BorderPane
 		bSave.setTooltip(new Tooltip("Save current graph to a file"));
 		bSave.setGraphic(iconSave);
 
-		Separator sep = new Separator();
-
 		ControlButton bControlButton = new ControlButton();
 		StepButton bStepButton = new StepButton();
 
-		t.getItems().addAll(bNew, bLoad, bSave, sep, bControlButton, bStepButton);
+		Ball b = new Ball();
+		b.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverGlow(b));
+		Cube c = new Cube();
+		t.setPadding(new Insets(Settings.PADDING_IN_BAR));
+		// t.alignmentProperty().set(Pos.CENTER);
+		// h.getChildren().addAll(b, c);
+
+		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStepButton, new Separator(), b, c);
 	}
 }

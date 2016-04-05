@@ -13,6 +13,7 @@ public class Main extends Application
 	{
 		primaryStage.setTitle("Project Interface Graphic by HSIEH & FAN");
 		Scene scene = new Scene(new MainWindow());
+		scene.getStylesheets().add(Settings.CSS_PATH);
 		primaryStage.setScene(scene);
 		primaryStage.getIcons().add(new Image(Settings.IMAGE_APP_ICON));
 		primaryStage.show();

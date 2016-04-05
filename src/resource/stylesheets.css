@@ -1,0 +1,11 @@
+.label
+{
+	-fx-text-alignment: center;
+	-fx-font: 20px "Serif";
+}
+
+/* these CSS are named in our application */
+.stackpane
+{
+    -fx-background-color: #e6eeff;
+}

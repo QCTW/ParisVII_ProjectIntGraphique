@@ -18,7 +18,7 @@ public class EventHandlerMouseOverGlow implements EventHandler<MouseEvent>
 	{
 		if (event.getEventType() == MouseEvent.MOUSE_ENTERED)
 		{
-
+			// targetNode
 		}
 	}
 
