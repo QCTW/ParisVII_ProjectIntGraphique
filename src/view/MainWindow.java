@@ -1,6 +1,6 @@
 package view;
 
-import controller.EventHandlerMouseOverGlow;
+import controller.EventHandlerMouseOverEnlarge;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -63,9 +63,11 @@ public class MainWindow extends BorderPane
 		StepButton bStepButton = new StepButton();
 
 		Ball b = new Ball();
-		b.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverGlow(b));
-		b.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverGlow(b));
+		b.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(b));
+		b.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverEnlarge(b));
 		Cube c = new Cube();
+		c.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(c));
+		c.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverEnlarge(c));
 		t.setPadding(new Insets(Settings.PADDING_IN_BAR));
 		// t.alignmentProperty().set(Pos.CENTER);
 		// h.getChildren().addAll(b, c);
