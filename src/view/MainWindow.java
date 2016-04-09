@@ -1,5 +1,7 @@
 package view;
 
+import java.io.File;
+
 import controller.EDragOperation;
 import controller.EventHandlerDragAndDrop;
 import controller.EventHandlerMouseOverEnlarge;
@@ -12,6 +14,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class MainWindow extends BorderPane
 {
@@ -59,6 +63,19 @@ public class MainWindow extends BorderPane
 		bLoad.focusTraversableProperty().setValue(false);
 		bLoad.setGraphic(iconLoad);
 		bLoad.setTooltip(new Tooltip("Load an existing graph"));
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("File Navigator");
+		
+		bLoad.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
+			File file = fileChooser.showOpenDialog(new Stage());
+			if(file != null){
+				System.out.println("open file "+file.getName());
+				
+			}
+			else{
+				System.out.println("you don't choose any file");
+			}
+		});
 
 		Icon iconSave = new Icon(Settings.IMAGE_BSAVE);
 		Button bSave = new Button();
