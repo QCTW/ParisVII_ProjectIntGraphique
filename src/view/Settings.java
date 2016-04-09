@@ -19,5 +19,6 @@ public class Settings
 	public static final String IMAGE_BPAUSE = "../resource/ic_pause_circle_outline_48pt_3x.png";
 	public static final String IMAGE_BPLAY = "../resource/ic_play_circle_outline_48pt_3x.png";
 	public static final String IMAGE_BSTEP = "../resource/ic_skip_next_48pt_3x.png";
+	public static final String IMAGE_BSTOP = "../resource/ic_stop_48pt_3x.png";
 
 }

@@ -61,6 +61,7 @@ public class MainWindow extends BorderPane
 
 		ControlButton bControlButton = new ControlButton();
 		StepButton bStepButton = new StepButton();
+		StopButton bStopButton = new StopButton();
 
 		Ball b = new Ball();
 		b.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(b));
@@ -72,6 +73,6 @@ public class MainWindow extends BorderPane
 		// t.alignmentProperty().set(Pos.CENTER);
 		// h.getChildren().addAll(b, c);
 
-		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStepButton, new Separator(), b, c);
+		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStopButton, bStepButton, new Separator(), b, c);
 	}
 }
