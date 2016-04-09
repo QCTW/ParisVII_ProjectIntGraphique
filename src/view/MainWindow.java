@@ -1,5 +1,7 @@
 package view;
 
+import controller.EDragOperation;
+import controller.EventHandlerDragAndDrop;
 import controller.EventHandlerMouseOverEnlarge;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -32,6 +34,11 @@ public class MainWindow extends BorderPane
 	{
 		s.getStyleClass().add("stackpane");
 		s.setPrefSize(Settings.CONTENT_AREA_WIDTH, Settings.CONTENT_AREA_HEIGHT);
+		contentArea.setOnDragOver(new EventHandlerDragAndDrop(s, EDragOperation.DragOver));
+		contentArea.setOnDragEntered(new EventHandlerDragAndDrop(s, EDragOperation.DragEntered));
+		contentArea.setOnDragExited(new EventHandlerDragAndDrop(s, EDragOperation.DragExited));
+		contentArea.setOnDragDropped(new EventHandlerDragAndDrop(s, EDragOperation.DragDropped));
+		contentArea.setOnDragDone(new EventHandlerDragAndDrop(s, EDragOperation.DragDone));
 	}
 
 	private void initMessageBox(Label l)

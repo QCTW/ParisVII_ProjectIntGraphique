@@ -1,5 +1,6 @@
 package view;
 
+import controller.EventHandlerStartDrag;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 
@@ -15,6 +16,7 @@ public class Ball extends Sphere
 		this.setMaterial(material);
 		// this.setCullFace(CullFace.BACK);
 		// this.setDrawMode(DrawMode.LINE);
+		this.setOnDragDetected(new EventHandlerStartDrag(this));
 	}
 
 }

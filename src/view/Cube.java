@@ -1,5 +1,6 @@
 package view;
 
+import controller.EventHandlerStartDrag;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
@@ -17,6 +18,7 @@ public class Cube extends Box
 		// this.getTransforms().add(new Rotate(30, 0, 0, 0, Rotate.Y_AXIS));
 		// this.setCullFace(CullFace.NONE);
 		// this.setDrawMode(DrawMode.LINE);
+		this.setOnDragDetected(new EventHandlerStartDrag(this));
 	}
 
 }
