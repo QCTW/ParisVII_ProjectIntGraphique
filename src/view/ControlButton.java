@@ -12,6 +12,7 @@ public class ControlButton extends Button
 		Icon iconControl = new Icon(Settings.IMAGE_BPLAY);
 		this.setTooltip(new Tooltip("Start to demonstrate the algorithm"));
 		this.setGraphic(iconControl);
+		this.focusTraversableProperty().setValue(false);
 	}
 
 }
