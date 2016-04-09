@@ -22,6 +22,8 @@ public class MainWindow extends BorderPane
 	ToolBar toolBar = new ToolBar();
 	StackPane contentArea = new StackPane();
 	Label msgBox = new Label("Drag and drop a ball or cube to start your graph");
+	FileChooser fileChooser = new FileChooser();
+	
 
 	public MainWindow()
 	{
@@ -52,6 +54,11 @@ public class MainWindow extends BorderPane
 
 	private void initToolBar(ToolBar t)
 	{
+		
+		fileChooser.setTitle("File Navigator");
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files","*.bmp", "*.png", "*.jpg", "*.gif"));
+
+		
 		Icon iconNew = new Icon(Settings.IMAGE_BNEW);
 		Button bNew = new Button();
 		bNew.focusTraversableProperty().setValue(false);
@@ -63,14 +70,10 @@ public class MainWindow extends BorderPane
 		bLoad.focusTraversableProperty().setValue(false);
 		bLoad.setGraphic(iconLoad);
 		bLoad.setTooltip(new Tooltip("Load an existing graph"));
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("File Navigator");
-		
 		bLoad.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
 			File file = fileChooser.showOpenDialog(new Stage());
 			if(file != null){
-				System.out.println("open file "+file.getName());
-				
+				System.out.println("open file "+file.getName());	
 			}
 			else{
 				System.out.println("you don't choose any file");
@@ -82,6 +85,15 @@ public class MainWindow extends BorderPane
 		bSave.focusTraversableProperty().setValue(false);
 		bSave.setTooltip(new Tooltip("Save current graph to a file"));
 		bSave.setGraphic(iconSave);
+		bSave.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
+			File file = fileChooser.showSaveDialog(new Stage());
+			if(file != null){
+				System.out.println("save file "+file.getName());
+			}
+			else{
+				System.out.println("you don't choose any file");
+			}
+		});
 
 		ControlButton bControlButton = new ControlButton();
 		StepButton bStepButton = new StepButton();
