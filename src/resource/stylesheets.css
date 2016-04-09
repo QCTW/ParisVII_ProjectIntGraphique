@@ -4,6 +4,13 @@
 	-fx-font: 20px "Serif";
 }
 
+.button{
+	-fx-border-color: transparent;
+}
+.button:hover{
+	-fx-border-color: #FF00FF;
+}
+
 /* these CSS are named in our application */
 .stackpane
 {
