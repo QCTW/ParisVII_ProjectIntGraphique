@@ -2,5 +2,5 @@ package controller;
 
 public enum EDragOperation
 {
-	DragOver, DragEntered, DragExited, DragDropped, DragDone
+	DragOver, DragEntered, DragExited, DragDropped, DragDone, Create, Move
 }

@@ -16,7 +16,7 @@ import javafx.scene.layout.StackPane;
 public class MainWindow extends BorderPane
 {
 	ToolBar toolBar = new ToolBar();
-	StackPane contentArea = new StackPane();
+	MainPane contentArea = new MainPane();
 	Label msgBox = new Label("Drag and drop a ball or cube to start your graph");
 
 	public MainWindow()
