@@ -40,13 +40,14 @@ public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 			if (db.hasString())
 			{
 				String objName = db.getString();
-				if (objName.equals(Cube.class.getClass().getSimpleName()))
+				System.out.println("db.hasString()=" + objName + "/X=" + event.getX() + ", Y=" + event.getY() + ", Z=" + event.getZ());
+				if (objName.equals("Cube"))
 				{
-					Cube c = new Cube();
+					Cube c = new Cube(event.getX(), event.getY(), event.getZ());
 					targetNode.getChildren().add(c);
-				} else if (objName.equals(Ball.class.getClass().getSimpleName()))
+				} else if (objName.equals("Ball"))
 				{
-					Ball b = new Ball();
+					Ball b = new Ball(event.getX(), event.getY(), event.getZ());
 					targetNode.getChildren().add(b);
 				}
 				success = true;
