@@ -18,6 +18,6 @@ public interface BaseNode extends Serializable
 
 	public double getPosZ();
 
-	public void moveTo(int x, int y, int z);
+	public void moveTo(double x, double y, double z);
 
 }

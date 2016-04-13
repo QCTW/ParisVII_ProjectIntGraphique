@@ -2,7 +2,6 @@ package view;
 
 import java.io.File;
 
-import controller.EDragOperation;
 import controller.EventHandlerDragAndDrop;
 import controller.EventHandlerMouseOverEnlarge;
 import javafx.geometry.Insets;
@@ -13,7 +12,6 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -35,15 +33,16 @@ public class MainWindow extends BorderPane
 		this.setBottom(msgBox);
 	}
 
-	private void initContentArea(StackPane s)
+	private void initContentArea(MainPane s)
 	{
 		s.getStyleClass().add("stackpane");
 		s.setPrefSize(Settings.CONTENT_AREA_WIDTH, Settings.CONTENT_AREA_HEIGHT);
-		contentArea.setOnDragOver(new EventHandlerDragAndDrop(s, EDragOperation.DragOver));
-		contentArea.setOnDragEntered(new EventHandlerDragAndDrop(s, EDragOperation.DragEntered));
-		contentArea.setOnDragExited(new EventHandlerDragAndDrop(s, EDragOperation.DragExited));
-		contentArea.setOnDragDropped(new EventHandlerDragAndDrop(s, EDragOperation.DragDropped));
-		contentArea.setOnDragDone(new EventHandlerDragAndDrop(s, EDragOperation.DragDone));
+		EventHandlerDragAndDrop eventMaster = new EventHandlerDragAndDrop(s);
+		contentArea.setOnDragOver(eventMaster);
+		contentArea.setOnDragEntered(eventMaster);
+		contentArea.setOnDragExited(eventMaster);
+		contentArea.setOnDragDropped(eventMaster);
+		contentArea.setOnDragDone(eventMaster);
 	}
 
 	private void initMessageBox(Label l)
@@ -99,10 +98,10 @@ public class MainWindow extends BorderPane
 		StepButton bStepButton = new StepButton();
 		StopButton bStopButton = new StopButton();
 
-		Ball b = new Ball();
+		Ball b = new Ball(Settings.ICON_WIDTH_SIZE);
 		b.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(b));
 		b.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverEnlarge(b));
-		Cube c = new Cube();
+		Cube c = new Cube(Settings.ICON_WIDTH_SIZE);
 		c.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(c));
 		c.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverEnlarge(c));
 		t.setPadding(new Insets(Settings.PADDING_IN_BAR));

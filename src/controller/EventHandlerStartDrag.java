@@ -8,6 +8,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.paint.Color;
 
 public class EventHandlerStartDrag implements EventHandler<MouseEvent>
 {
@@ -22,12 +23,13 @@ public class EventHandlerStartDrag implements EventHandler<MouseEvent>
 	public void handle(MouseEvent event)
 	{
 		Dragboard db = targetNode.startDragAndDrop(TransferMode.COPY_OR_MOVE);
-		WritableImage img = targetNode.snapshot(new SnapshotParameters(), null);
+		SnapshotParameters spParams = new SnapshotParameters();
+		spParams.setFill(Color.TRANSPARENT);
+		WritableImage img = targetNode.snapshot(spParams, null);
 		ClipboardContent content = new ClipboardContent();
 		content.putString(targetNode.getClass().getSimpleName());
 		db.setContent(content);
 		db.setDragView(img);
-		;
 		event.consume();
 	}
 

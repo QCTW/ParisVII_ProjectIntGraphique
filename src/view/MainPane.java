@@ -2,9 +2,9 @@ package view;
 
 import java.io.Serializable;
 
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 
-public class MainPane extends StackPane implements Serializable
+public class MainPane extends Pane implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 

@@ -14,24 +14,12 @@ public class Cube extends Box implements BaseNode
 	private double posZ = 0;
 	private String nodeLabel = "";
 
-	// Call this constructor only for icon/graphic usage
-	public Cube()
+	public Cube(double size)
 	{
-		super(Settings.NODE_SIZE, Settings.NODE_SIZE, Settings.NODE_SIZE);
+		super(size, size, size);
 		initGraphicSetting();
-		this.setOnDragDetected(new EventHandlerStartDrag(this));
-	}
-
-	// Call this constructor when put a new node in the MainPane
-	public Cube(double x, double y, double z)
-	{
-		super(Settings.NODE_SIZE, Settings.NODE_SIZE, Settings.NODE_SIZE);
-		initGraphicSetting();
-		posX = x;
-		posY = y;
-		posZ = z;
-		this.relocate(x, y);
-		System.out.println("Cube layout: X=" + this.getLayoutX() + " Y=" + this.getLayoutY());
+		if (size == Settings.ICON_WIDTH_SIZE) // If it is icon
+			this.setOnDragDetected(new EventHandlerStartDrag(this));
 	}
 
 	private void initGraphicSetting()
@@ -54,13 +42,15 @@ public class Cube extends Box implements BaseNode
 	}
 
 	@Override
-	public void moveTo(int x, int y, int z)
+	public void moveTo(double x, double y, double z)
 	{
 		posX = x;
 		posY = y;
 		posZ = z;
-		this.setLayoutX(x);
-		this.setLayoutY(y);
+		this.relocate(x, y);
+		System.out.println("Ball move to: X=" + this.getLayoutX() + " Y=" + this.getLayoutY() + "?" + x + "," + y);
+		// this.setLayoutX(x);
+		// this.setLayoutY(y);
 	}
 
 	@Override

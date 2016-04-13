@@ -14,23 +14,13 @@ public class Ball extends Sphere implements BaseNode
 	private double posZ = 0;
 	private String nodeLabel = "";
 
-	// Call this constructor only for icon/graphic usage
-	public Ball()
+	public Ball(double size)
 	{
-		super(Settings.NODE_SIZE / 2);
+		super(size / 2);
 		initGraphicSetting();
-		this.setOnDragDetected(new EventHandlerStartDrag(this));
-	}
+		if (size == Settings.ICON_WIDTH_SIZE)
+			this.setOnDragDetected(new EventHandlerStartDrag(this));
 
-	// Call this constructor when put a new node in the MainPane
-	public Ball(double x, double y, double z)
-	{
-		super(Settings.NODE_SIZE / 2);
-		initGraphicSetting();
-		posX = x;
-		posY = y;
-		posZ = z;
-		this.relocate(x, y);
 		System.out.println("Ball layout: X=" + this.getLayoutX() + " Y=" + this.getLayoutY());
 	}
 
@@ -52,13 +42,15 @@ public class Ball extends Sphere implements BaseNode
 	}
 
 	@Override
-	public void moveTo(int x, int y, int z)
+	public void moveTo(double x, double y, double z)
 	{
 		posX = x;
 		posY = y;
 		posZ = z;
-		this.setLayoutX(x);
-		this.setLayoutY(y);
+		this.relocate(x, y);
+		System.out.println("Ball move to: X=" + this.getLayoutX() + " Y=" + this.getLayoutY() + "?" + x + "," + y);
+		// this.setLayoutX(x);
+		// this.setLayoutY(y);
 	}
 
 	@Override

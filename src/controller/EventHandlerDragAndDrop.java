@@ -4,51 +4,54 @@ import javafx.event.EventHandler;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.StackPane;
 import view.Ball;
 import view.Cube;
+import view.MainPane;
+import view.Settings;
+import view.Utility;
 
 public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 {
 
-	StackPane targetNode;
-	EDragOperation onOperation;
+	MainPane targetNode;
 
-	public EventHandlerDragAndDrop(StackPane node, EDragOperation o)
+	public EventHandlerDragAndDrop(MainPane node)
 	{
 		targetNode = node;
-		onOperation = o;
 	}
 
 	@Override
 	public void handle(DragEvent event)
 	{
-		System.out.println(onOperation + " triggered");
+		String sEventName = event.getEventType().getName();
+		System.out.println(sEventName + " triggered");
 		Dragboard db = event.getDragboard();
-		switch (onOperation)
+		switch (sEventName)
 		{
-		case DragOver:
+		case "DRAG_OVER":
 			if (event.getGestureSource() != targetNode && event.getDragboard().hasString())
 			{
 				event.acceptTransferModes(TransferMode.MOVE);
 			}
 			break;
-		case DragDone:
+		case "DRAG_DONE":
 			break;
-		case DragDropped:
+		case "DRAG_DROPPED":
 			boolean success = false;
 			if (db.hasString())
 			{
 				String objName = db.getString();
-				System.out.println("db.hasString()=" + objName + "/X=" + event.getX() + ", Y=" + event.getY() + ", Z=" + event.getZ());
+				System.out.println(objName + "/X=" + event.getX() + ", Y=" + event.getY() + ", Z=" + event.getZ());
 				if (objName.equals("Cube"))
 				{
-					Cube c = new Cube(event.getX(), event.getY(), event.getZ());
+					Cube c = new Cube(Settings.NODE_SIZE);
 					targetNode.getChildren().add(c);
+					c.moveTo(Utility.adjustPosFromCenter2TopLeft(event.getX()), Utility.adjustPosFromCenter2TopLeft(event.getY()), event.getZ());
 				} else if (objName.equals("Ball"))
 				{
-					Ball b = new Ball(event.getX(), event.getY(), event.getZ());
+					Ball b = new Ball(Settings.NODE_SIZE);
 					targetNode.getChildren().add(b);
+					b.moveTo(Utility.adjustPosFromCenter2TopLeft(event.getX()), Utility.adjustPosFromCenter2TopLeft(event.getY()), event.getZ());
 				}
 				success = true;
 			}
@@ -58,22 +61,9 @@ public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 			 */
 			event.setDropCompleted(success);
 			break;
-		case DragEntered:
-			if (db.hasString())
-			{
-				String objName = db.getString();
-				if (objName.equals(Cube.class.getClass().getSimpleName()))
-				{
-					Cube c = new Cube();
-					targetNode.getChildren().add(c);
-				} else if (objName.equals(Ball.class.getClass().getSimpleName()))
-				{
-					Ball b = new Ball();
-					targetNode.getChildren().add(b);
-				}
-			}
+		case "DRAG_ENTERED":
 			break;
-		case DragExited:
+		case "DRAG_EXITED":
 			break;
 		default:
 			break;

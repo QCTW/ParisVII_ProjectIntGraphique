@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 public class Settings
 {
 	public static final double ICON_WIDTH_SIZE = 25;
-	public static final int NODE_SIZE = 25;
+	public static final double NODE_SIZE = 50;
 	public static final int PADDING_IN_BAR = 5;
 	public static final int CONTENT_AREA_WIDTH = 800;
 	public static final int CONTENT_AREA_HEIGHT = 400;
