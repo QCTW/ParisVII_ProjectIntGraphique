@@ -53,8 +53,8 @@ public class Cube extends Box implements BaseNode
 	{
 		this.setTranslateX(x);
 		this.setTranslateY(y);
-		posX = this.getLayoutX();
-		posY = this.getLayoutY();
+		posX = x;
+		posY = y;
 		posZ = z;
 		System.out.println("Cube moveTo(" + x + "," + y + "," + z + ") Layout(" + this.getLayoutX() + "," + this.getLayoutY() + ") Translate(" + this.getTranslateX() + "," + this.getTranslateY());
 	}

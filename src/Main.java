@@ -19,9 +19,11 @@ public class Main extends Application
 		// cam.setNearClip(0.01);
 		// cam.getTransforms().addAll(new Rotate(60, Rotate.X_AXIS), new Translate(-200, -200, 300));
 
-		Scene scene = new Scene(new MainWindow());
+		MainWindow playground = new MainWindow();
+		Scene scene = new Scene(playground);
 		scene.getStylesheets().add(Settings.CSS_PATH);
 		scene.setCamera(cam);
+
 		primaryStage.setScene(scene);
 		primaryStage.getIcons().add(new Image(Settings.IMAGE_APP_ICON));
 		primaryStage.show();

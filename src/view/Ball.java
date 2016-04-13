@@ -51,8 +51,8 @@ public class Ball extends Sphere implements BaseNode
 	{
 		this.setTranslateX(x);
 		this.setTranslateY(y);
-		posX = this.getLayoutX();
-		posY = this.getLayoutY();
+		posX = x;
+		posY = y;
 		posZ = z;
 		System.out.println("Ball moveTo(" + x + "," + y + "," + z + ") Layout(" + this.getLayoutX() + "," + this.getLayoutY() + ") Translate(" + this.getTranslateX() + "," + this.getTranslateY());
 	}

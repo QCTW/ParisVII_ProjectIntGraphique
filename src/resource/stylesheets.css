@@ -6,15 +6,15 @@
 
 .button{
 	-fx-border-color: transparent;
-	-fx-border-width: 3;
+	-fx-border-width: 2;
 }
 .button:hover{
-	-fx-border-color: #FF00FF;
-	-fx-border-width: 3;
+	-fx-border-color: #00ccff;
+	-fx-border-width: 2;
 }
 
 /* these CSS are named in our application */
 .stackpane
 {
-    -fx-background-color: #e6eeff;
+    -fx-background-color: #333366;
 }
