@@ -8,7 +8,6 @@ import view.Ball;
 import view.Cube;
 import view.MainPane;
 import view.Settings;
-import view.Utility;
 
 public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 {
@@ -24,7 +23,6 @@ public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 	public void handle(DragEvent event)
 	{
 		String sEventName = event.getEventType().getName();
-		System.out.println(sEventName + " triggered");
 		Dragboard db = event.getDragboard();
 		switch (sEventName)
 		{
@@ -41,17 +39,17 @@ public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 			if (db.hasString())
 			{
 				String objName = db.getString();
-				System.out.println(objName + "/X=" + event.getX() + ", Y=" + event.getY() + ", Z=" + event.getZ());
+				System.out.println(objName + " dropped at X=" + event.getX() + ", Y=" + event.getY() + ", Z=" + event.getZ());
 				if (objName.equals("Cube"))
 				{
 					Cube c = new Cube(Settings.NODE_SIZE);
 					targetNode.getChildren().add(c);
-					c.moveTo(Utility.adjustPosFromCenter2TopLeft(event.getX()), Utility.adjustPosFromCenter2TopLeft(event.getY()), event.getZ());
+					c.moveTo(event.getX(), event.getY(), event.getZ());
 				} else if (objName.equals("Ball"))
 				{
 					Ball b = new Ball(Settings.NODE_SIZE);
 					targetNode.getChildren().add(b);
-					b.moveTo(Utility.adjustPosFromCenter2TopLeft(event.getX()), Utility.adjustPosFromCenter2TopLeft(event.getY()), event.getZ());
+					b.moveTo(event.getX(), event.getY(), event.getZ());
 				}
 				success = true;
 			}

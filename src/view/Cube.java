@@ -1,5 +1,6 @@
 package view;
 
+import controller.EventHandlerMove;
 import controller.EventHandlerStartDrag;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -9,9 +10,9 @@ public class Cube extends Box implements BaseNode
 {
 	private static final long serialVersionUID = 1L;
 	private int nodeId;
-	private double posX = 0;
-	private double posY = 0;
-	private double posZ = 0;
+	private double posX = 0; // Always = layoutX
+	private double posY = 0; // Always = layoutY
+	private double posZ = 0; // Always = layoutZ
 	private String nodeLabel = "";
 
 	public Cube(double size)
@@ -20,6 +21,12 @@ public class Cube extends Box implements BaseNode
 		initGraphicSetting();
 		if (size == Settings.ICON_WIDTH_SIZE) // If it is icon
 			this.setOnDragDetected(new EventHandlerStartDrag(this));
+		else // If this is a node in the graph
+		{
+			EventHandlerMove ehm = new EventHandlerMove(this);
+			this.setOnMousePressed(ehm);
+			this.setOnMouseDragged(ehm);
+		}
 	}
 
 	private void initGraphicSetting()
@@ -44,13 +51,12 @@ public class Cube extends Box implements BaseNode
 	@Override
 	public void moveTo(double x, double y, double z)
 	{
-		posX = x;
-		posY = y;
+		this.setTranslateX(x);
+		this.setTranslateY(y);
+		posX = this.getLayoutX();
+		posY = this.getLayoutY();
 		posZ = z;
-		this.relocate(x, y);
-		System.out.println("Ball move to: X=" + this.getLayoutX() + " Y=" + this.getLayoutY() + "?" + x + "," + y);
-		// this.setLayoutX(x);
-		// this.setLayoutY(y);
+		System.out.println("Cube moveTo(" + x + "," + y + "," + z + ") Layout(" + this.getLayoutX() + "," + this.getLayoutY() + ") Translate(" + this.getTranslateX() + "," + this.getTranslateY());
 	}
 
 	@Override

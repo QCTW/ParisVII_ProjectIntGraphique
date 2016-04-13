@@ -19,9 +19,4 @@ public final class Utility
 	{
 		nodeId = id;
 	}
-
-	public static double adjustPosFromCenter2TopLeft(double d)
-	{
-		return d - (Settings.NODE_SIZE / 2);
-	}
 }

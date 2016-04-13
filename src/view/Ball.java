@@ -1,5 +1,6 @@
 package view;
 
+import controller.EventHandlerMove;
 import controller.EventHandlerStartDrag;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
@@ -20,8 +21,12 @@ public class Ball extends Sphere implements BaseNode
 		initGraphicSetting();
 		if (size == Settings.ICON_WIDTH_SIZE)
 			this.setOnDragDetected(new EventHandlerStartDrag(this));
-
-		System.out.println("Ball layout: X=" + this.getLayoutX() + " Y=" + this.getLayoutY());
+		else
+		{
+			EventHandlerMove ehm = new EventHandlerMove(this);
+			this.setOnMousePressed(ehm);
+			this.setOnMouseDragged(ehm);
+		}
 	}
 
 	private void initGraphicSetting()
@@ -44,13 +49,12 @@ public class Ball extends Sphere implements BaseNode
 	@Override
 	public void moveTo(double x, double y, double z)
 	{
-		posX = x;
-		posY = y;
+		this.setTranslateX(x);
+		this.setTranslateY(y);
+		posX = this.getLayoutX();
+		posY = this.getLayoutY();
 		posZ = z;
-		this.relocate(x, y);
-		System.out.println("Ball move to: X=" + this.getLayoutX() + " Y=" + this.getLayoutY() + "?" + x + "," + y);
-		// this.setLayoutX(x);
-		// this.setLayoutY(y);
+		System.out.println("Ball moveTo(" + x + "," + y + "," + z + ") Layout(" + this.getLayoutX() + "," + this.getLayoutY() + ") Translate(" + this.getTranslateX() + "," + this.getTranslateY());
 	}
 
 	@Override
