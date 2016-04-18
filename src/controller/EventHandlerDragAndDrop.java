@@ -1,17 +1,12 @@
 package controller;
 
-import java.util.Vector;
-
 import javafx.event.EventHandler;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.shape.Line;
-import model.BaseNode;
 import view.Ball;
 import view.Cube;
 import view.MainPane;
-import view.Settings;
 
 public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 {
@@ -37,7 +32,7 @@ public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 				double x = event.getX();
 				double y = event.getY();
 				double z = event.getZ();
-				targetNode.displayAllEdgesFrom(x, y, z);
+				targetNode.displayEdgesHintsFrom(x, y, z);
 			}
 			break;
 		case "DRAG_DONE":
@@ -57,6 +52,7 @@ public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 					Ball b = targetNode.createBall();
 					b.moveTo(event.getX(), event.getY(), event.getZ());
 				}
+				targetNode.removeEdgesHints();
 				success = true;
 			}
 			/*

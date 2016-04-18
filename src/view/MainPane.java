@@ -4,14 +4,13 @@ import java.io.Serializable;
 import java.util.Vector;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
 import model.BaseNode;
 
 public class MainPane extends Pane implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private final Vector<BaseNode> vAllNodes = new Vector<BaseNode>();
-	private final Vector<Line> vDisplayLines = new Vector<Line>();
+	private final Vector<Edge> vDisplayLines = new Vector<Edge>();
 
 	public MainPane()
 	{
@@ -41,24 +40,26 @@ public class MainPane extends Pane implements Serializable
 		return vAllNodes;
 	}
 
-	public void displayAllEdgesFrom(double x, double y, double z)
+	public void displayEdgesHintsFrom(double x, double y, double z)
+	{
+		removeEdgesHints();
+		for (BaseNode n : vAllNodes)
+		{
+			Edge line = new Edge(n.getPosX(), n.getPosY(), x, y);
+			this.getChildren().add(line);
+			vDisplayLines.add(line);
+		}
+	}
+
+	public void removeEdgesHints()
 	{
 		if (vDisplayLines.size() > 0)
 		{
-			for (Line l : vDisplayLines)
+			for (Edge l : vDisplayLines)
 			{
 				this.getChildren().remove(l);
 			}
 			vDisplayLines.removeAllElements();
-		}
-
-		for (BaseNode n : vAllNodes)
-		{
-			Line line = new Line(n.getPosX(), n.getPosY(), x, y);
-			line.setStroke(Settings.SPECULAR_COLOR);
-			line.setStrokeWidth(2);
-			this.getChildren().add(line);
-			vDisplayLines.add(line);
 		}
 	}
 
