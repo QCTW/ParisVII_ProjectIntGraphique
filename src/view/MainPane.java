@@ -19,7 +19,7 @@ public class MainPane extends Pane implements Serializable
 
 	public Cube createCube()
 	{
-		Cube c = new Cube(Settings.NODE_SIZE);
+		Cube c = new Cube(Settings.NODE_SIZE, this);
 		this.getChildren().add(c);
 		vAllNodes.add(c);
 		return c;
@@ -28,7 +28,7 @@ public class MainPane extends Pane implements Serializable
 
 	public Ball createBall()
 	{
-		Ball b = new Ball(Settings.NODE_SIZE);
+		Ball b = new Ball(Settings.NODE_SIZE, this);
 		this.getChildren().add(b);
 		vAllNodes.add(b);
 		return b;
@@ -61,6 +61,16 @@ public class MainPane extends Pane implements Serializable
 			}
 			vDisplayLines.removeAllElements();
 		}
+	}
+
+	public void selectNodeFrom(BaseNode node)
+	{
+
+	}
+
+	public void selectNodeTo(BaseNode node)
+	{
+
 	}
 
 }

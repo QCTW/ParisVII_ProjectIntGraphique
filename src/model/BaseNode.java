@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 
+import javafx.scene.Node;
+
 public interface BaseNode extends Serializable
 {
 	public int getNodeId();
@@ -17,5 +19,9 @@ public interface BaseNode extends Serializable
 	public double getPosZ();
 
 	public void moveTo(double x, double y, double z);
+
+	public void displaySelected();
+
+	public Node getFXNode();
 
 }

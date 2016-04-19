@@ -1,28 +1,28 @@
 package controller;
 
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import model.BaseNode;
 import view.ActionMenu;
 
 public class EventHandlerRightClick implements EventHandler<MouseEvent>
 {
-	Node targetNoode;
+	BaseNode targetNoode;
 	ActionMenu menuRightClick;
-	
-	public EventHandlerRightClick(Node b)
+
+	public EventHandlerRightClick(BaseNode b)
 	{
 		targetNoode = b;
-		menuRightClick = new ActionMenu();
+		menuRightClick = new ActionMenu(b);
 	}
-	
+
 	@Override
 	public void handle(MouseEvent event)
 	{
 		if (event.getButton() == MouseButton.SECONDARY)
 		{
-			menuRightClick.show(targetNoode, event.getScreenX(), event.getScreenY());
+			menuRightClick.show(targetNoode.getFXNode(), event.getScreenX(), event.getScreenY());
 		}
 	}
 }

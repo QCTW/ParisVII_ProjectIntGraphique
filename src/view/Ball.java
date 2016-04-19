@@ -3,6 +3,7 @@ package view;
 import controller.EventHandlerMove;
 import controller.EventHandlerRightClick;
 import controller.EventHandlerStartDrag;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
@@ -16,11 +17,18 @@ public class Ball extends Sphere implements BaseNode
 	private double posY = 0;
 	private double posZ = 0;
 	private String nodeLabel = "";
+	private final MainPane contentArea;
 
 	public Ball(double size)
 	{
+		this(size, null);
+	}
+
+	public Ball(double size, MainPane mp)
+	{
 		super(size / 2);
 		initGraphicSetting();
+		contentArea = mp;
 		if (size == Settings.ICON_WIDTH_SIZE)
 			this.setOnDragDetected(new EventHandlerStartDrag(this));
 		else
@@ -88,6 +96,20 @@ public class Ball extends Sphere implements BaseNode
 	public double getPosZ()
 	{
 		return posZ;
+	}
+
+	@Override
+	public Node getFXNode()
+	{
+		return this;
+	}
+
+	@Override
+	public void displaySelected()
+	{
+		SelectedRing sr = new SelectedRing(Settings.NODE_SIZE / 2 + 3);
+		contentArea.getChildren().add(sr);
+		sr.relocate(getPosX() - Settings.NODE_SIZE / 2, getPosY() - Settings.NODE_SIZE / 2);
 	}
 
 }

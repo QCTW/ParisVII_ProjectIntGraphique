@@ -3,6 +3,7 @@ package view;
 import controller.EventHandlerMove;
 import controller.EventHandlerRightClick;
 import controller.EventHandlerStartDrag;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -16,11 +17,18 @@ public class Cube extends Box implements BaseNode
 	private double posY = 0; // Always = layoutY
 	private double posZ = 0; // Always = layoutZ
 	private String nodeLabel = "";
+	private MainPane contentArea = null;
 
 	public Cube(double size)
 	{
+		this(size, null);
+	}
+
+	public Cube(double size, MainPane mp)
+	{
 		super(size, size, size);
 		initGraphicSetting();
+		contentArea = mp;
 		if (size == Settings.ICON_WIDTH_SIZE) // If it is icon
 			this.setOnDragDetected(new EventHandlerStartDrag(this));
 		else // If this is a node in the graph
@@ -90,6 +98,20 @@ public class Cube extends Box implements BaseNode
 	public double getPosZ()
 	{
 		return posZ;
+	}
+
+	@Override
+	public Node getFXNode()
+	{
+		return this;
+	}
+
+	@Override
+	public void displaySelected()
+	{
+		SelectedRing sr = new SelectedRing(Settings.NODE_SIZE / 2 + 3);
+		contentArea.getChildren().add(sr);
+		sr.relocate(getPosX() - Settings.NODE_SIZE / 2, getPosY() - Settings.NODE_SIZE / 2);
 	}
 
 }
