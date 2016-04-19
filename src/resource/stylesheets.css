@@ -2,17 +2,25 @@
 {
 	-fx-text-alignment: center;
 	-fx-font: 20px "Serif";
-	-fx-text-fill: #ccccff;
+	-fx-text-fill: #0099cc;
 }
 
-.button{
+.button
+{
 	-fx-border-color: transparent;
 	-fx-border-width: 2;
 }
 
-.button:hover{
+.button:hover
+{
 	-fx-border-color: #00ccff;
 	-fx-border-width: 2;
+}
+
+.path
+{
+	-fx-smooth: true;
+	-fx-stroke: #b3cce6
 }
 
 /* these CSS are named in our application */
