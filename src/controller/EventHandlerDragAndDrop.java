@@ -64,6 +64,7 @@ public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 		case "DRAG_ENTERED":
 			break;
 		case "DRAG_EXITED":
+			targetNode.removeEdgesHints();
 			break;
 		default:
 			break;
