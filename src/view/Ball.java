@@ -1,7 +1,9 @@
 package view;
 
 import controller.EventHandlerMove;
+import controller.EventHandlerRightClick;
 import controller.EventHandlerStartDrag;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import model.BaseNode;
@@ -26,6 +28,7 @@ public class Ball extends Sphere implements BaseNode
 			EventHandlerMove ehm = new EventHandlerMove(this);
 			this.setOnMousePressed(ehm);
 			this.setOnMouseDragged(ehm);
+			this.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerRightClick(this));
 		}
 	}
 
