@@ -17,11 +17,27 @@
 	-fx-border-width: 2;
 }
 
-.path
-{
-	-fx-smooth: true;
-	-fx-stroke: #b3cce6
+.context-menu
+{	
+	-fx-border-color: transparent;
+	-fx-border-width: 2;
+    -fx-background-color: linear-gradient(to bottom, #f2f2f2, #d4d4d4);
+    -fx-background-radius: 15.0;
+    -fx-border-radius: 15.0;
+    
 }
+
+.menu-item .label
+{
+	-fx-font: 12px "Serif";
+	-fx-text-fill: black;
+}
+
+.menu-item:focused .label 
+{
+  	-fx-text-fill: white;
+}
+
 
 /* these CSS are named in our application */
 .stackpane
