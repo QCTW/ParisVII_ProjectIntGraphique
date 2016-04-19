@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 public interface BaseNode extends Serializable
 {
-	static final long serialVersionUID = 1L;
-
 	public int getNodeId();
 
 	public String getNodeLabel();
