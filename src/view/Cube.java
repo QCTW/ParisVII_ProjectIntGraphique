@@ -47,6 +47,7 @@ public class Cube extends Box implements BaseNode
 		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		material.setSpecularColor(Settings.SPECULAR_COLOR);
 		this.setMaterial(material);
+		setNodeLabel("Cube");
 		// this.getTransforms().add(new Rotate(30, 0, 0, 0, Rotate.X_AXIS));
 		// this.getTransforms().add(new Rotate(30, 0, 0, 0, Rotate.Y_AXIS));
 		// this.setCullFace(CullFace.NONE);
