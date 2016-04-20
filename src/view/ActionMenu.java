@@ -14,13 +14,13 @@ public class ActionMenu extends ContextMenu
 	private final MenuItem menuConn;
 	private final MenuItem menuDisconn;
 	private final MenuItem menuEdit;
-	private BaseNode nodeParent;
+	private final BaseNode nodeParent;
 
 	public ActionMenu(BaseNode actionNode)
 	{
 		super();
 		nodeParent = actionNode;
-		menuConn = new MenuItem("Connects to");
+		menuConn = new MenuItem("Connect to");
 		menuConn.setOnAction(new EventHandler<ActionEvent>()
 		{
 			@Override
@@ -31,12 +31,11 @@ public class ActionMenu extends ContextMenu
 		});
 		menuDisconn = new MenuItem("Disconnect with");
 		menuEdit = new MenuItem("Edit label");
-		menuEdit.setOnAction(event->
-		{	
+		menuEdit.setOnAction(event -> {
 			TextInputDialog rename = new TextInputDialog(nodeParent.getNodeLabel());
-			rename.setTitle("Rename the point");
-			rename.setHeaderText("Rename your point");
-			rename.setContentText("Please enter the new name of the point:");
+			rename.setTitle("Edit Label");
+			rename.setHeaderText("Rename this node");
+			rename.setContentText("Edit the label of this node to ");
 			Optional<String> result = rename.showAndWait();
 			result.ifPresent(name -> nodeParent.setNodeLabel(result.get()));
 		});

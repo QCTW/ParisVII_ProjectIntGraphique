@@ -3,21 +3,26 @@ package view;
 import controller.EventHandlerMove;
 import controller.EventHandlerRightClick;
 import controller.EventHandlerStartDrag;
+import controller.LabelTextChangeListener;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import model.BaseNode;
 
-public class Cube extends Box implements BaseNode
+public class Cube extends Group implements BaseNode
 {
 	private static final long serialVersionUID = 1L;
-	private int nodeId;
+	private int nodeId = 0;
 	private double posX = 0; // Always = layoutX
 	private double posY = 0; // Always = layoutY
 	private double posZ = 0; // Always = layoutZ
-	private String nodeLabel = "";
+	private String nodeLabel = "Cube";
 	private MainPane contentArea = null;
+	private final Box box;
+	private final Label label;
 
 	public Cube(double size)
 	{
@@ -26,9 +31,10 @@ public class Cube extends Box implements BaseNode
 
 	public Cube(double size, MainPane mp)
 	{
-		super(size, size, size);
-		initGraphicSetting();
 		contentArea = mp;
+		box = new Box(size, size, size);
+		label = new Label();
+		initGraphicSetting(size);
 		if (size == Settings.ICON_WIDTH_SIZE) // If it is icon
 			this.setOnDragDetected(new EventHandlerStartDrag(this));
 		else // If this is a node in the graph
@@ -38,16 +44,24 @@ public class Cube extends Box implements BaseNode
 			this.setOnMouseDragged(ehm);
 			this.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerRightClick(this));
 		}
+
+		this.getChildren().add(box);
+		this.getChildren().add(label);
 	}
 
-	private void initGraphicSetting()
+	private void initGraphicSetting(double size)
 	{
-		nodeId = Utility.generateId();
+		if (size != Settings.ICON_WIDTH_SIZE)
+		{
+			nodeId = Utility.generateId();
+			nodeLabel = "Cube-" + nodeId;
+			label.setText(nodeLabel);
+			label.widthProperty().addListener(new LabelTextChangeListener(label));
+		}
 		PhongMaterial material = new PhongMaterial();
 		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		material.setSpecularColor(Settings.SPECULAR_COLOR);
-		this.setMaterial(material);
-		setNodeLabel("Cube");
+		box.setMaterial(material);
 		// this.getTransforms().add(new Rotate(30, 0, 0, 0, Rotate.X_AXIS));
 		// this.getTransforms().add(new Rotate(30, 0, 0, 0, Rotate.Y_AXIS));
 		// this.setCullFace(CullFace.NONE);
@@ -81,6 +95,7 @@ public class Cube extends Box implements BaseNode
 	public void setNodeLabel(String sLabel)
 	{
 		nodeLabel = sLabel;
+		label.setText(nodeLabel);
 	}
 
 	@Override

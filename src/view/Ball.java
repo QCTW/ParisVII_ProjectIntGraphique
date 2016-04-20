@@ -3,21 +3,26 @@ package view;
 import controller.EventHandlerMove;
 import controller.EventHandlerRightClick;
 import controller.EventHandlerStartDrag;
+import controller.LabelTextChangeListener;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import model.BaseNode;
 
-public class Ball extends Sphere implements BaseNode
+public class Ball extends Group implements BaseNode
 {
 	private static final long serialVersionUID = 1L;
-	private int nodeId;
+	private int nodeId = 0;
 	private double posX = 0;
 	private double posY = 0;
 	private double posZ = 0;
-	private String nodeLabel = "";
+	private String nodeLabel;
 	private final MainPane contentArea;
+	private final Sphere sphere;
+	private final Label label;
 
 	public Ball(double size)
 	{
@@ -26,9 +31,12 @@ public class Ball extends Sphere implements BaseNode
 
 	public Ball(double size, MainPane mp)
 	{
-		super(size / 2);
-		initGraphicSetting();
 		contentArea = mp;
+		sphere = new Sphere(size / 2);
+		this.getChildren().add(sphere);
+		label = new Label();
+		this.getChildren().add(label);
+		initGraphicSetting(size);
 		if (size == Settings.ICON_WIDTH_SIZE)
 			this.setOnDragDetected(new EventHandlerStartDrag(this));
 		else
@@ -40,14 +48,19 @@ public class Ball extends Sphere implements BaseNode
 		}
 	}
 
-	private void initGraphicSetting()
+	private void initGraphicSetting(double size)
 	{
-		nodeId = Utility.generateId();
+		if (size != Settings.ICON_WIDTH_SIZE)
+		{
+			nodeId = Utility.generateId();
+			nodeLabel = "Ball-" + nodeId;
+			label.setText(nodeLabel);
+			label.widthProperty().addListener(new LabelTextChangeListener(label));
+		}
 		PhongMaterial material = new PhongMaterial();
 		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		material.setSpecularColor(Settings.SPECULAR_COLOR);
-		this.setMaterial(material);
-		setNodeLabel("Point");
+		sphere.setMaterial(material);
 		// this.setCullFace(CullFace.BACK);
 		// this.setDrawMode(DrawMode.LINE);
 	}
@@ -79,6 +92,7 @@ public class Ball extends Sphere implements BaseNode
 	public void setNodeLabel(String sLabel)
 	{
 		nodeLabel = sLabel;
+		label.setText(nodeLabel);
 	}
 
 	@Override
