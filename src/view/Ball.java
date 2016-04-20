@@ -47,6 +47,7 @@ public class Ball extends Sphere implements BaseNode
 		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		material.setSpecularColor(Settings.SPECULAR_COLOR);
 		this.setMaterial(material);
+		setNodeLabel("Point");
 		// this.setCullFace(CullFace.BACK);
 		// this.setDrawMode(DrawMode.LINE);
 	}
