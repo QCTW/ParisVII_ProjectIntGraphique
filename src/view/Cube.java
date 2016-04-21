@@ -156,10 +156,10 @@ public class Cube extends Group implements BaseNode
 		if (onOrOff)
 		{
 			contentArea.selectNodeFrom(this);
-			contentArea.startNodeSelectMode();
+			contentArea.startNodeSelectMode(this);
 		} else
 		{
-			contentArea.stopNodeSelectMode();
+			contentArea.stopNodeSelectMode(this);
 		}
 	}
 
@@ -186,6 +186,12 @@ public class Cube extends Group implements BaseNode
 	public void setSelected(boolean isOrNot)
 	{
 		isCurrentlySelected = isOrNot;
+	}
+
+	@Override
+	public void setSelectMode(boolean trueOrFalse)
+	{
+		isSelectMode = trueOrFalse;
 	}
 
 }

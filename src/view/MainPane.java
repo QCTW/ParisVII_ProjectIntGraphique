@@ -86,21 +86,23 @@ public class MainPane extends Pane implements Serializable
 		this.getChildren().add(con);
 	}
 
-	public void startNodeSelectMode()
+	public void startNodeSelectMode(BaseNode source)
 	{
 		isSelectMode = true;
 		for (BaseNode node : vAllNodes)
 		{
-			node.selectMode(isSelectMode);
+			if (node.getNodeId() != source.getNodeId())
+				node.setSelectMode(isSelectMode);
 		}
 	}
 
-	public void stopNodeSelectMode()
+	public void stopNodeSelectMode(BaseNode source)
 	{
 		isSelectMode = false;
 		for (BaseNode node : vAllNodes)
 		{
-			node.selectMode(isSelectMode);
+			if (node.getNodeId() != source.getNodeId())
+				node.setSelectMode(isSelectMode);
 		}
 	}
 

@@ -30,6 +30,8 @@ public interface BaseNode extends Serializable
 
 	public void selectMode(boolean onOrOff);
 
+	public void setSelectMode(boolean trueOrFalse);
+
 	public boolean isCurrentlySelected();
 
 	public void setSelected(boolean isOrNot);
