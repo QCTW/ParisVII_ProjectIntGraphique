@@ -26,7 +26,7 @@ public class ActionMenu extends ContextMenu
 			@Override
 			public void handle(ActionEvent event)
 			{
-				actionNode.displaySelected();
+				actionNode.selectMode(true);
 			}
 		});
 		menuDisconn = new MenuItem("Disconnect with");
