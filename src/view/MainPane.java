@@ -3,6 +3,7 @@ package view;
 import java.io.Serializable;
 import java.util.Vector;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import model.BaseNode;
 
@@ -18,6 +19,12 @@ public class MainPane extends Pane implements Serializable
 	public MainPane()
 	{
 		super();
+		this.addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
+			if (isSelectMode)
+			{
+				displayEdgesHintsTo(event.getX(), event.getY(), event.getZ());
+			}
+		});
 	}
 
 	public Cube createCube()
@@ -74,36 +81,30 @@ public class MainPane extends Pane implements Serializable
 		}
 	}
 
-	public void selectNodeFrom(BaseNode node)
-	{
-		connectFrom = node;
-	}
-
-	public void selectNodeTo(BaseNode node)
-	{
-		Connection con = new Connection(connectFrom, node);
-		vConnections.add(con);
-		this.getChildren().add(con);
-	}
-
 	public void startNodeSelectMode(BaseNode source)
 	{
+		connectFrom = source;
 		isSelectMode = true;
 		for (BaseNode node : vAllNodes)
 		{
-			if (node.getNodeId() != source.getNodeId())
-				node.setSelectMode(isSelectMode);
+			node.setSelectMode(isSelectMode);
 		}
 	}
 
 	public void stopNodeSelectMode(BaseNode source)
 	{
+		Connection con = new Connection(connectFrom, source);
+		vConnections.add(con);
+		this.getChildren().add(con);
+		con.toBack();
 		isSelectMode = false;
 		for (BaseNode node : vAllNodes)
 		{
-			if (node.getNodeId() != source.getNodeId())
-				node.setSelectMode(isSelectMode);
+			node.setSelectMode(isSelectMode);
 		}
+		source.removeSelected();
+		connectFrom.removeSelected();
+		connectFrom.resetSelectedStartingNode();
 	}
 
 	public boolean isNodeSelectMode()

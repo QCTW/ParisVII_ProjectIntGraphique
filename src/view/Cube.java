@@ -7,6 +7,7 @@ import controller.EventHandlerRightClick;
 import controller.EventHandlerSelectNode;
 import controller.EventHandlerStartDrag;
 import controller.LabelTextChangeListener;
+import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -23,7 +24,7 @@ public class Cube extends Group implements BaseNode
 	private double posY = 0; // Always = layoutY
 	private double posZ = 0; // Always = layoutZ
 	private boolean isSelectMode = false;
-	private boolean isCurrentlySelected = false;
+	private boolean isSelectedStartingNode = false;
 	private String nodeLabel = "Cube";
 	private MainPane contentArea = null;
 	private final Box box;
@@ -139,14 +140,12 @@ public class Cube extends Group implements BaseNode
 	{
 		this.getChildren().add(selectedRing);
 		selectedRing.toBack();
-		isCurrentlySelected = true;
 	}
 
 	@Override
 	public void removeSelected()
 	{
 		this.getChildren().remove(selectedRing);
-		isCurrentlySelected = false;
 	}
 
 	@Override
@@ -155,8 +154,8 @@ public class Cube extends Group implements BaseNode
 		isSelectMode = onOrOff;
 		if (onOrOff)
 		{
-			contentArea.selectNodeFrom(this);
 			contentArea.startNodeSelectMode(this);
+			isSelectedStartingNode = true;
 		} else
 		{
 			contentArea.stopNodeSelectMode(this);
@@ -177,21 +176,27 @@ public class Cube extends Group implements BaseNode
 	}
 
 	@Override
-	public boolean isCurrentlySelected()
+	public boolean isSelectedStartingNode()
 	{
-		return isCurrentlySelected;
+		return isSelectedStartingNode;
 	}
 
 	@Override
-	public void setSelected(boolean isOrNot)
+	public void resetSelectedStartingNode()
 	{
-		isCurrentlySelected = isOrNot;
+		isSelectedStartingNode = false;
 	}
 
 	@Override
 	public void setSelectMode(boolean trueOrFalse)
 	{
 		isSelectMode = trueOrFalse;
+	}
+
+	@Override
+	public Point3D getPoint3D()
+	{
+		return this.localToParent(this.getFXNode().getLayoutX(), this.getFXNode().getLayoutY(), 0);
 	}
 
 }

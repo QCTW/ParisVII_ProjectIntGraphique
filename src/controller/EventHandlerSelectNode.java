@@ -19,13 +19,14 @@ public class EventHandlerSelectNode implements EventHandler<MouseEvent>
 	@Override
 	public void handle(MouseEvent event)
 	{
-		if (targetNode.isSelectMode())
+		if (targetNode.isSelectMode() && !targetNode.isSelectedStartingNode())
 		{
 			String sEventName = event.getEventType().getName();
 			switch (sEventName)
 			{
-			case "MOUSE_PRESSED":
-				parentPane.selectNodeTo(targetNode);
+			case "MOUSE_CLICKED":
+				parentPane.stopNodeSelectMode(targetNode);
+				parentPane.removeEdgesHints();
 				break;
 			case "MOUSE_ENTERED":
 				targetNode.displaySelected();
