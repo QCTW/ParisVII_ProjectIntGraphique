@@ -30,6 +30,7 @@ public class Cube extends Group implements BaseNode
 	private final Box box;
 	private final Label label;
 	private final SelectedRing selectedRing;
+	private final Vector<Connection> vConnectedNodes;
 
 	public Cube(double size)
 	{
@@ -38,6 +39,7 @@ public class Cube extends Group implements BaseNode
 
 	public Cube(double size, MainPane mp)
 	{
+		vConnectedNodes = new Vector<Connection>();
 		contentArea = mp;
 		box = new Box(size, size, size);
 		label = new Label();
@@ -163,13 +165,6 @@ public class Cube extends Group implements BaseNode
 	}
 
 	@Override
-	public Vector<Edge> getEdgeList()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean isSelectMode()
 	{
 		return isSelectMode;
@@ -197,6 +192,33 @@ public class Cube extends Group implements BaseNode
 	public Point3D getPoint3D()
 	{
 		return this.localToParent(this.getFXNode().getLayoutX(), this.getFXNode().getLayoutY(), 0);
+	}
+
+	@Override
+	public void addEdge(Connection conn)
+	{
+		vConnectedNodes.add(conn);
+	}
+
+	@Override
+	public void removeEdge(Connection conn)
+	{
+		vConnectedNodes.remove(conn);
+	}
+
+	@Override
+	public Vector<Connection> getEdges()
+	{
+		return vConnectedNodes;
+	}
+
+	@Override
+	public void updateEdgesDisplay()
+	{
+		for (Connection conn : vConnectedNodes)
+		{
+			conn.moveTo(conn.getEndPoint().getPoint3D(), this.getPoint3D());
+		}
 	}
 
 }

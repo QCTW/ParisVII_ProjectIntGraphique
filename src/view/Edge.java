@@ -3,28 +3,16 @@ package view;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
-import model.BaseEdge;
-import model.BaseNode;
 
-public class Edge extends Group implements BaseEdge
+public class Edge extends Group
 {
-	private static final long serialVersionUID = 1L;
 	private Line line;
 	private Label label;
-	private BaseNode startNode, endNode;
 
 	public Edge(double startX, double startY, double endX, double endY)
 	{
 		super();
 		init(startX, startY, endX, endY);
-	}
-
-	public Edge(BaseNode nodeStart, BaseNode nodeEnd)
-	{
-		super();
-		startNode = nodeStart;
-		endNode = nodeEnd;
-		init(startNode.getPosX(), startNode.getPosY(), endNode.getPosX(), endNode.getPosY());
 	}
 
 	private void init(double startX, double startY, double endX, double endY)
@@ -50,20 +38,6 @@ public class Edge extends Group implements BaseEdge
 	{
 		int nDest = (int) dest;
 		return Integer.toString(nDest);
-	}
-
-	@Override
-	public BaseNode getStartPoint()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BaseNode getEndPoint()
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

@@ -44,6 +44,7 @@ public class EventHandlerMove implements EventHandler<MouseEvent>
 			double newTranslateX = orgTranslateX + offsetX;
 			double newTranslateY = orgTranslateY + offsetY;
 			targetNoode.moveTo(newTranslateX, newTranslateY, 0);
+			targetNoode.updateEdgesDisplay();
 			break;
 		}
 	}

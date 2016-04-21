@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
-import view.Edge;
+import view.Connection;
 
 public interface BaseNode extends Serializable
 {
@@ -51,6 +51,12 @@ public interface BaseNode extends Serializable
 
 	public boolean isSelectMode();
 
-	public Vector<Edge> getEdgeList();
+	public Vector<Connection> getEdges();
+
+	public void addEdge(Connection conn);
+
+	public void removeEdge(Connection conn);
+
+	public void updateEdgesDisplay();
 
 }
