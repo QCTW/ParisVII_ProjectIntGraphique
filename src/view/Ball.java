@@ -23,6 +23,7 @@ public class Ball extends Group implements BaseNode
 	private final MainPane contentArea;
 	private final Sphere sphere;
 	private final Label label;
+	private final SelectedRing selectedRing;
 
 	public Ball(double size)
 	{
@@ -36,6 +37,7 @@ public class Ball extends Group implements BaseNode
 		this.getChildren().add(sphere);
 		label = new Label();
 		this.getChildren().add(label);
+		selectedRing = new SelectedRing(size);
 		initGraphicSetting(size);
 		if (size == Settings.ICON_WIDTH_SIZE)
 			this.setOnDragDetected(new EventHandlerStartDrag(this));
@@ -122,9 +124,8 @@ public class Ball extends Group implements BaseNode
 	@Override
 	public void displaySelected()
 	{
-		SelectedRing sr = new SelectedRing(Settings.NODE_SIZE / 2 + 3);
-		contentArea.getChildren().add(sr);
-		sr.relocate(getPosX() - Settings.NODE_SIZE / 2, getPosY() - Settings.NODE_SIZE / 2);
+		this.getChildren().add(selectedRing);
+		selectedRing.toBack();
 	}
 
 }

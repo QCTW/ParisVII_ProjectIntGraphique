@@ -23,6 +23,7 @@ public class Cube extends Group implements BaseNode
 	private MainPane contentArea = null;
 	private final Box box;
 	private final Label label;
+	private final SelectedRing selectedRing;
 
 	public Cube(double size)
 	{
@@ -34,6 +35,7 @@ public class Cube extends Group implements BaseNode
 		contentArea = mp;
 		box = new Box(size, size, size);
 		label = new Label();
+		selectedRing = new SelectedRing(size);
 		initGraphicSetting(size);
 		if (size == Settings.ICON_WIDTH_SIZE) // If it is icon
 			this.setOnDragDetected(new EventHandlerStartDrag(this));
@@ -125,9 +127,8 @@ public class Cube extends Group implements BaseNode
 	@Override
 	public void displaySelected()
 	{
-		SelectedRing sr = new SelectedRing(Settings.NODE_SIZE / 2 + 3);
-		contentArea.getChildren().add(sr);
-		sr.relocate(getPosX() - Settings.NODE_SIZE / 2, getPosY() - Settings.NODE_SIZE / 2);
+		this.getChildren().add(selectedRing);
+		selectedRing.toBack();
 	}
 
 }
