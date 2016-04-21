@@ -1,19 +1,25 @@
 package view;
 
 import java.io.File;
+import java.util.Optional;
 
 import controller.EventHandlerDragAndDrop;
 import controller.EventHandlerMouseOverEnlarge;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.BaseNode;
 
 public class MainWindow extends BorderPane
 {
@@ -61,6 +67,34 @@ public class MainWindow extends BorderPane
 		bNew.focusTraversableProperty().setValue(false);
 		bNew.setGraphic(iconNew);
 		bNew.setTooltip(new Tooltip("Start a new design graph"));
+		bNew.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
+			if((contentArea.getAllNodes().size() != 0) || (contentArea.getAllConnection().size() != 0)){
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirmation");
+				alert.setHeaderText("You still have graph in the drawing board");
+				alert.setContentText("Continue to create a new graph ?");
+
+				ButtonType buttonConfirm = new ButtonType("Yes");
+				ButtonType buttonCancel = new ButtonType("No", ButtonData.CANCEL_CLOSE);
+
+				alert.getButtonTypes().setAll(buttonConfirm, buttonCancel);
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == buttonConfirm)
+				{
+					for (BaseNode n : contentArea.getAllNodes())
+					{
+						contentArea.getAllNodes().remove(n);
+					}
+					for (Connection n : contentArea.getAllConnection())
+					{
+						contentArea.getAllConnection().remove(n);
+					}
+					contentArea.getAllNodes().clear();
+					contentArea.getAllConnection().clear();
+				} 				
+			}
+		});
 
 		Icon iconLoad = new Icon(Settings.IMAGE_BLOAD);
 		Button bLoad = new Button();

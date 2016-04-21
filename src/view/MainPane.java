@@ -49,6 +49,11 @@ public class MainPane extends Pane implements Serializable
 	{
 		return vAllNodes;
 	}
+	
+	public Vector<Connection> getAllConnection()
+	{
+		return vConnections;
+	}
 
 	public void displayEdgesHintsFrom(double x, double y, double z)
 	{
