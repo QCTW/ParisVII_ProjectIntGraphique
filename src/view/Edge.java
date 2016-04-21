@@ -32,7 +32,7 @@ public class Edge extends Group implements BaseEdge
 		line = new Line(startX, startY, endX, endY);
 		line.setStroke(Settings.SPECULAR_COLOR);
 		line.setStrokeWidth(2);
-		double dest = calculateDestination(startX, startY, endX, endY);
+		double dest = Utility.calculateDestination(startX, startY, endX, endY);
 
 		label = new Label(convertToDisplayNumber(dest));
 		this.getChildren().add(line);
@@ -44,11 +44,6 @@ public class Edge extends Group implements BaseEdge
 	private double middle(double start, double end)
 	{
 		return (end + start) / 2;
-	}
-
-	private double calculateDestination(double startX, double startY, double endX, double endY)
-	{
-		return Math.sqrt(Math.pow((endX - startX), 2) + Math.pow((endY - startY), 2));
 	}
 
 	private String convertToDisplayNumber(double dest)

@@ -1,8 +1,10 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Vector;
 
 import javafx.scene.Node;
+import view.Edge;
 
 public interface BaseNode extends Serializable
 {
@@ -22,6 +24,18 @@ public interface BaseNode extends Serializable
 
 	public void displaySelected();
 
+	public void removeSelected();
+
 	public Node getFXNode();
+
+	public void selectMode(boolean onOrOff);
+
+	public boolean isCurrentlySelected();
+
+	public void setSelected(boolean isOrNot);
+
+	public boolean isSelectMode();
+
+	public Vector<Edge> getEdgeList();
 
 }

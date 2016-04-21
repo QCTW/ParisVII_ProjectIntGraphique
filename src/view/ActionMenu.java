@@ -19,18 +19,27 @@ public class ActionMenu extends ContextMenu
 	{
 		super();
 		Icon iconConnect = new Icon(Settings.IMAGE_MITEM_CONNECT);
-		menuConn = new MenuItem("Connect to",iconConnect);
+		menuConn = new MenuItem("Connect to", iconConnect);
 		menuConn.setOnAction(new EventHandler<ActionEvent>()
 		{
 			@Override
 			public void handle(ActionEvent event)
 			{
+				actionNode.displaySelected();
 				actionNode.selectMode(true);
 			}
 		});
 		Icon iconDisconnect = new Icon(Settings.IMAGE_MITEM_DISCONNECT);
 		menuDisconn = new MenuItem("Disconnect with", iconDisconnect);
-		
+		menuDisconn.setOnAction(new EventHandler<ActionEvent>()
+		{
+			@Override
+			public void handle(ActionEvent event)
+			{
+				actionNode.displaySelected();
+				// actionNode.selectMode(false);
+			}
+		});
 		Icon iconEdit = new Icon(Settings.IMAGE_MITEM_EDIT);
 		menuEdit = new MenuItem("Edit label", iconEdit);
 		menuEdit.setOnAction(event -> {

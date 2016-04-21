@@ -1,7 +1,10 @@
 package view;
 
+import java.util.Vector;
+
 import controller.EventHandlerMove;
 import controller.EventHandlerRightClick;
+import controller.EventHandlerSelectNode;
 import controller.EventHandlerStartDrag;
 import controller.LabelTextChangeListener;
 import javafx.scene.Group;
@@ -19,6 +22,8 @@ public class Ball extends Group implements BaseNode
 	private double posX = 0;
 	private double posY = 0;
 	private double posZ = 0;
+	private boolean isSelectMode = false;
+	private boolean isCurrentlySelected = false;
 	private String nodeLabel;
 	private final MainPane contentArea;
 	private final Sphere sphere;
@@ -47,6 +52,11 @@ public class Ball extends Group implements BaseNode
 			this.setOnMousePressed(ehm);
 			this.setOnMouseDragged(ehm);
 			this.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerRightClick(this));
+
+			EventHandlerSelectNode ehsn = new EventHandlerSelectNode(this, mp);
+			this.addEventHandler(MouseEvent.MOUSE_CLICKED, ehsn);
+			this.addEventHandler(MouseEvent.MOUSE_ENTERED, ehsn);
+			this.addEventHandler(MouseEvent.MOUSE_EXITED, ehsn);
 		}
 	}
 
@@ -126,6 +136,53 @@ public class Ball extends Group implements BaseNode
 	{
 		this.getChildren().add(selectedRing);
 		selectedRing.toBack();
+		isCurrentlySelected = true;
+	}
+
+	@Override
+	public void removeSelected()
+	{
+		this.getChildren().remove(selectedRing);
+		isCurrentlySelected = false;
+	}
+
+	@Override
+	public void selectMode(boolean onOrOff)
+	{
+		isSelectMode = onOrOff;
+		if (onOrOff)
+		{
+			contentArea.selectNodeFrom(this);
+			contentArea.startNodeSelectMode();
+		} else
+		{
+			contentArea.stopNodeSelectMode();
+		}
+	}
+
+	@Override
+	public Vector<Edge> getEdgeList()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isSelectMode()
+	{
+		return isSelectMode;
+	}
+
+	@Override
+	public boolean isCurrentlySelected()
+	{
+		return isCurrentlySelected;
+	}
+
+	@Override
+	public void setSelected(boolean isOrNot)
+	{
+		isCurrentlySelected = isOrNot;
 	}
 
 }

@@ -11,6 +11,9 @@ public class MainPane extends Pane implements Serializable
 	private static final long serialVersionUID = 1L;
 	private final Vector<BaseNode> vAllNodes = new Vector<BaseNode>();
 	private final Vector<Edge> vDisplayLines = new Vector<Edge>();
+	private final Vector<Connection> vConnections = new Vector<Connection>();
+	private BaseNode connectFrom;
+	private boolean isSelectMode = false;
 
 	public MainPane()
 	{
@@ -51,6 +54,14 @@ public class MainPane extends Pane implements Serializable
 		}
 	}
 
+	public void displayEdgesHintsTo(double x, double y, double z)
+	{
+		removeEdgesHints();
+		Edge line = new Edge(connectFrom.getPosX(), connectFrom.getPosY(), x, y);
+		this.getChildren().add(line);
+		vDisplayLines.add(line);
+	}
+
 	public void removeEdgesHints()
 	{
 		if (vDisplayLines.size() > 0)
@@ -65,12 +76,37 @@ public class MainPane extends Pane implements Serializable
 
 	public void selectNodeFrom(BaseNode node)
 	{
-
+		connectFrom = node;
 	}
 
 	public void selectNodeTo(BaseNode node)
 	{
+		Connection con = new Connection(connectFrom, node);
+		vConnections.add(con);
+		this.getChildren().add(con);
+	}
 
+	public void startNodeSelectMode()
+	{
+		isSelectMode = true;
+		for (BaseNode node : vAllNodes)
+		{
+			node.selectMode(isSelectMode);
+		}
+	}
+
+	public void stopNodeSelectMode()
+	{
+		isSelectMode = false;
+		for (BaseNode node : vAllNodes)
+		{
+			node.selectMode(isSelectMode);
+		}
+	}
+
+	public boolean isNodeSelectMode()
+	{
+		return isSelectMode;
 	}
 
 }

@@ -8,21 +8,24 @@ import view.ActionMenu;
 
 public class EventHandlerRightClick implements EventHandler<MouseEvent>
 {
-	BaseNode targetNoode;
+	BaseNode targetNode;
 	ActionMenu menuRightClick;
 
 	public EventHandlerRightClick(BaseNode b)
 	{
-		targetNoode = b;
+		targetNode = b;
 		menuRightClick = new ActionMenu(b);
 	}
 
 	@Override
 	public void handle(MouseEvent event)
 	{
-		if (event.getButton() == MouseButton.SECONDARY)
+		if (!targetNode.isSelectMode())
 		{
-			menuRightClick.show(targetNoode.getFXNode(), event.getScreenX(), event.getScreenY());
+			if (event.getButton() == MouseButton.SECONDARY)
+			{
+				menuRightClick.show(targetNode.getFXNode(), event.getScreenX(), event.getScreenY());
+			}
 		}
 	}
 }
