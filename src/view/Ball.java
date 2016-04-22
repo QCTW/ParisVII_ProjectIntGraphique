@@ -214,7 +214,8 @@ public class Ball extends Group implements BaseNode
 	{
 		for (Connection conn : vConnectedNodes)
 		{
-			conn.moveTo(conn.getEndPoint().getPoint3D(), this.getPoint3D());
+			conn.moveTo(conn.getEndPoint().getPoint3D(), conn.getStartPoint().getPoint3D());
+			conn.toBack();
 		}
 	}
 

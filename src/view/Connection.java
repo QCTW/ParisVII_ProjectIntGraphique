@@ -71,4 +71,39 @@ public class Connection extends Group implements Serializable, BaseEdge
 		return nodeTo;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nodeFrom == null) ? 0 : nodeFrom.getNodeId());
+		result = prime * result + ((nodeTo == null) ? 0 : nodeTo.getNodeId());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Connection other = (Connection) obj;
+		if (nodeFrom == null)
+		{
+			if (other.nodeFrom != null)
+				return false;
+		} else if (nodeFrom.getNodeId() != other.nodeFrom.getNodeId())
+			return false;
+		if (nodeTo == null)
+		{
+			if (other.nodeTo != null)
+				return false;
+		} else if (nodeTo.getNodeId() != other.nodeTo.getNodeId())
+			return false;
+		return true;
+	}
+
 }
