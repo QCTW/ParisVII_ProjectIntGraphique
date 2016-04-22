@@ -62,9 +62,9 @@ public class ActionMenu extends ContextMenu
 		 * });
 		 */
 		Icon iconSetStartPoint = new Icon(Settings.IMAGE_MITEM_STARTPOINT);
-		menuStartPoint = new MenuItem("Set as start point", iconSetStartPoint);
+		menuStartPoint = new MenuItem("Set as START", iconSetStartPoint);
 		Icon iconSetEndPoint = new Icon(Settings.IMAGE_MITEM_ENDPOINT);
-		menuEndPoint = new MenuItem("Set as end point", iconSetEndPoint);
+		menuEndPoint = new MenuItem("Set as END", iconSetEndPoint);
 		this.getItems().addAll(menuConn, menuDisconn, menuEdit, menuDelete, menuStartPoint, menuEndPoint);
 	}
 
