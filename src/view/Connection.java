@@ -17,20 +17,23 @@ public class Connection extends Group implements Serializable, BaseEdge
 	@Override
 	public String toString()
 	{
-		return "Connection from:" + nodeFrom.getNodeLabel() + " to:" + nodeTo.getNodeLabel() + " length:" + label.getText();
+		return "Connection " + nodeFrom.getNodeLabel() + " <-> " + nodeTo.getNodeLabel() + " (length:" + label.getText() + ")";
 	}
 
 	private static final long serialVersionUID = 1L;
 	private final BaseNode nodeFrom, nodeTo;
-	private final Label label;
-	private final Cylinder bond;
+	private Label label;
+	private Cylinder bond;
 
 	public Connection(BaseNode from, BaseNode to)
 	{
 		nodeFrom = from;
 		nodeTo = to;
+	}
 
-		Point3D diff = to.getPoint3D().subtract(from.getPoint3D());
+	public void initGraphic()
+	{
+		Point3D diff = nodeTo.getPoint3D().subtract(nodeFrom.getPoint3D());
 		PhongMaterial material = new PhongMaterial();
 		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		material.setSpecularColor(Settings.SPECULAR_COLOR);
@@ -42,7 +45,7 @@ public class Connection extends Group implements Serializable, BaseEdge
 		label = new Label(String.valueOf((int) diff.magnitude()));
 		this.getChildren().add(label);
 
-		moveTo(to.getPoint3D(), from.getPoint3D());
+		moveTo(nodeTo.getPoint3D(), nodeFrom.getPoint3D());
 
 		nodeFrom.addEdge(this);
 		nodeTo.addEdge(this);
@@ -80,10 +83,21 @@ public class Connection extends Group implements Serializable, BaseEdge
 	@Override
 	public int hashCode()
 	{
-		final int prime = 31;
+		// final int prime = 31;
+		// int result = 1;
+		// result = prime * result + ((nodeFrom == null) ? 0 : nodeFrom.getNodeId());
+		// result = prime * result + ((nodeTo == null) ? 0 : nodeTo.getNodeId());
 		int result = 1;
-		result = prime * result + ((nodeFrom == null) ? 0 : nodeFrom.getNodeId());
-		result = prime * result + ((nodeTo == null) ? 0 : nodeTo.getNodeId());
+		String strFrom = String.valueOf((nodeFrom == null) ? 0 : nodeFrom.getNodeId());
+		String strTo = String.valueOf((nodeTo == null) ? 0 : nodeTo.getNodeId());
+		for (char c : strFrom.toCharArray())
+		{
+			result += c;
+		}
+		for (char c : strTo.toCharArray())
+		{
+			result += c;
+		}
 		return result;
 	}
 
@@ -101,22 +115,35 @@ public class Connection extends Group implements Serializable, BaseEdge
 		{
 			if (other.nodeFrom != null)
 				return false;
-		} else if (nodeFrom.getNodeId() != other.nodeFrom.getNodeId())
+		} else if (nodeFrom.getNodeId() != other.nodeFrom.getNodeId() && nodeFrom.getNodeId() != other.nodeTo.getNodeId())
 			return false;
 		if (nodeTo == null)
 		{
 			if (other.nodeTo != null)
 				return false;
-		} else if (nodeTo.getNodeId() != other.nodeTo.getNodeId())
+		} else if (nodeTo.getNodeId() != other.nodeTo.getNodeId() && nodeTo.getNodeId() != other.nodeFrom.getNodeId())
 			return false;
 		return true;
 	}
 
+	@Override
 	public void delete()
 	{
 		nodeFrom.removeEdge(this);
 		nodeTo.removeEdge(this);
 		this.getChildren().clear();
+	}
+
+	@Override
+	public void setDisabled()
+	{
+		this.setEffect(Settings.DISABLE_EFFECT);
+	}
+
+	@Override
+	public void setEnabled()
+	{
+		this.setEffect(null);
 	}
 
 }

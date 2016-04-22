@@ -94,7 +94,7 @@ public class Ball extends Group implements BaseNode
 		posX = x;
 		posY = y;
 		posZ = z;
-		System.out.println("Ball moveTo(" + x + "," + y + "," + z + ") Layout(" + this.getLayoutX() + "," + this.getLayoutY() + ") Translate(" + this.getTranslateX() + "," + this.getTranslateY());
+		// System.out.println("Ball moveTo(" + x + "," + y + "," + z + ") Layout(" + this.getLayoutX() + "," + this.getLayoutY() + ") Translate(" + this.getTranslateX() + "," + this.getTranslateY());
 	}
 
 	@Override
@@ -219,6 +219,24 @@ public class Ball extends Group implements BaseNode
 	public void delete()
 	{
 		contentArea.deleteNode(this);
+	}
+
+	@Override
+	public void setAction(ActionType atype)
+	{
+		contentArea.setAction(atype);
+	}
+
+	@Override
+	public void setDisabled()
+	{
+		this.setEffect(Settings.DISABLE_EFFECT);
+	}
+
+	@Override
+	public void setEnabled()
+	{
+		this.setEffect(null);
 	}
 
 }

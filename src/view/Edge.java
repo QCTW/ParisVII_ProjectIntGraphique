@@ -20,6 +20,7 @@ public class Edge extends Group
 		line = new Line(startX, startY, endX, endY);
 		line.setStroke(Settings.SPECULAR_COLOR);
 		line.setStrokeWidth(2);
+		line.getStrokeDashArray().addAll(1d, 10d);
 		double dest = Utility.calculateDestination(startX, startY, endX, endY);
 
 		label = new Label(convertToDisplayNumber(dest));

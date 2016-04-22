@@ -9,7 +9,7 @@ import view.Cube;
 
 public class EventHandlerMove implements EventHandler<MouseEvent>
 {
-	BaseNode targetNoode;
+	BaseNode targetNode;
 	private double orgSceneX;
 	private double orgSceneY;
 	private double orgTranslateX;
@@ -17,35 +17,38 @@ public class EventHandlerMove implements EventHandler<MouseEvent>
 
 	public EventHandlerMove(Cube c)
 	{
-		targetNoode = c;
+		targetNode = c;
 	}
 
 	public EventHandlerMove(Ball b)
 	{
-		targetNoode = b;
+		targetNode = b;
 	}
 
 	@Override
 	public void handle(MouseEvent event)
 	{
-		String sEventName = event.getEventType().getName();
-		switch (sEventName)
+		if (!targetNode.isSelectMode())
 		{
-		case "MOUSE_PRESSED":
-			orgSceneX = event.getSceneX();
-			orgSceneY = event.getSceneY();
-			orgTranslateX = ((Node) event.getSource()).getTranslateX();
-			orgTranslateY = ((Node) event.getSource()).getTranslateY();
-			break;
+			String sEventName = event.getEventType().getName();
+			switch (sEventName)
+			{
+			case "MOUSE_PRESSED":
+				orgSceneX = event.getSceneX();
+				orgSceneY = event.getSceneY();
+				orgTranslateX = ((Node) event.getSource()).getTranslateX();
+				orgTranslateY = ((Node) event.getSource()).getTranslateY();
+				break;
 
-		case "MOUSE_DRAGGED":
-			double offsetX = event.getSceneX() - orgSceneX;
-			double offsetY = event.getSceneY() - orgSceneY;
-			double newTranslateX = orgTranslateX + offsetX;
-			double newTranslateY = orgTranslateY + offsetY;
-			targetNoode.moveTo(newTranslateX, newTranslateY, 0);
-			targetNoode.updateEdgesDisplay();
-			break;
+			case "MOUSE_DRAGGED":
+				double offsetX = event.getSceneX() - orgSceneX;
+				double offsetY = event.getSceneY() - orgSceneY;
+				double newTranslateX = orgTranslateX + offsetX;
+				double newTranslateY = orgTranslateY + offsetY;
+				targetNode.moveTo(newTranslateX, newTranslateY, 0);
+				targetNode.updateEdgesDisplay();
+				break;
+			}
 		}
 	}
 

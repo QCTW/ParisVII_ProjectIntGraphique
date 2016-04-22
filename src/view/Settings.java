@@ -1,9 +1,12 @@
 package view;
 
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
 import javafx.scene.paint.Color;
 
 public class Settings
 {
+	public static final Effect DISABLE_EFFECT = new BoxBlur(3, 3, 3);
 	public static final double ICON_WIDTH_SIZE = 25;
 	public static final double NODE_SIZE = 50;
 	public static final int PADDING_IN_BAR = 5;

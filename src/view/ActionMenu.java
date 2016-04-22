@@ -22,6 +22,7 @@ public class ActionMenu extends ContextMenu
 		Icon iconConnect = new Icon(Settings.IMAGE_MITEM_CONNECT);
 		menuConn = new MenuItem("Connect to", iconConnect);
 		menuConn.setOnAction(event -> {
+			actionNode.setAction(ActionType.ADD_CONNECTION);
 			actionNode.displaySelected();
 			actionNode.selectMode(true);
 		});
@@ -29,6 +30,7 @@ public class ActionMenu extends ContextMenu
 		Icon iconDisconnect = new Icon(Settings.IMAGE_MITEM_DISCONNECT);
 		menuDisconn = new MenuItem("Disconnect with", iconDisconnect);
 		menuDisconn.setOnAction(event -> {
+			actionNode.setAction(ActionType.REMOVE_CONNECTION);
 			actionNode.displaySelected();
 			actionNode.selectMode(true);
 		});

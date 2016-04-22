@@ -1,6 +1,7 @@
 package view;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Vector;
 
 import javafx.scene.input.MouseEvent;
@@ -15,12 +16,13 @@ public class MainPane extends Pane implements Serializable
 	private final Vector<Connection> vConnections = new Vector<Connection>();
 	private BaseNode connectFrom;
 	private boolean isSelectMode = false;
+	private ActionType action = ActionType.NONE;
 
 	public MainPane()
 	{
 		super();
 		this.addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
-			if (isSelectMode)
+			if (isSelectMode && action == ActionType.ADD_CONNECTION)
 			{
 				displayEdgesHintsTo(event.getX(), event.getY(), event.getZ());
 			}
@@ -33,7 +35,6 @@ public class MainPane extends Pane implements Serializable
 		this.getChildren().add(c);
 		vAllNodes.add(c);
 		return c;
-
 	}
 
 	public Ball createBall()
@@ -42,7 +43,6 @@ public class MainPane extends Pane implements Serializable
 		this.getChildren().add(b);
 		vAllNodes.add(b);
 		return b;
-
 	}
 
 	public Vector<BaseNode> getAllNodes()
@@ -90,26 +90,79 @@ public class MainPane extends Pane implements Serializable
 	{
 		connectFrom = source;
 		isSelectMode = true;
-		for (BaseNode node : vAllNodes)
+		if (action == ActionType.ADD_CONNECTION)
 		{
-			node.setSelectMode(isSelectMode);
+			for (BaseNode node : vAllNodes)
+			{
+				node.setSelectMode(isSelectMode);
+			}
+		} else
+		{
+			HashMap<Integer, BaseNode> hmRelatedNodes = new HashMap<Integer, BaseNode>();
+			for (Connection conn : source.getEdges())
+			{
+				BaseNode start = conn.getStartPoint();
+				BaseNode end = conn.getEndPoint();
+				hmRelatedNodes.put(start.getNodeId(), start);
+				hmRelatedNodes.put(end.getNodeId(), end);
+			}
+
+			for (BaseNode node : vAllNodes)
+			{
+				node.setSelectMode(isSelectMode);
+				if (hmRelatedNodes.get(node.getNodeId()) == null)
+				{
+					node.setDisabled();
+					for (Connection con : node.getEdges())
+					{
+						con.setDisabled();
+					}
+				} else
+				{
+					if (node != source)
+						node.setSelectMode(isSelectMode);
+				}
+			}
 		}
 	}
 
 	public void stopNodeSelectMode(BaseNode source)
 	{
-		Connection con = new Connection(connectFrom, source);
-		vConnections.add(con);
-		this.getChildren().add(con);
-		con.toBack();
 		isSelectMode = false;
-		for (BaseNode node : vAllNodes)
+		if (action == ActionType.ADD_CONNECTION)
 		{
-			node.setSelectMode(isSelectMode);
+			Connection con = new Connection(connectFrom, source);
+			con.initGraphic();
+			vConnections.add(con);
+			this.getChildren().add(con);
+			con.toBack();
+			for (BaseNode node : vAllNodes)
+			{
+				node.setSelectMode(isSelectMode);
+			}
+
+		} else
+		{
+			Connection conn = new Connection(connectFrom, source);
+			conn.delete();
+			int nFound = vConnections.indexOf(conn);
+			System.out.println("Tring to remove connection:" + conn.hashCode() + "@" + nFound);
+			this.getChildren().remove(vConnections.get(nFound));
+			vConnections.remove(conn);
+			for (BaseNode node : vAllNodes)
+			{
+				node.setSelectMode(isSelectMode);
+				node.setEnabled();
+				for (Connection con : node.getEdges())
+				{
+					con.setEnabled();
+				}
+			}
 		}
 		source.removeSelected();
 		connectFrom.removeSelected();
 		connectFrom.resetSelectedStartingNode();
+		action = ActionType.NONE;
 	}
 
 	public boolean isNodeSelectMode()
@@ -146,6 +199,11 @@ public class MainPane extends Pane implements Serializable
 
 		vAllNodes.remove(node);
 		this.getChildren().remove(node);
+	}
+
+	public void setAction(ActionType atype)
+	{
+		action = atype;
 	}
 
 }

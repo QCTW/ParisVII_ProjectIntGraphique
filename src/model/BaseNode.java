@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
+import view.ActionType;
 import view.Connection;
 
 public interface BaseNode extends Serializable
@@ -33,6 +34,10 @@ public interface BaseNode extends Serializable
 
 	public void delete();
 
+	public void setDisabled();
+
+	public void setEnabled();
+
 	/**
 	 * This method is used to start/end a selection process and is different from setSelectMode
 	 * 
@@ -60,5 +65,7 @@ public interface BaseNode extends Serializable
 	public void removeEdge(Connection conn);
 
 	public void updateEdgesDisplay();
+
+	public void setAction(ActionType atype);
 
 }
