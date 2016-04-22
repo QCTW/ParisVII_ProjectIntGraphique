@@ -212,11 +212,7 @@ public class Ball extends Group implements BaseNode
 	@Override
 	public void updateEdgesDisplay()
 	{
-		for (Connection conn : vConnectedNodes)
-		{
-			conn.moveTo(conn.getEndPoint().getPoint3D(), conn.getStartPoint().getPoint3D());
-			conn.toBack();
-		}
+		contentArea.updateEdgesDisplay();
 	}
 
 }

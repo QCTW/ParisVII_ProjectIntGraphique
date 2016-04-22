@@ -14,6 +14,12 @@ import model.BaseNode;
 
 public class Connection extends Group implements Serializable, BaseEdge
 {
+	@Override
+	public String toString()
+	{
+		return "Connection from:" + nodeFrom.getNodeLabel() + " to:" + nodeTo.getNodeLabel() + " length:" + label.getText();
+	}
+
 	private static final long serialVersionUID = 1L;
 	private final BaseNode nodeFrom, nodeTo;
 	private final Label label;

@@ -49,7 +49,7 @@ public class MainPane extends Pane implements Serializable
 	{
 		return vAllNodes;
 	}
-	
+
 	public Vector<Connection> getAllConnection()
 	{
 		return vConnections;
@@ -115,6 +115,15 @@ public class MainPane extends Pane implements Serializable
 	public boolean isNodeSelectMode()
 	{
 		return isSelectMode;
+	}
+
+	public void updateEdgesDisplay()
+	{
+		for (Connection conn : vConnections)
+		{
+			conn.moveTo(conn.getEndPoint().getPoint3D(), conn.getStartPoint().getPoint3D());
+			conn.toBack();
+		}
 	}
 
 }
