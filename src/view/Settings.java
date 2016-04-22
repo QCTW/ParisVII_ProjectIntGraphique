@@ -23,5 +23,7 @@ public class Settings
 	public static final String IMAGE_MITEM_CONNECT = "../resource/ic_linear_scale_48pt_3x.png";
 	public static final String IMAGE_MITEM_DISCONNECT = "../resource/ic_more_horiz_48pt_3x.png";
 	public static final String IMAGE_MITEM_EDIT = "../resource/ic_create_48pt_3x.png";
-	public static final String IMAGE_MITEM_DELETE = "../resource/ic_clear_48pt_3x.png";
+	public static final String IMAGE_MITEM_DELETE = "../resource/ic_delete_forever_48pt_3x.png";
+	public static final String IMAGE_MITEM_STARTPOINT = "../resource/ic_flight_takeoff_48pt_3x.png";
+	public static final String IMAGE_MITEM_ENDPOINT = "../resource/ic_flight_land_48pt_3x.png";
 }

@@ -15,6 +15,8 @@ public class ActionMenu extends ContextMenu
 	private final MenuItem menuDisconn;
 	private final MenuItem menuEdit;
 	private final MenuItem menuDelete;
+	private final MenuItem menuStartPoint;
+	private final MenuItem menuEndPoint;
 
 	public ActionMenu(BaseNode actionNode)
 	{
@@ -52,13 +54,18 @@ public class ActionMenu extends ContextMenu
 			result.ifPresent(name -> actionNode.setNodeLabel(result.get()));
 		});
 		Icon iconDelete = new Icon(Settings.IMAGE_MITEM_DELETE);
-		menuDelete = new MenuItem("Delete", iconDelete);
-		/*menuDelete.setOnAction(event ->{
-			//we need let mainpane delete it
-			System.out.println("delete");
-		});*/
-		
-		this.getItems().addAll(menuConn, menuDisconn, menuEdit, menuDelete);
+		menuDelete = new MenuItem("Delete node", iconDelete);
+		/*
+		 * menuDelete.setOnAction(event ->{
+		 * //we need let mainpane delete it
+		 * System.out.println("delete");
+		 * });
+		 */
+		Icon iconSetStartPoint = new Icon(Settings.IMAGE_MITEM_STARTPOINT);
+		menuStartPoint = new MenuItem("Set as start point", iconSetStartPoint);
+		Icon iconSetEndPoint = new Icon(Settings.IMAGE_MITEM_ENDPOINT);
+		menuEndPoint = new MenuItem("Set as end point", iconSetEndPoint);
+		this.getItems().addAll(menuConn, menuDisconn, menuEdit, menuDelete, menuStartPoint, menuEndPoint);
 	}
 
 }
