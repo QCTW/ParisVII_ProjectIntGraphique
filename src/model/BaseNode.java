@@ -31,6 +31,8 @@ public interface BaseNode extends Serializable
 
 	public Node getFXNode();
 
+	public void delete();
+
 	/**
 	 * This method is used to start/end a selection process and is different from setSelectMode
 	 * 

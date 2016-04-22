@@ -112,4 +112,11 @@ public class Connection extends Group implements Serializable, BaseEdge
 		return true;
 	}
 
+	public void delete()
+	{
+		nodeFrom.removeEdge(this);
+		nodeTo.removeEdge(this);
+		this.getChildren().clear();
+	}
+
 }

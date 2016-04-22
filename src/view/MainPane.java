@@ -126,4 +126,26 @@ public class MainPane extends Pane implements Serializable
 		}
 	}
 
+	public void deleteNode(BaseNode node)
+	{
+		Vector<Connection> conn2Remove = new Vector<Connection>();
+		for (Connection conn : vConnections)
+		{
+			if (conn.getEndPoint().getNodeId() == node.getNodeId() || conn.getStartPoint().getNodeId() == node.getNodeId())
+			{
+				conn2Remove.add(conn);
+			}
+		}
+
+		for (Connection conn : conn2Remove)
+		{
+			conn.delete();
+			vConnections.remove(conn);
+			this.getChildren().remove(conn);
+		}
+
+		vAllNodes.remove(node);
+		this.getChildren().remove(node);
+	}
+
 }

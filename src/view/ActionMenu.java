@@ -2,8 +2,6 @@ package view;
 
 import java.util.Optional;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
@@ -23,26 +21,18 @@ public class ActionMenu extends ContextMenu
 		super();
 		Icon iconConnect = new Icon(Settings.IMAGE_MITEM_CONNECT);
 		menuConn = new MenuItem("Connect to", iconConnect);
-		menuConn.setOnAction(new EventHandler<ActionEvent>()
-		{
-			@Override
-			public void handle(ActionEvent event)
-			{
-				actionNode.displaySelected();
-				actionNode.selectMode(true);
-			}
+		menuConn.setOnAction(event -> {
+			actionNode.displaySelected();
+			actionNode.selectMode(true);
 		});
+
 		Icon iconDisconnect = new Icon(Settings.IMAGE_MITEM_DISCONNECT);
 		menuDisconn = new MenuItem("Disconnect with", iconDisconnect);
-		menuDisconn.setOnAction(new EventHandler<ActionEvent>()
-		{
-			@Override
-			public void handle(ActionEvent event)
-			{
-				actionNode.displaySelected();
-				// actionNode.selectMode(false);
-			}
+		menuDisconn.setOnAction(event -> {
+			actionNode.displaySelected();
+			actionNode.selectMode(true);
 		});
+
 		Icon iconEdit = new Icon(Settings.IMAGE_MITEM_EDIT);
 		menuEdit = new MenuItem("Edit label", iconEdit);
 		menuEdit.setOnAction(event -> {
@@ -53,14 +43,13 @@ public class ActionMenu extends ContextMenu
 			Optional<String> result = rename.showAndWait();
 			result.ifPresent(name -> actionNode.setNodeLabel(result.get()));
 		});
+
 		Icon iconDelete = new Icon(Settings.IMAGE_MITEM_DELETE);
 		menuDelete = new MenuItem("Delete node", iconDelete);
-		/*
-		 * menuDelete.setOnAction(event ->{
-		 * //we need let mainpane delete it
-		 * System.out.println("delete");
-		 * });
-		 */
+		menuDelete.setOnAction(event -> {
+			actionNode.delete();
+		});
+
 		Icon iconSetStartPoint = new Icon(Settings.IMAGE_MITEM_STARTPOINT);
 		menuStartPoint = new MenuItem("Set as START", iconSetStartPoint);
 		Icon iconSetEndPoint = new Icon(Settings.IMAGE_MITEM_ENDPOINT);

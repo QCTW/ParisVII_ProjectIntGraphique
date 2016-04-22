@@ -215,4 +215,10 @@ public class Ball extends Group implements BaseNode
 		contentArea.updateEdgesDisplay();
 	}
 
+	@Override
+	public void delete()
+	{
+		contentArea.deleteNode(this);
+	}
+
 }
