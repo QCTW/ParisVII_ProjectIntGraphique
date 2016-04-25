@@ -12,6 +12,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import model.BaseNode;
@@ -25,6 +26,8 @@ public class Ball extends Group implements BaseNode
 	private double posZ = 0;
 	private boolean isSelectMode = false;
 	private boolean isSelectedStartingNode = false;
+	private boolean isStartNode = false;
+	private boolean isEndNode = false;
 	private String nodeLabel;
 	private final MainPane contentArea;
 	private final Sphere sphere;
@@ -237,6 +240,56 @@ public class Ball extends Group implements BaseNode
 	public void setEnabled()
 	{
 		this.setEffect(null);
+	}
+
+	@Override
+	public boolean isStartNode()
+	{
+		return isStartNode;
+	}
+
+	@Override
+	public boolean isEndNode()
+	{
+		return isEndNode;
+	}
+
+	@Override
+	public void setStartNode(boolean isOrNot)
+	{
+		if (isOrNot)
+		{
+			PhongMaterial material = new PhongMaterial();
+			material.setDiffuseColor(Color.RED);
+			material.setSpecularColor(Settings.SPECULAR_COLOR);
+			sphere.setMaterial(material);
+		}
+		isStartNode = isOrNot;
+	}
+
+	@Override
+	public void setEndNode(boolean isOrNot)
+	{
+		isEndNode = isOrNot;
+	}
+
+	@Override
+	public boolean hasNodeToConnect()
+	{
+		int nTotalNodes = contentArea.getAllNodes().size();
+		if ((nTotalNodes - 1) > vConnectedNodes.size())
+			return true;
+
+		return false;
+	}
+
+	@Override
+	public boolean hasEdgeToDisconnect()
+	{
+		if (vConnectedNodes.size() > 0)
+			return true;
+
+		return false;
 	}
 
 }

@@ -9,6 +9,7 @@ import model.BaseNode;
 
 public class ActionMenu extends ContextMenu
 {
+	private final BaseNode targetNode;
 	private final MenuItem menuConn;
 	private final MenuItem menuDisconn;
 	private final MenuItem menuEdit;
@@ -19,6 +20,7 @@ public class ActionMenu extends ContextMenu
 	public ActionMenu(BaseNode actionNode)
 	{
 		super();
+		targetNode = actionNode;
 		Icon iconConnect = new Icon(Settings.IMAGE_MITEM_CONNECT);
 		menuConn = new MenuItem("Connect to", iconConnect);
 		menuConn.setOnAction(event -> {
@@ -33,6 +35,7 @@ public class ActionMenu extends ContextMenu
 			actionNode.setAction(ActionType.REMOVE_CONNECTION);
 			actionNode.displaySelected();
 			actionNode.selectMode(true);
+
 		});
 
 		Icon iconEdit = new Icon(Settings.IMAGE_MITEM_EDIT);
@@ -54,9 +57,26 @@ public class ActionMenu extends ContextMenu
 
 		Icon iconSetStartPoint = new Icon(Settings.IMAGE_MITEM_STARTPOINT);
 		menuStartPoint = new MenuItem("Set as START", iconSetStartPoint);
+		menuDelete.setOnAction(event -> {
+			actionNode.setStartNode(true);
+		});
+
 		Icon iconSetEndPoint = new Icon(Settings.IMAGE_MITEM_ENDPOINT);
 		menuEndPoint = new MenuItem("Set as END", iconSetEndPoint);
 		this.getItems().addAll(menuConn, menuDisconn, menuEdit, menuDelete, menuStartPoint, menuEndPoint);
+	}
+
+	public void refreshMenuItem()
+	{
+		if (!targetNode.hasNodeToConnect())
+			menuConn.setDisable(true);
+		else
+			menuConn.setDisable(false);
+
+		if (!targetNode.hasEdgeToDisconnect())
+			menuDisconn.setDisable(true);
+		else
+			menuDisconn.setDisable(false);
 	}
 
 }

@@ -38,6 +38,14 @@ public interface BaseNode extends Serializable
 
 	public void setEnabled();
 
+	public boolean isStartNode();
+
+	public boolean isEndNode();
+
+	public void setStartNode(boolean isOrNot);
+
+	public void setEndNode(boolean isOrNot);
+
 	/**
 	 * This method is used to start/end a selection process and is different from setSelectMode
 	 * 
@@ -67,5 +75,9 @@ public interface BaseNode extends Serializable
 	public void updateEdgesDisplay();
 
 	public void setAction(ActionType atype);
+
+	public boolean hasNodeToConnect();
+
+	public boolean hasEdgeToDisconnect();
 
 }
