@@ -14,6 +14,8 @@ public class Settings
 	public static final int CONTENT_AREA_HEIGHT = 400;
 	public static final Color DIFFUSE_COLOR = Color.rgb(51, 102, 153);// CSS: #336699
 	public static final Color SPECULAR_COLOR = Color.rgb(0, 153, 204);// CSS: #0099cc
+	public static final Color START_COLOR = Color.rgb(204, 204, 255);// CSS:ccccff
+	public static final Color END_COLOR = Color.rgb(204, 0, 255); // CSS:cc00ff
 	public static final String CSS_PATH = "resource/stylesheets.css"; // Note that this file is read from the Main.java
 	public static final String IMAGE_APP_ICON = "resource/ic_share_48pt_3x.png"; // Note that this file is read from the Main.java
 	public static final String IMAGE_BNEW = "../resource/ic_add_box_48pt_3x.png";
@@ -29,4 +31,5 @@ public class Settings
 	public static final String IMAGE_MITEM_DELETE = "../resource/ic_delete_forever_48pt_3x.png";
 	public static final String IMAGE_MITEM_STARTPOINT = "../resource/ic_flight_takeoff_48pt_3x.png";
 	public static final String IMAGE_MITEM_ENDPOINT = "../resource/ic_flight_land_48pt_3x.png";
+
 }

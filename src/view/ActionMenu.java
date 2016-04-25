@@ -57,16 +57,19 @@ public class ActionMenu extends ContextMenu
 
 		Icon iconSetStartPoint = new Icon(Settings.IMAGE_MITEM_STARTPOINT);
 		menuStartPoint = new MenuItem("Set as START", iconSetStartPoint);
-		menuDelete.setOnAction(event -> {
+		menuStartPoint.setOnAction(event -> {
 			actionNode.setStartNode(true);
 		});
 
 		Icon iconSetEndPoint = new Icon(Settings.IMAGE_MITEM_ENDPOINT);
 		menuEndPoint = new MenuItem("Set as END", iconSetEndPoint);
+		menuEndPoint.setOnAction(event -> {
+			actionNode.setEndNode(true);
+		});
 		this.getItems().addAll(menuConn, menuDisconn, menuEdit, menuDelete, menuStartPoint, menuEndPoint);
 	}
 
-	public void refreshMenuItem()
+	public void refreshMenuItems()
 	{
 		if (!targetNode.hasNodeToConnect())
 			menuConn.setDisable(true);

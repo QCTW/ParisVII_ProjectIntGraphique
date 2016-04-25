@@ -12,7 +12,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import model.BaseNode;
@@ -34,6 +33,7 @@ public class Cube extends Group implements BaseNode
 	private final Label label;
 	private final SelectedRing selectedRing;
 	private final Vector<Connection> vConnectedNodes;
+	private PhongMaterial material;
 
 	public Cube(double size)
 	{
@@ -76,7 +76,7 @@ public class Cube extends Group implements BaseNode
 			label.setText(nodeLabel);
 			label.widthProperty().addListener(new LabelTextChangeListener(label));
 		}
-		PhongMaterial material = new PhongMaterial();
+		material = new PhongMaterial();
 		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		material.setSpecularColor(Settings.SPECULAR_COLOR);
 		box.setMaterial(material);
@@ -262,10 +262,10 @@ public class Cube extends Group implements BaseNode
 	{
 		if (isOrNot)
 		{
-			PhongMaterial material = new PhongMaterial();
-			material.setDiffuseColor(Color.RED);
-			material.setSpecularColor(Settings.SPECULAR_COLOR);
-			box.setMaterial(material);
+			material.setDiffuseColor(Settings.START_COLOR);
+		} else
+		{
+			material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		}
 		isStartNode = isOrNot;
 	}
@@ -273,6 +273,13 @@ public class Cube extends Group implements BaseNode
 	@Override
 	public void setEndNode(boolean isOrNot)
 	{
+		if (isOrNot)
+		{
+			material.setDiffuseColor(Settings.END_COLOR);
+		} else
+		{
+			material.setDiffuseColor(Settings.DIFFUSE_COLOR);
+		}
 		isEndNode = isOrNot;
 	}
 

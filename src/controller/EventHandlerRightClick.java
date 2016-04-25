@@ -24,7 +24,7 @@ public class EventHandlerRightClick implements EventHandler<MouseEvent>
 		{
 			if (event.getButton() == MouseButton.SECONDARY)
 			{
-				menuRightClick.refreshMenuItem();
+				menuRightClick.refreshMenuItems();
 				menuRightClick.show(targetNode.getFXNode(), event.getScreenX(), event.getScreenY());
 			}
 		}
