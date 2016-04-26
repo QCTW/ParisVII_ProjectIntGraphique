@@ -24,16 +24,15 @@ public class EventHandlerGroupSelect implements EventHandler<MouseEvent>
 		case "MOUSE_PRESSED":
 			clickedX = event.getSceneX();
 			clickedY = event.getSceneY();
+			targetNode.removeSelectedGroup();
 			break;
 
 		case "MOUSE_DRAGGED":
-			double currentX = event.getSceneX();
-			double currentY = event.getSceneY();
-			targetNode.displayGroupSelection(clickedX, clickedY, currentX, currentY);
+			targetNode.displayGroupSelection(clickedX, clickedY, event.getSceneX(), event.getSceneY());
 			break;
 
 		case "MOUSE_RELEASED":
-			targetNode.displaySelectedGroup();
+			targetNode.displaySelectedGroup(clickedX, clickedY, event.getSceneX(), event.getSceneY());
 			break;
 		}
 		event.consume();

@@ -14,6 +14,7 @@ public class MainPane extends Pane implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private final Vector<BaseNode> vAllNodes = new Vector<BaseNode>();
+	private final Vector<BaseNode> vGroupSelectedNodes = new Vector<BaseNode>();
 	private final Vector<Edge> vDisplayLines = new Vector<Edge>();
 	private final Vector<Connection> vConnections = new Vector<Connection>();
 	private BaseNode connectFrom;
@@ -253,8 +254,27 @@ public class MainPane extends Pane implements Serializable
 
 	}
 
-	public void displaySelectedGroup()
+	public void removeSelectedGroup()
 	{
+		for (BaseNode node : vAllNodes)
+		{
+			node.removeSelected();
+		}
+		vGroupSelectedNodes.clear();
+	}
+
+	public void displaySelectedGroup(double clickedX, double clickedY, double currentX, double currentY)
+	{
+		for (BaseNode node : vAllNodes)
+		{
+			Point3D p = new Point3D(node.getPosX(), node.getPosY(), node.getPosZ());
+			Point3D pScene = this.localToScene(p);
+			if (pScene.getX() > clickedX && pScene.getX() < currentX && pScene.getY() > clickedY && pScene.getY() < currentY)
+			{
+				node.displaySelected();
+				vGroupSelectedNodes.add(node);
+			}
+		}
 		this.getChildren().remove(groupSelection);
 	}
 

@@ -49,6 +49,7 @@ public class EventHandlerMove implements EventHandler<MouseEvent>
 				targetNode.updateEdgesDisplay();
 				break;
 			}
+			event.consume();
 		}
 	}
 
