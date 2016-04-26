@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Optional;
 
 import controller.EventHandlerDragAndDrop;
+import controller.EventHandlerGroupSelect;
 import controller.EventHandlerMouseOverEnlarge;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -44,11 +45,16 @@ public class MainWindow extends BorderPane
 		s.getStyleClass().add("stackpane");
 		s.setPrefSize(Settings.CONTENT_AREA_WIDTH, Settings.CONTENT_AREA_HEIGHT);
 		EventHandlerDragAndDrop eventMaster = new EventHandlerDragAndDrop(s);
-		contentArea.setOnDragOver(eventMaster);
-		contentArea.setOnDragEntered(eventMaster);
-		contentArea.setOnDragExited(eventMaster);
-		contentArea.setOnDragDropped(eventMaster);
-		contentArea.setOnDragDone(eventMaster);
+		s.setOnDragOver(eventMaster);
+		s.setOnDragEntered(eventMaster);
+		s.setOnDragExited(eventMaster);
+		s.setOnDragDropped(eventMaster);
+		s.setOnDragDone(eventMaster);
+
+		EventHandlerGroupSelect eventGroupSelect = new EventHandlerGroupSelect(s);
+		s.setOnMousePressed(eventGroupSelect);
+		s.setOnMouseDragged(eventGroupSelect);
+		s.setOnMouseReleased(eventGroupSelect);
 	}
 
 	private void initMessageBox(Label l)
@@ -67,8 +73,9 @@ public class MainWindow extends BorderPane
 		bNew.focusTraversableProperty().setValue(false);
 		bNew.setGraphic(iconNew);
 		bNew.setTooltip(new Tooltip("Start a new design graph"));
-		bNew.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
-			if((contentArea.getAllNodes().size() != 0) || (contentArea.getAllConnection().size() != 0)){
+		bNew.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+			if ((contentArea.getAllNodes().size() != 0) || (contentArea.getAllConnection().size() != 0))
+			{
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Confirmation");
 				alert.setHeaderText("You still have graph in the drawing board");
@@ -92,7 +99,7 @@ public class MainWindow extends BorderPane
 					}
 					contentArea.getAllNodes().clear();
 					contentArea.getAllConnection().clear();
-				} 				
+				}
 			}
 		});
 

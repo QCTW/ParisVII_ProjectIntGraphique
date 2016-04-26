@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Vector;
 
+import javafx.geometry.Point3D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import model.BaseNode;
 
 public class MainPane extends Pane implements Serializable
@@ -17,6 +19,7 @@ public class MainPane extends Pane implements Serializable
 	private BaseNode connectFrom;
 	private boolean isSelectMode = false;
 	private ActionType action = ActionType.NONE;
+	private Rectangle groupSelection = null;
 
 	public MainPane()
 	{
@@ -222,6 +225,37 @@ public class MainPane extends Pane implements Serializable
 			if (one.getNodeId() != node.getNodeId())
 				one.setEndNode(false);
 		}
+	}
+
+	public void displayGroupSelection(double clickedX, double clickedY, double currentX, double currentY)
+	{
+		if (groupSelection == null)
+		{
+			groupSelection = new Rectangle();
+			groupSelection.setArcWidth(1);
+			groupSelection.setArcHeight(5);
+			groupSelection.setStroke(Settings.SPECULAR_COLOR);
+			groupSelection.setFill(null);
+			groupSelection.setStrokeWidth(1);
+		} else
+		{
+			this.getChildren().remove(groupSelection);
+		}
+
+		Point3D pointClicked = new Point3D(clickedX, clickedY, 0);
+		// Point3D pointCurrent = new Point3D(currentX, currentY, 0);
+		Point3D convertClicked = this.sceneToLocal(pointClicked);
+		groupSelection.setX(convertClicked.getX());
+		groupSelection.setY(convertClicked.getY());
+		groupSelection.setWidth(currentX - clickedX);
+		groupSelection.setHeight(currentY - clickedY);
+		this.getChildren().add(groupSelection);
+
+	}
+
+	public void displaySelectedGroup()
+	{
+		this.getChildren().remove(groupSelection);
 	}
 
 }
