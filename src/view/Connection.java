@@ -24,6 +24,7 @@ public class Connection extends Group implements Serializable, BaseEdge
 	private final BaseNode nodeFrom, nodeTo;
 	private Label label;
 	private Cylinder bond;
+	private int weight;
 
 	public Connection(BaseNode from, BaseNode to)
 	{
@@ -42,7 +43,7 @@ public class Connection extends Group implements Serializable, BaseEdge
 		bond.setMaterial(material);
 		this.getChildren().add(bond);
 
-		label = new Label(String.valueOf((int) diff.magnitude()));
+		label = new Label();
 		this.getChildren().add(label);
 
 		moveTo(nodeTo.getPoint3D(), nodeFrom.getPoint3D());
@@ -63,9 +64,10 @@ public class Connection extends Group implements Serializable, BaseEdge
 		bond.setHeight(diff.magnitude());
 		bond.getTransforms().addAll(moveToMidpoint, rotateAroundCenter);
 
+		weight = (int) diff.magnitude();
 		label.getTransforms().clear();
 		label.getTransforms().add(moveToMidpoint);
-		label.setText(String.valueOf((int) diff.magnitude()));
+		label.setText(String.valueOf(weight));
 	}
 
 	@Override
@@ -144,6 +146,12 @@ public class Connection extends Group implements Serializable, BaseEdge
 	public void setEnabled()
 	{
 		this.setEffect(null);
+	}
+
+	@Override
+	public int getWeight()
+	{
+		return weight;
 	}
 
 }

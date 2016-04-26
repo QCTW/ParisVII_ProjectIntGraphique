@@ -206,4 +206,22 @@ public class MainPane extends Pane implements Serializable
 		action = atype;
 	}
 
+	public void resetOtherStartNodes(BaseNode node)
+	{
+		for (BaseNode one : vAllNodes)
+		{
+			if (one.getNodeId() != node.getNodeId())
+				one.setStartNode(false);
+		}
+	}
+
+	public void resetOtherEndNodes(BaseNode node)
+	{
+		for (BaseNode one : vAllNodes)
+		{
+			if (one.getNodeId() != node.getNodeId())
+				one.setEndNode(false);
+		}
+	}
+
 }

@@ -263,10 +263,13 @@ public class Cube extends Group implements BaseNode
 		if (isOrNot)
 		{
 			material.setDiffuseColor(Settings.START_COLOR);
+			contentArea.resetOtherStartNodes(this);
 		} else
 		{
-			material.setDiffuseColor(Settings.DIFFUSE_COLOR);
+			if (!isEndNode)
+				material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		}
+		contentArea.updateEdgesDisplay(); // To ensure that all edges are at the back layer
 		isStartNode = isOrNot;
 	}
 
@@ -276,10 +279,13 @@ public class Cube extends Group implements BaseNode
 		if (isOrNot)
 		{
 			material.setDiffuseColor(Settings.END_COLOR);
+			contentArea.resetOtherEndNodes(this);
 		} else
 		{
-			material.setDiffuseColor(Settings.DIFFUSE_COLOR);
+			if (!isStartNode)
+				material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		}
+		contentArea.updateEdgesDisplay(); // To ensure that all edges are at the back layer
 		isEndNode = isOrNot;
 	}
 
