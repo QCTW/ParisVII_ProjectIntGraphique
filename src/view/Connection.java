@@ -140,12 +140,14 @@ public class Connection extends Group implements Serializable, BaseEdge
 	public void setDisabled()
 	{
 		this.setEffect(Settings.DISABLE_EFFECT);
+		this.toBack();
 	}
 
 	@Override
 	public void setEnabled()
 	{
 		this.setEffect(null);
+		this.toBack();
 	}
 
 	@Override

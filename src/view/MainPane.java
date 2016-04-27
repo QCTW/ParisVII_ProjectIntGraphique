@@ -94,26 +94,35 @@ public class MainPane extends Pane implements Serializable
 	{
 		connectFrom = source;
 		isSelectMode = true;
-		if (action == ActionType.ADD_CONNECTION)
+		HashMap<Integer, BaseNode> hmRelatedNodes = new HashMap<Integer, BaseNode>();
+		for (Connection conn : source.getEdges())
 		{
-			for (BaseNode node : vAllNodes)
-			{
-				node.setSelectMode(isSelectMode);
-			}
-		} else
-		{
-			HashMap<Integer, BaseNode> hmRelatedNodes = new HashMap<Integer, BaseNode>();
-			for (Connection conn : source.getEdges())
-			{
-				BaseNode start = conn.getStartPoint();
-				BaseNode end = conn.getEndPoint();
-				hmRelatedNodes.put(start.getNodeId(), start);
-				hmRelatedNodes.put(end.getNodeId(), end);
-			}
+			BaseNode start = conn.getStartPoint();
+			BaseNode end = conn.getEndPoint();
+			hmRelatedNodes.put(start.getNodeId(), start);
+			hmRelatedNodes.put(end.getNodeId(), end);
+		}
 
-			for (BaseNode node : vAllNodes)
+		for (BaseNode node : vAllNodes)
+		{
+			if (action == ActionType.ADD_CONNECTION)
 			{
-				node.setSelectMode(isSelectMode);
+				hmRelatedNodes.remove(source.getNodeId());
+				if (hmRelatedNodes.get(node.getNodeId()) != null)
+				{
+					node.setDisabled();
+					for (Connection con : node.getEdges())
+					{
+						con.setDisabled();
+					}
+				} else
+				{
+					if (node != source)
+						node.setSelectMode(isSelectMode);
+				}
+
+			} else
+			{
 				if (hmRelatedNodes.get(node.getNodeId()) == null)
 				{
 					node.setDisabled();
@@ -130,39 +139,37 @@ public class MainPane extends Pane implements Serializable
 		}
 	}
 
+	private void renableAllObjects()
+	{
+		for (BaseNode node : vAllNodes)
+		{
+			node.setSelectMode(isSelectMode);
+			node.setEnabled();
+			for (Connection oneConn : node.getEdges())
+			{
+				oneConn.setEnabled();
+			}
+		}
+	}
+
 	public void stopNodeSelectMode(BaseNode source)
 	{
 		isSelectMode = false;
+		Connection conn = new Connection(connectFrom, source);
 		if (action == ActionType.ADD_CONNECTION)
 		{
-			Connection con = new Connection(connectFrom, source);
-			con.initGraphic();
-			vConnections.add(con);
-			this.getChildren().add(con);
-			con.toBack();
-			for (BaseNode node : vAllNodes)
-			{
-				node.setSelectMode(isSelectMode);
-			}
-
+			conn.initGraphic();
+			vConnections.add(conn);
+			this.getChildren().add(conn);
 		} else
 		{
-			Connection conn = new Connection(connectFrom, source);
 			conn.delete();
 			int nFound = vConnections.indexOf(conn);
 			System.out.println("Tring to remove connection:" + conn.hashCode() + "@" + nFound);
 			this.getChildren().remove(vConnections.get(nFound));
 			vConnections.remove(conn);
-			for (BaseNode node : vAllNodes)
-			{
-				node.setSelectMode(isSelectMode);
-				node.setEnabled();
-				for (Connection con : node.getEdges())
-				{
-					con.setEnabled();
-				}
-			}
 		}
+		renableAllObjects();
 		source.removeSelected();
 		connectFrom.removeSelected();
 		connectFrom.resetSelectedStartingNode();
