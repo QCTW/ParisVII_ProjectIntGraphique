@@ -10,7 +10,15 @@ import view.Connection;
 
 public interface BaseNode extends Serializable
 {
+	public static long INFINITY = Long.MAX_VALUE;
+
+	public static String INFINITY_SYMBOL = "∞";
+
 	public int getNodeId();
+
+	public long getVertexValue();
+
+	public void setVertexValue(long newValue);
 
 	public String getNodeLabel();
 

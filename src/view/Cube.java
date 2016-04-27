@@ -20,6 +20,7 @@ public class Cube extends Group implements BaseNode
 {
 	private static final long serialVersionUID = 1L;
 	private int nodeId = 0;
+	private long vertexValue = 0;
 	private double posX = 0; // Always = layoutX
 	private double posY = 0; // Always = layoutY
 	private double posZ = 0; // Always = layoutZ
@@ -103,7 +104,8 @@ public class Cube extends Group implements BaseNode
 		posX = this.getTranslateX();
 		posY = this.getTranslateY();
 		posZ = deltaZ;
-		// System.out.println("Cube moveTo(" + x + "," + y + "," + z + ") Layout(" + this.getLayoutX() + "," + this.getLayoutY() + ") Translate(" + this.getTranslateX() + "," + this.getTranslateY());
+		// System.out.println("Cube moveTo(" + deltaX + "," + deltaY + "," + deltaZ + ") Layout(" + this.getLayoutX() + "," + this.getLayoutY() + ") Translate(" + this.getTranslateX() + "," +
+		// this.getTranslateY());
 	}
 
 	@Override
@@ -261,10 +263,12 @@ public class Cube extends Group implements BaseNode
 	{
 		if (isOrNot)
 		{
+			this.setVertexValue(0);
 			material.setDiffuseColor(Settings.START_COLOR);
 			contentArea.resetOtherStartNodes(this);
 		} else
 		{
+			this.setVertexValue(BaseNode.INFINITY);
 			if (!isEndNode)
 				material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		}
@@ -311,6 +315,18 @@ public class Cube extends Group implements BaseNode
 	public void removeSelectedGroup()
 	{
 		contentArea.removeSelectedGroup();
+	}
+
+	@Override
+	public long getVertexValue()
+	{
+		return vertexValue;
+	}
+
+	@Override
+	public void setVertexValue(long newValue)
+	{
+		vertexValue = newValue;
 	}
 
 }
