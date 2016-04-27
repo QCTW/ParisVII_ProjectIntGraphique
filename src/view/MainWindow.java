@@ -16,7 +16,6 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -79,11 +78,11 @@ public class MainWindow extends BorderPane
 			{
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Save Confirmation");
-				alert.setHeaderText("You have not save your current graph in the drawing board");
+				alert.setHeaderText("You have not saved your current graph in the drawing board");
 				alert.setContentText("Create a new graph without saving?");
 
 				ButtonType buttonConfirm = new ButtonType("Yes");
-				ButtonType buttonCancel = new ButtonType("No", ButtonData.CANCEL_CLOSE);
+				ButtonType buttonCancel = new ButtonType("No");
 
 				alert.getButtonTypes().setAll(buttonConfirm, buttonCancel);
 
@@ -95,6 +94,10 @@ public class MainWindow extends BorderPane
 					{
 						allNodes.get(i).delete();
 					}
+				} else
+				{
+					File file = fileChooser.showSaveDialog(new Stage());
+					System.out.println("Save file to " + file.getName());
 				}
 			}
 		});
