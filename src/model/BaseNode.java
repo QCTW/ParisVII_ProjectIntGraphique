@@ -72,12 +72,12 @@ public interface BaseNode extends Serializable
 
 	public void removeEdge(Connection conn);
 
-	public void updateEdgesDisplay();
-
 	public void setAction(ActionType atype);
 
 	public boolean hasNodeToConnect();
 
 	public boolean hasEdgeToDisconnect();
+
+	public void removeSelectedGroup();
 
 }

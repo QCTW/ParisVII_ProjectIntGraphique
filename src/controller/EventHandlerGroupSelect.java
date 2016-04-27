@@ -32,7 +32,7 @@ public class EventHandlerGroupSelect implements EventHandler<MouseEvent>
 			break;
 
 		case "MOUSE_RELEASED":
-			targetNode.displaySelectedGroup(clickedX, clickedY, event.getSceneX(), event.getSceneY());
+			targetNode.detectSelectedNodes(clickedX, clickedY, event.getSceneX(), event.getSceneY());
 			break;
 		}
 		event.consume();

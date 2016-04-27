@@ -263,7 +263,7 @@ public class MainPane extends Pane implements Serializable
 		vGroupSelectedNodes.clear();
 	}
 
-	public void displaySelectedGroup(double clickedX, double clickedY, double currentX, double currentY)
+	public void detectSelectedNodes(double clickedX, double clickedY, double currentX, double currentY)
 	{
 		for (BaseNode node : vAllNodes)
 		{
@@ -271,11 +271,27 @@ public class MainPane extends Pane implements Serializable
 			Point3D pScene = this.localToScene(p);
 			if (pScene.getX() > clickedX && pScene.getX() < currentX && pScene.getY() > clickedY && pScene.getY() < currentY)
 			{
-				node.displaySelected();
-				vGroupSelectedNodes.add(node);
+				addSelected(node);
 			}
 		}
 		this.getChildren().remove(groupSelection);
+	}
+
+	public void addSelected(BaseNode nodeToAdd)
+	{
+		if (!vGroupSelectedNodes.contains(nodeToAdd))
+		{
+			vGroupSelectedNodes.add(nodeToAdd);
+		}
+		nodeToAdd.displaySelected();
+	}
+
+	public void moveSelectedNodes(double deltaX, double deltaY)
+	{
+		for (BaseNode selected : vGroupSelectedNodes)
+		{
+			selected.moveTo(deltaX, deltaY, 0);
+		}
 	}
 
 }

@@ -23,6 +23,8 @@ public class Cube extends Group implements BaseNode
 	private double posX = 0; // Always = layoutX
 	private double posY = 0; // Always = layoutY
 	private double posZ = 0; // Always = layoutZ
+	private double selectedTranslateX = 0;
+	private double selectedTranslateY = 0;
 	private boolean isSelectMode = false;
 	private boolean isSelectedStartingNode = false;
 	private boolean isStartNode = false;
@@ -52,9 +54,10 @@ public class Cube extends Group implements BaseNode
 			this.setOnDragDetected(new EventHandlerStartDrag(this));
 		else // If this is a node in the graph
 		{
-			EventHandlerMove ehm = new EventHandlerMove(this);
+			EventHandlerMove ehm = new EventHandlerMove(this, mp);
 			this.setOnMousePressed(ehm);
 			this.setOnMouseDragged(ehm);
+			this.setOnMouseReleased(ehm);
 			this.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerRightClick(this));
 
 			EventHandlerSelectNode ehsn = new EventHandlerSelectNode(this, mp);
@@ -93,13 +96,13 @@ public class Cube extends Group implements BaseNode
 	}
 
 	@Override
-	public void moveTo(double x, double y, double z)
+	public void moveTo(double deltaX, double deltaY, double deltaZ)
 	{
-		this.setTranslateX(x);
-		this.setTranslateY(y);
-		posX = x;
-		posY = y;
-		posZ = z;
+		this.setTranslateX(selectedTranslateX + deltaX);
+		this.setTranslateY(selectedTranslateY + deltaY);
+		posX = this.getTranslateX();
+		posY = this.getTranslateY();
+		posZ = deltaZ;
 		// System.out.println("Cube moveTo(" + x + "," + y + "," + z + ") Layout(" + this.getLayoutX() + "," + this.getLayoutY() + ") Translate(" + this.getTranslateX() + "," + this.getTranslateY());
 	}
 
@@ -143,6 +146,8 @@ public class Cube extends Group implements BaseNode
 	@Override
 	public void displaySelected()
 	{
+		selectedTranslateX = this.getTranslateX();
+		selectedTranslateY = this.getTranslateY();
 		this.getChildren().add(selectedRing);
 		selectedRing.toBack();
 	}
@@ -213,12 +218,6 @@ public class Cube extends Group implements BaseNode
 	public Vector<Connection> getEdges()
 	{
 		return vConnectedNodes;
-	}
-
-	@Override
-	public void updateEdgesDisplay()
-	{
-		contentArea.updateEdgesDisplay();
 	}
 
 	@Override
@@ -306,6 +305,12 @@ public class Cube extends Group implements BaseNode
 			return true;
 
 		return false;
+	}
+
+	@Override
+	public void removeSelectedGroup()
+	{
+		contentArea.removeSelectedGroup();
 	}
 
 }
