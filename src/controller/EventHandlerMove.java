@@ -36,7 +36,6 @@ public class EventHandlerMove implements EventHandler<MouseEvent>
 				double offsetX = event.getSceneX() - orgSceneX;
 				double offsetY = event.getSceneY() - orgSceneY;
 				targetMainPane.moveSelectedNodes(offsetX, offsetY);
-				targetMainPane.updateEdgesDisplay();
 				break;
 
 			case "MOUSE_RELEASED":

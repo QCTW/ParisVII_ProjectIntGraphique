@@ -154,4 +154,10 @@ public class Connection extends Group implements Serializable, BaseEdge
 		return weight;
 	}
 
+	@Override
+	public void setWeight(int newWeight)
+	{
+		weight = newWeight;
+	}
+
 }

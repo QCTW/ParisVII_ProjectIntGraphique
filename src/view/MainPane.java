@@ -292,6 +292,7 @@ public class MainPane extends Pane implements Serializable
 		{
 			selected.moveTo(deltaX, deltaY, 0);
 		}
+		updateEdgesDisplay();
 	}
 
 }
