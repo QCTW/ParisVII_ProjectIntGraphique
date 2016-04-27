@@ -2,6 +2,7 @@ package view;
 
 import java.io.File;
 import java.util.Optional;
+import java.util.Vector;
 
 import controller.EventHandlerDragAndDrop;
 import controller.EventHandlerGroupSelect;
@@ -66,7 +67,7 @@ public class MainWindow extends BorderPane
 	{
 
 		fileChooser.setTitle("File Navigator");
-		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.bmp", "*.png", "*.jpg", "*.gif"));
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.serialized"));
 
 		Icon iconNew = new Icon(Settings.IMAGE_BNEW);
 		Button bNew = new Button();
@@ -77,9 +78,9 @@ public class MainWindow extends BorderPane
 			if ((contentArea.getAllNodes().size() != 0) || (contentArea.getAllConnection().size() != 0))
 			{
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Confirmation");
-				alert.setHeaderText("You still have graph in the drawing board");
-				alert.setContentText("Continue to create a new graph ?");
+				alert.setTitle("Save Confirmation");
+				alert.setHeaderText("You have not save your current graph in the drawing board");
+				alert.setContentText("Create a new graph without saving?");
 
 				ButtonType buttonConfirm = new ButtonType("Yes");
 				ButtonType buttonCancel = new ButtonType("No", ButtonData.CANCEL_CLOSE);
@@ -89,16 +90,11 @@ public class MainWindow extends BorderPane
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == buttonConfirm)
 				{
-					for (BaseNode n : contentArea.getAllNodes())
+					Vector<BaseNode> allNodes = contentArea.getAllNodes();
+					for (int i = allNodes.size() - 1; i >= 0; i--)
 					{
-						contentArea.getAllNodes().remove(n);
+						allNodes.get(i).delete();
 					}
-					for (Connection n : contentArea.getAllConnection())
-					{
-						contentArea.getAllConnection().remove(n);
-					}
-					contentArea.getAllNodes().clear();
-					contentArea.getAllConnection().clear();
 				}
 			}
 		});
