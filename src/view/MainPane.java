@@ -165,7 +165,6 @@ public class MainPane extends Pane implements Serializable
 		{
 			conn.delete();
 			int nFound = vConnections.indexOf(conn);
-			System.out.println("Tring to remove connection:" + conn.hashCode() + "@" + nFound);
 			this.getChildren().remove(vConnections.get(nFound));
 			vConnections.remove(conn);
 		}

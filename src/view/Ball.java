@@ -154,12 +154,22 @@ public class Ball extends Group implements BaseNode
 		selectedTranslateY = this.getTranslateY();
 		this.getChildren().add(selectedRing);
 		selectedRing.toBack();
+		ensureAllConnectionsUnderNodes();
 	}
 
 	@Override
 	public void removeSelected()
 	{
 		this.getChildren().remove(selectedRing);
+		ensureAllConnectionsUnderNodes();
+	}
+
+	private void ensureAllConnectionsUnderNodes()
+	{
+		for (Connection one : this.getEdges())
+		{
+			one.toBack();
+		}
 	}
 
 	@Override
