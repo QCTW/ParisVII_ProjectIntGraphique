@@ -282,8 +282,8 @@ public class MainPane extends Pane implements Serializable
 		if (!vGroupSelectedNodes.contains(nodeToAdd))
 		{
 			vGroupSelectedNodes.add(nodeToAdd);
+			nodeToAdd.displaySelected();
 		}
-		nodeToAdd.displaySelected();
 	}
 
 	public void moveSelectedNodes(double deltaX, double deltaY)

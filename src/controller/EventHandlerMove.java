@@ -43,8 +43,8 @@ public class EventHandlerMove implements EventHandler<MouseEvent>
 				targetMainPane.removeSelectedGroup();
 				break;
 			}
-			event.consume();
 		}
+		event.consume();
 	}
 
 }

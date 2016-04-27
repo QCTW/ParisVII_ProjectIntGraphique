@@ -36,6 +36,7 @@ public class EventHandlerSelectNode implements EventHandler<MouseEvent>
 				break;
 			}
 		}
+		event.consume();
 	}
 
 }

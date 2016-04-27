@@ -7,8 +7,9 @@ import view.MainPane;
 public class EventHandlerGroupSelect implements EventHandler<MouseEvent>
 {
 
-	MainPane targetNode;
-	double clickedX, clickedY;
+	private final MainPane targetNode;
+	private double clickedX, clickedY;
+	private boolean bStartGrouping = false;
 
 	public EventHandlerGroupSelect(MainPane node)
 	{
@@ -25,14 +26,17 @@ public class EventHandlerGroupSelect implements EventHandler<MouseEvent>
 			clickedX = event.getSceneX();
 			clickedY = event.getSceneY();
 			targetNode.removeSelectedGroup();
+			bStartGrouping = true;
 			break;
 
 		case "MOUSE_DRAGGED":
-			targetNode.displayGroupSelection(clickedX, clickedY, event.getSceneX(), event.getSceneY());
+			if (bStartGrouping)
+				targetNode.displayGroupSelection(clickedX, clickedY, event.getSceneX(), event.getSceneY());
 			break;
 
 		case "MOUSE_RELEASED":
 			targetNode.detectSelectedNodes(clickedX, clickedY, event.getSceneX(), event.getSceneY());
+			bStartGrouping = false;
 			break;
 		}
 		event.consume();
