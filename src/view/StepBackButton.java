@@ -3,14 +3,14 @@ package view;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 
-public class StepButton extends Button
+public class StepBackButton extends Button
 {
 
-	public StepButton()
+	public StepBackButton()
 	{
 		super();
-		Icon iconControl = new Icon(Settings.IMAGE_BSTEP);
-		this.setTooltip(new Tooltip("Play one step"));
+		Icon iconControl = new Icon(Settings.IMAGE_BSTEP_BACKWARD);
+		this.setTooltip(new Tooltip("Play one step forward"));
 		this.setGraphic(iconControl);
 		this.focusTraversableProperty().setValue(false);
 	}

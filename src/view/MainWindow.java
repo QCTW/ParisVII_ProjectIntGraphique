@@ -135,7 +135,8 @@ public class MainWindow extends BorderPane
 		});
 
 		ControlButton bControlButton = new ControlButton();
-		StepButton bStepButton = new StepButton();
+		StepForwardButton bStepForwardButton = new StepForwardButton();
+		StepBackButton bStepBackButton = new StepBackButton();
 		StopButton bStopButton = new StopButton();
 
 		Ball b = new Ball(Settings.ICON_WIDTH_SIZE);
@@ -148,6 +149,6 @@ public class MainWindow extends BorderPane
 		// t.alignmentProperty().set(Pos.CENTER);
 		// h.getChildren().addAll(b, c);
 
-		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStopButton, bStepButton, new Separator(), b, c);
+		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStepBackButton, bStopButton, bStepForwardButton, new Separator(), b, c);
 	}
 }
