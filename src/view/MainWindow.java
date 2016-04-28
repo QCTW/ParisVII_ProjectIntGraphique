@@ -123,10 +123,17 @@ public class MainWindow extends BorderPane
 			{
 				serializeur.setFile(file);
 				MainPane mp = serializeur.deserialize();
-				this.getChildren().remove(contentArea);
-				contentArea = mp;
-				this.setCenter(contentArea);
-				msgBox.setText(serializeur.getMessage());
+				if (mp != null)
+				{
+					this.getChildren().remove(contentArea);
+					contentArea = mp;
+					initContentArea(contentArea);
+					this.setCenter(contentArea);
+					msgBox.setText(serializeur.getMessage());
+				} else
+				{
+					msgBox.setText("Unable to open serialized file:" + file.getAbsolutePath());
+				}
 			} else
 			{
 				System.out.println("No file is chosen");
