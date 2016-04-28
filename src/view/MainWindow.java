@@ -21,6 +21,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.BaseNode;
+import model.Serializor;
 
 public class MainWindow extends BorderPane
 {
@@ -28,6 +29,7 @@ public class MainWindow extends BorderPane
 	MainPane contentArea = new MainPane();
 	Label msgBox = new Label("Drag and drop a ball or cube to start your graph");
 	FileChooser fileChooser = new FileChooser();
+	Serializor serializeur = new Serializor();
 
 	public MainWindow()
 	{
@@ -66,7 +68,7 @@ public class MainWindow extends BorderPane
 	{
 
 		fileChooser.setTitle("File Navigator");
-		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.serialized"));
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Graph serialized file (.ser)", "*.ser"));
 
 		Icon iconNew = new Icon(Settings.IMAGE_BNEW);
 		Button bNew = new Button();
@@ -97,7 +99,15 @@ public class MainWindow extends BorderPane
 				} else
 				{
 					File file = fileChooser.showSaveDialog(new Stage());
-					System.out.println("Save file to " + file.getName());
+					if (file != null)
+					{
+						serializeur.setFile(file);
+						serializeur.serialize(contentArea);
+						msgBox.setText(serializeur.getMessage());
+					} else
+					{
+						System.out.println("No file is chosen");
+					}
 				}
 			}
 		});
@@ -111,7 +121,12 @@ public class MainWindow extends BorderPane
 			File file = fileChooser.showOpenDialog(new Stage());
 			if (file != null)
 			{
-				System.out.println("Open file " + file.getName());
+				serializeur.setFile(file);
+				MainPane mp = serializeur.deserialize();
+				this.getChildren().remove(contentArea);
+				contentArea = mp;
+				this.setCenter(contentArea);
+				msgBox.setText(serializeur.getMessage());
 			} else
 			{
 				System.out.println("No file is chosen");
@@ -127,7 +142,9 @@ public class MainWindow extends BorderPane
 			File file = fileChooser.showSaveDialog(new Stage());
 			if (file != null)
 			{
-				System.out.println("Save to file " + file.getName());
+				serializeur.setFile(file);
+				serializeur.serialize(contentArea);
+				msgBox.setText(serializeur.getMessage());
 			} else
 			{
 				System.out.println("No file is chosen");
