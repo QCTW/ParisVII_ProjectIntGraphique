@@ -23,8 +23,10 @@ public class Settings
 	public static final String IMAGE_BSAVE = "../resource/ic_archive_48pt_3x.png";
 	public static final String IMAGE_BPAUSE = "../resource/ic_pause_circle_outline_48pt_3x.png";
 	public static final String IMAGE_BPLAY = "../resource/ic_play_circle_outline_48pt_3x.png";
-	public static final String IMAGE_BSTEP = "../resource/ic_skip_next_48pt_3x.png";
+	public static final String IMAGE_BSTEP_FORWARD = "../resource/ic_skip_next_48pt_3x.png";
+	public static final String IMAGE_BSTEP_BACKWARD = "../resource/ic_skip_previous_48pt_3x.png";
 	public static final String IMAGE_BSTOP = "../resource/ic_stop_48pt_3x.png";
+	public static final String IMAGE_SELECT = "../resource/ic_location_searching_white_48pt_3x.png";
 	public static final String IMAGE_MITEM_CONNECT = "../resource/ic_linear_scale_48pt_3x.png";
 	public static final String IMAGE_MITEM_DISCONNECT = "../resource/ic_more_horiz_48pt_3x.png";
 	public static final String IMAGE_MITEM_EDIT = "../resource/ic_create_48pt_3x.png";
