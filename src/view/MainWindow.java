@@ -158,7 +158,7 @@ public class MainWindow extends BorderPane
 			}
 		});
 
-		ControlButton bControlButton = new ControlButton();
+		ControlButton bControlButton = new ControlButton(contentArea.getAllNodes(),contentArea.getAllConnection());
 		StepForwardButton bStepForwardButton = new StepForwardButton();
 		StepBackButton bStepBackButton = new StepBackButton();
 		StopButton bStopButton = new StopButton();

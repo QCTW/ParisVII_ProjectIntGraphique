@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import view.Connection;
@@ -12,7 +13,7 @@ public class AlgoDijkstra
 	BaseNode endNode;
 	private Vector<BaseNode> algoNodes;
 	private Vector<Connection> algoConne;
-	private HashMap<BaseNode,Integer> hmPathNode = new HashMap<BaseNode,Integer>();
+	private HashMap<BaseNode,Long> hmPathNode = new HashMap<BaseNode,Long>();
 	private ArrayList<BaseNode> listNode = new ArrayList();
 	private ArrayList<Connection> listConne = new ArrayList();
 	
@@ -21,7 +22,7 @@ public class AlgoDijkstra
 	{
 		algoNodes = allNodes;
 		algoConne = allConnections;
-		for(BaseNode n: allNodes)
+		for(BaseNode n: algoNodes)
 		{
 			if(n.isStartNode())
 			{
@@ -34,9 +35,10 @@ public class AlgoDijkstra
 			}
 		}
 		
-		for(Connection c: allConnections)
+		for(Connection c: algoConne)
 		{
 			listConne.add(c);
+			System.out.println("add une connections");
 		}
 		
 		
@@ -48,6 +50,7 @@ public class AlgoDijkstra
 			for(BaseNode b: listNode)
 			{	
 				int idBegin = b.getNodeId();
+				System.out.println("Node Id "+idBegin);
 				for(Connection c: b.getEdges())
 				{
 					if (listConne.contains(c))
@@ -83,14 +86,21 @@ public class AlgoDijkstra
 					listConne.remove(i);
 				}
 			}
-			hmPathNode.put(minPath, (int) min);
+			hmPathNode.put(minPath, min);
 		}
 		
+		
+		System.out.println("Algo Dijkstra");
+		for(Map.Entry<BaseNode, Long> entry : hmPathNode.entrySet()) {  
+			  
+		    System.out.println("Key = " + entry.getKey().getNodeLabel() + ", Value = " + entry.getValue());  
+		  
+		}  
 	}
 
-	public static void main(String[] args)
-	{
-		System.out.println("Algo Dijkstra");
-	}
+//	public static void main(String[] args)
+//	{
+//		System.out.println("Algo Dijkstra");
+//	}
 
 }
