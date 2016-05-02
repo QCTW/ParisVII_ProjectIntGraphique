@@ -44,15 +44,20 @@ public class AlgoDijkstra
 				{
 					target = to;
 				}
-				
-				System.out.println("Connections between "+oneNode.getNodeId()+" et "+target.getNodeId());
-
-				long lSourceValuePlusWeight = oneNode.getVertexValue() + weight;
-				if (lSourceValuePlusWeight < target.getVertexValue())
-					target.setVertexValue(lSourceValuePlusWeight);
 
 				if (hmDiscoveredNodes.get(target.getNodeId()) == null)
+				{
+					System.out.println(oneNode.getNodeId() + " <-[" + weight + "]-> " + target.getNodeId());
+
+					long lSourceValuePlusWeight = escapeInfinity(oneNode) + weight;
+					if (lSourceValuePlusWeight < target.getVertexValue())
+					{
+						System.out.println(target.getNodeId() + "'s value changes from " + target.getVertexValue() + " to " + lSourceValuePlusWeight);
+						target.setVertexValue(lSourceValuePlusWeight);
+					}
+
 					vUndiscoveredNodes.add(target);
+				}
 			}
 
 			printHashMap(hmDiscoveredNodes);
@@ -62,6 +67,13 @@ public class AlgoDijkstra
 				discoverShortestPath(node);
 			}
 		}
+	}
+
+	private long escapeInfinity(Noeud oneNode)
+	{
+		if (oneNode.getVertexValue() == BaseNode.INFINITY)
+			return 0;
+		return oneNode.getVertexValue();
 	}
 
 	private void printHashMap(HashMap<Integer, Noeud> hmNodes)
@@ -111,12 +123,12 @@ public class AlgoDijkstra
 		Noeud c5 = new Noeud();
 		c5.setEndNode(true);
 
-		Edge con1 = new Edge(b0, c5);
-		con1.setWeight(14);
 		Edge con2 = new Edge(b0, b1);
 		con2.setWeight(7);
 		Edge con3 = new Edge(b0, b2);
 		con3.setWeight(9);
+		Edge con1 = new Edge(b0, c5);
+		con1.setWeight(14);
 		Edge con4 = new Edge(b1, b2);
 		con4.setWeight(10);
 		Edge con5 = new Edge(b1, b3);
