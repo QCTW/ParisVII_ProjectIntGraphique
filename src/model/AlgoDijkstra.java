@@ -44,9 +44,11 @@ public class AlgoDijkstra
 				{
 					target = to;
 				}
+				
+				System.out.println("Connections between "+oneNode.getNodeId()+" et "+target.getNodeId());
 
 				long lSourceValuePlusWeight = oneNode.getVertexValue() + weight;
-				if (target.getVertexValue() == 0 || lSourceValuePlusWeight < target.getVertexValue())
+				if (lSourceValuePlusWeight < target.getVertexValue())
 					target.setVertexValue(lSourceValuePlusWeight);
 
 				if (hmDiscoveredNodes.get(target.getNodeId()) == null)

@@ -10,7 +10,7 @@ public class Noeud implements BaseNode
 	private final Vector<Edge> vConnectedNodes;
 	private final int nodeId;
 	private String nodeLabel = "N/A";
-	private long vertexValue = 0;
+	private long vertexValue = Long.MAX_VALUE;
 	private double posX = 0;
 	private double posY = 0;
 	private double posZ = 0;
