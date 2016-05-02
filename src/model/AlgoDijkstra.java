@@ -45,19 +45,18 @@ public class AlgoDijkstra
 					target = to;
 				}
 
-				if (hmDiscoveredNodes.get(target.getNodeId()) == null)
+				System.out.println(oneNode.getNodeId() + " <-[" + weight + "]-> " + target.getNodeId());
+
+				long lSourceValuePlusWeight = escapeInfinity(oneNode) + weight;
+				if (lSourceValuePlusWeight < target.getVertexValue())
 				{
-					System.out.println(oneNode.getNodeId() + " <-[" + weight + "]-> " + target.getNodeId());
-
-					long lSourceValuePlusWeight = escapeInfinity(oneNode) + weight;
-					if (lSourceValuePlusWeight < target.getVertexValue())
-					{
-						System.out.println(target.getNodeId() + "'s value changes from " + target.getVertexValue() + " to " + lSourceValuePlusWeight);
-						target.setVertexValue(lSourceValuePlusWeight);
-					}
-
-					vUndiscoveredNodes.add(target);
+					System.out.println(target.getNodeId() + "'s value changes from " + target.getVertexValue() + " to " + lSourceValuePlusWeight);
+					target.setVertexValue(lSourceValuePlusWeight);
 				}
+
+				if (hmDiscoveredNodes.get(target.getNodeId()) == null)
+					vUndiscoveredNodes.add(target);
+
 			}
 
 			printHashMap(hmDiscoveredNodes);
