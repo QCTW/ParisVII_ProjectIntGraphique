@@ -10,10 +10,6 @@ public interface BaseEdge extends Serializable
 
 	public void delete();
 
-	public void setDisabled();
-
-	public void setEnabled();
-
 	public int getWeight();
 
 	public void setWeight(int newWeight);

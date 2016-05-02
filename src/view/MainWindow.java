@@ -20,7 +20,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.BaseNode;
 import model.Serializor;
 
 public class MainWindow extends BorderPane
@@ -91,7 +90,7 @@ public class MainWindow extends BorderPane
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == buttonConfirm)
 				{
-					Vector<BaseNode> allNodes = contentArea.getAllNodes();
+					Vector<ViewableNode> allNodes = contentArea.getAllNodes();
 					for (int i = allNodes.size() - 1; i >= 0; i--)
 					{
 						allNodes.get(i).delete();
@@ -158,21 +157,21 @@ public class MainWindow extends BorderPane
 			}
 		});
 
-		ControlButton bControlButton = new ControlButton(contentArea.getAllNodes(),contentArea.getAllConnection());
+		ControlButton bControlButton = new ControlButton(contentArea.getAllNodes(), contentArea.getAllConnection());
 		StepForwardButton bStepForwardButton = new StepForwardButton();
 		StepBackButton bStepBackButton = new StepBackButton();
 		StopButton bStopButton = new StopButton();
 
 		Ball b = new Ball(Settings.ICON_WIDTH_SIZE);
-		b.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(b));
-		b.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverEnlarge(b));
+		b.getFXNode().addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(b.getFXNode()));
+		b.getFXNode().addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverEnlarge(b.getFXNode()));
 		Cube c = new Cube(Settings.ICON_WIDTH_SIZE);
-		c.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(c));
-		c.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverEnlarge(c));
+		c.getFXNode().addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(c.getFXNode()));
+		c.getFXNode().addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverEnlarge(c.getFXNode()));
 		t.setPadding(new Insets(Settings.PADDING_IN_BAR));
 		// t.alignmentProperty().set(Pos.CENTER);
 		// h.getChildren().addAll(b, c);
 
-		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStepBackButton, bStopButton, bStepForwardButton, new Separator(), b, c);
+		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStepBackButton, bStopButton, bStepForwardButton, new Separator(), b.getFXNode(), c.getFXNode());
 	}
 }

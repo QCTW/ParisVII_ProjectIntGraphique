@@ -3,15 +3,15 @@ package controller;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import model.BaseNode;
 import view.ActionMenu;
+import view.ViewableNode;
 
 public class EventHandlerRightClick implements EventHandler<MouseEvent>
 {
-	BaseNode targetNode;
+	ViewableNode targetNode;
 	ActionMenu menuRightClick;
 
-	public EventHandlerRightClick(BaseNode b)
+	public EventHandlerRightClick(ViewableNode b)
 	{
 		targetNode = b;
 		menuRightClick = new ActionMenu(b);

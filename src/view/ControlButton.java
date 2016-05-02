@@ -1,18 +1,15 @@
 package view;
 
-
 import java.util.Vector;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
-import model.AlgoDijkstra;
-import model.BaseNode;
 
-public class ControlButton extends Button 
+public class ControlButton extends Button
 {
 
-	public ControlButton(Vector<BaseNode> allNodes, Vector<Connection> allConnections)
+	public ControlButton(Vector<ViewableNode> allNodes, Vector<ViewableEdge> allConnections)
 	{
 		super();
 		Icon iconPause = new Icon(Settings.IMAGE_BPAUSE);
@@ -21,20 +18,18 @@ public class ControlButton extends Button
 		this.setGraphic(iconControl);
 		this.focusTraversableProperty().setValue(false);
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-			if(this.getGraphic() == iconControl){
+			if (this.getGraphic() == iconControl)
+			{
 				this.getTooltip().setText("Pause");
 				this.setGraphic(iconPause);
-				AlgoDijkstra algo = new AlgoDijkstra(allNodes,allConnections);
-			}
-			else{
+				// AlgoDijkstra algo = new AlgoDijkstra(allNodes,allConnections);
+			} else
+			{
 				this.getTooltip().setText("Start to demonstrate the algorithm");
 				this.setGraphic(iconControl);
 			}
-			
-		}
-		);
+
+		});
 	}
-	
-	
 
 }

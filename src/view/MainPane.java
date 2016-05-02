@@ -9,15 +9,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import model.BaseNode;
+import model.Edge;
 
 public class MainPane extends Pane implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-	private final Vector<BaseNode> vAllNodes = new Vector<BaseNode>();
-	private final Vector<BaseNode> vGroupSelectedNodes = new Vector<BaseNode>();
-	private final Vector<Edge> vDisplayLines = new Vector<Edge>();
-	private final Vector<Connection> vConnections = new Vector<Connection>();
-	private BaseNode connectFrom;
+	private final Vector<ViewableNode> vAllNodes = new Vector<ViewableNode>();
+	private final Vector<ViewableNode> vGroupSelectedNodes = new Vector<ViewableNode>();
+	private final Vector<EdgeHint> vDisplayLines = new Vector<EdgeHint>();
+	private final Vector<ViewableEdge> vConnections = new Vector<ViewableEdge>();
+	private ViewableNode connectFrom;
 	private boolean isSelectMode = false;
 	private ActionType action = ActionType.NONE;
 	private Rectangle groupSelection = null;
@@ -36,7 +37,7 @@ public class MainPane extends Pane implements Serializable
 	public Cube createCube()
 	{
 		Cube c = new Cube(Settings.NODE_SIZE, this);
-		this.getChildren().add(c);
+		this.getChildren().add(c.getFXNode());
 		vAllNodes.add(c);
 		return c;
 	}
@@ -44,17 +45,17 @@ public class MainPane extends Pane implements Serializable
 	public Ball createBall()
 	{
 		Ball b = new Ball(Settings.NODE_SIZE, this);
-		this.getChildren().add(b);
+		this.getChildren().add(b.getFXNode());
 		vAllNodes.add(b);
 		return b;
 	}
 
-	public Vector<BaseNode> getAllNodes()
+	public Vector<ViewableNode> getAllNodes()
 	{
 		return vAllNodes;
 	}
 
-	public Vector<Connection> getAllConnection()
+	public Vector<ViewableEdge> getAllConnection()
 	{
 		return vConnections;
 	}
@@ -62,9 +63,9 @@ public class MainPane extends Pane implements Serializable
 	public void displayEdgesHintsFrom(double x, double y, double z)
 	{
 		removeEdgesHints();
-		for (BaseNode n : vAllNodes)
+		for (ViewableNode n : vAllNodes)
 		{
-			Edge line = new Edge(n.getPosX(), n.getPosY(), x, y);
+			EdgeHint line = new EdgeHint(n.getPosX(), n.getPosY(), x, y);
 			this.getChildren().add(line);
 			vDisplayLines.add(line);
 		}
@@ -73,7 +74,7 @@ public class MainPane extends Pane implements Serializable
 	public void displayEdgesHintsTo(double x, double y, double z)
 	{
 		removeEdgesHints();
-		Edge line = new Edge(connectFrom.getPosX(), connectFrom.getPosY(), x, y);
+		EdgeHint line = new EdgeHint(connectFrom.getPosX(), connectFrom.getPosY(), x, y);
 		this.getChildren().add(line);
 		vDisplayLines.add(line);
 	}
@@ -82,7 +83,7 @@ public class MainPane extends Pane implements Serializable
 	{
 		if (vDisplayLines.size() > 0)
 		{
-			for (Edge l : vDisplayLines)
+			for (EdgeHint l : vDisplayLines)
 			{
 				this.getChildren().remove(l);
 			}
@@ -90,12 +91,12 @@ public class MainPane extends Pane implements Serializable
 		}
 	}
 
-	public void startNodeSelectMode(BaseNode source)
+	public void startNodeSelectMode(ViewableNode source)
 	{
 		connectFrom = source;
 		isSelectMode = true;
 		HashMap<Integer, BaseNode> hmRelatedNodes = new HashMap<Integer, BaseNode>();
-		for (Connection conn : source.getEdges())
+		for (Edge conn : source.getEdges())
 		{
 			BaseNode start = conn.getStartPoint();
 			BaseNode end = conn.getEndPoint();
@@ -103,7 +104,7 @@ public class MainPane extends Pane implements Serializable
 			hmRelatedNodes.put(end.getNodeId(), end);
 		}
 
-		for (BaseNode node : vAllNodes)
+		for (ViewableNode node : vAllNodes)
 		{
 			if (action == ActionType.ADD_CONNECTION)
 			{
@@ -111,9 +112,9 @@ public class MainPane extends Pane implements Serializable
 				if (hmRelatedNodes.get(node.getNodeId()) != null)
 				{
 					node.setDisabled();
-					for (Connection con : node.getEdges())
+					for (Edge con : node.getEdges())
 					{
-						con.setDisabled();
+						((ViewableEdge) con).setDisabled();
 					}
 				} else
 				{
@@ -126,9 +127,9 @@ public class MainPane extends Pane implements Serializable
 				if (hmRelatedNodes.get(node.getNodeId()) == null)
 				{
 					node.setDisabled();
-					for (Connection con : node.getEdges())
+					for (Edge con : node.getEdges())
 					{
-						con.setDisabled();
+						((ViewableEdge) con).setDisabled();
 					}
 				} else
 				{
@@ -141,26 +142,26 @@ public class MainPane extends Pane implements Serializable
 
 	private void renableAllObjects()
 	{
-		for (BaseNode node : vAllNodes)
+		for (ViewableNode node : vAllNodes)
 		{
 			node.setSelectMode(isSelectMode);
 			node.setEnabled();
-			for (Connection oneConn : node.getEdges())
+			for (Edge oneConn : node.getEdges())
 			{
-				oneConn.setEnabled();
+				((ViewableEdge) oneConn).setEnabled();
 			}
 		}
 	}
 
-	public void stopNodeSelectMode(BaseNode source)
+	public void stopNodeSelectMode(ViewableNode source)
 	{
 		isSelectMode = false;
-		Connection conn = new Connection(connectFrom, source);
+		ViewableEdge conn = new ViewableEdge(connectFrom, source);
 		if (action == ActionType.ADD_CONNECTION)
 		{
-			conn.initGraphic();
+			conn.initGraphic(connectFrom, source);
 			vConnections.add(conn);
-			this.getChildren().add(conn);
+			this.getChildren().add(conn.getFXNode());
 		} else
 		{
 			conn.delete();
@@ -182,17 +183,19 @@ public class MainPane extends Pane implements Serializable
 
 	public void updateEdgesDisplay()
 	{
-		for (Connection conn : vConnections)
+		for (ViewableEdge conn : vConnections)
 		{
-			conn.moveTo(conn.getEndPoint().getPoint3D(), conn.getStartPoint().getPoint3D());
-			conn.toBack();
+			ViewableNode from = (ViewableNode) conn.getStartPoint();
+			ViewableNode to = (ViewableNode) conn.getEndPoint();
+			conn.moveTo(to.getPoint3D(), from.getPoint3D());
+			conn.getFXNode().toBack();
 		}
 	}
 
 	public void deleteNode(BaseNode node)
 	{
-		Vector<Connection> conn2Remove = new Vector<Connection>();
-		for (Connection conn : vConnections)
+		Vector<ViewableEdge> conn2Remove = new Vector<ViewableEdge>();
+		for (ViewableEdge conn : vConnections)
 		{
 			if (conn.getEndPoint().getNodeId() == node.getNodeId() || conn.getStartPoint().getNodeId() == node.getNodeId())
 			{
@@ -200,7 +203,7 @@ public class MainPane extends Pane implements Serializable
 			}
 		}
 
-		for (Connection conn : conn2Remove)
+		for (ViewableEdge conn : conn2Remove)
 		{
 			conn.delete();
 			vConnections.remove(conn);
@@ -216,18 +219,18 @@ public class MainPane extends Pane implements Serializable
 		action = atype;
 	}
 
-	public void resetOtherStartNodes(BaseNode node)
+	public void resetOtherStartNodes(ViewableNode node)
 	{
-		for (BaseNode one : vAllNodes)
+		for (ViewableNode one : vAllNodes)
 		{
 			if (one.getNodeId() != node.getNodeId())
 				one.setStartNode(false);
 		}
 	}
 
-	public void resetOtherEndNodes(BaseNode node)
+	public void resetOtherEndNodes(ViewableNode node)
 	{
-		for (BaseNode one : vAllNodes)
+		for (ViewableNode one : vAllNodes)
 		{
 			if (one.getNodeId() != node.getNodeId())
 				one.setEndNode(false);
@@ -262,7 +265,7 @@ public class MainPane extends Pane implements Serializable
 
 	public void removeSelectedGroup()
 	{
-		for (BaseNode node : vAllNodes)
+		for (ViewableNode node : vAllNodes)
 		{
 			node.removeSelected();
 		}
@@ -271,7 +274,7 @@ public class MainPane extends Pane implements Serializable
 
 	public void detectSelectedNodes(double clickedX, double clickedY, double currentX, double currentY)
 	{
-		for (BaseNode node : vAllNodes)
+		for (ViewableNode node : vAllNodes)
 		{
 			Point3D p = new Point3D(node.getPosX(), node.getPosY(), node.getPosZ());
 			Point3D pScene = this.localToScene(p);
@@ -283,7 +286,7 @@ public class MainPane extends Pane implements Serializable
 		this.getChildren().remove(groupSelection);
 	}
 
-	public void addSelected(BaseNode nodeToAdd)
+	public void addSelected(ViewableNode nodeToAdd)
 	{
 		if (!vGroupSelectedNodes.contains(nodeToAdd))
 		{
@@ -294,7 +297,7 @@ public class MainPane extends Pane implements Serializable
 
 	public void moveSelectedNodes(double deltaX, double deltaY)
 	{
-		for (BaseNode selected : vGroupSelectedNodes)
+		for (ViewableNode selected : vGroupSelectedNodes)
 		{
 			selected.moveTo(deltaX, deltaY, 0);
 		}

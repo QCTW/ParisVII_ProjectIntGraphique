@@ -2,15 +2,15 @@ package controller;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import model.BaseNode;
 import view.MainPane;
+import view.ViewableNode;
 
 public class EventHandlerSelectNode implements EventHandler<MouseEvent>
 {
-	BaseNode targetNode;
+	ViewableNode targetNode;
 	MainPane parentPane;
 
-	public EventHandlerSelectNode(BaseNode node, MainPane pane)
+	public EventHandlerSelectNode(ViewableNode node, MainPane pane)
 	{
 		targetNode = node;
 		parentPane = pane;

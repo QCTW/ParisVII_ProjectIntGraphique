@@ -5,11 +5,10 @@ import java.util.Optional;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
-import model.BaseNode;
 
 public class ActionMenu extends ContextMenu
 {
-	private final BaseNode targetNode;
+	private final ViewableNode targetNode;
 	private final MenuItem menuConn;
 	private final MenuItem menuDisconn;
 	private final MenuItem menuEdit;
@@ -17,7 +16,7 @@ public class ActionMenu extends ContextMenu
 	private final MenuItem menuStartPoint;
 	private final MenuItem menuEndPoint;
 
-	public ActionMenu(BaseNode actionNode)
+	public ActionMenu(ViewableNode actionNode)
 	{
 		super();
 		targetNode = actionNode;

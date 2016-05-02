@@ -2,17 +2,17 @@ package controller;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import model.BaseNode;
 import view.MainPane;
+import view.ViewableNode;
 
 public class EventHandlerMove implements EventHandler<MouseEvent>
 {
 	private final MainPane targetMainPane;
-	private final BaseNode targetNode;
+	private final ViewableNode targetNode;
 	private double orgSceneX;
 	private double orgSceneY;
 
-	public EventHandlerMove(BaseNode node, MainPane mp)
+	public EventHandlerMove(ViewableNode node, MainPane mp)
 	{
 		targetNode = node;
 		targetMainPane = mp;

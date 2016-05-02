@@ -4,12 +4,12 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
 
-public class Edge extends Group
+public class EdgeHint extends Group
 {
 	private Line line;
 	private Label label;
 
-	public Edge(double startX, double startY, double endX, double endY)
+	public EdgeHint(double startX, double startY, double endX, double endY)
 	{
 		super();
 		init(startX, startY, endX, endY);

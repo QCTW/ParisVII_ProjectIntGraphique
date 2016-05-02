@@ -13,14 +13,17 @@ public class SelectedRing extends Group
 {
 	RotateTransition rt;
 
-	public SelectedRing(double radious)
+	public SelectedRing()
 	{
 		super();
 		// circle = new Circle(radious / 1.5 + 5);
 		// circle.setStroke(Settings.SPECULAR_COLOR);
 		// circle.setFill(null);
 		// circle.setStrokeWidth(3);
+	}
 
+	public void initGraphicSetting(double radious)
+	{
 		double designedR = radious * 2 + 6;
 		Image img = new Image(getClass().getResourceAsStream(Settings.IMAGE_SELECT));
 		ImageView iv = new ImageView(img);
