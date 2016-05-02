@@ -167,7 +167,7 @@ public class MainPane extends Pane implements Serializable
 		{
 			conn.delete();
 			int nFound = vConnections.indexOf(conn);
-			this.getChildren().remove(vConnections.get(nFound));
+			this.getChildren().remove(vConnections.get(nFound).getFXNode());
 			vConnections.remove(conn);
 		}
 		renableAllObjects();
