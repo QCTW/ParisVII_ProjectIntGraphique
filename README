@@ -1,6 +1,17 @@
-Proect requests:
-1. Be able to choose cycle or triangle for a node.
-2. Be able to add, move, remove a node.
-3. Be able to name/rename a node.
-4. Be able to add, move, remove an edge between 2 nodes.
+This project is designed and implemented by:
+HSIEH Yung-Kun (student id: 21505130 / quincy.tw@gmail.com)
+FAN Yi-Zhe     (student id: 21502157 / fanyizhe3015@gmail.com)
 
+Project version: 0.9 (draft)
+
+Project gitlab location:
+http://moule.informatique.univ-paris-diderot.fr:8080/hsieh/project-int-graphique-m1-2016/tree/master
+
+
+Project implemented:
+1. Be able to drag and drop a cycle or square in 3D to create a node.
+2. Be able to move a node or several nodes with group selection by mouse left click and drag.
+3. Be able to rename a node by mouse right click menu.
+4. Be able to add, remove an edge between 2 nodes by mouse right click menu.
+5. Be able to set as start/end node by mouse right click menu for algorithm Dijkstra to find its shortest path.
+6. Be able to calculate the distance between 2 nodes directly and displayed its distance.
