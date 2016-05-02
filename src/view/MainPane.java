@@ -47,6 +47,7 @@ public class MainPane extends Pane implements Serializable
 		Ball b = new Ball(Settings.NODE_SIZE, this);
 		this.getChildren().add(b.getFXNode());
 		vAllNodes.add(b);
+		System.out.println(b.toString() + " added");
 		return b;
 	}
 

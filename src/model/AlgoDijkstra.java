@@ -46,7 +46,7 @@ public class AlgoDijkstra
 				}
 
 				long lSourceValuePlusWeight = oneNode.getVertexValue() + weight;
-				if (lSourceValuePlusWeight < target.getVertexValue())
+				if (target.getVertexValue() == 0 || lSourceValuePlusWeight < target.getVertexValue())
 					target.setVertexValue(lSourceValuePlusWeight);
 
 				if (hmDiscoveredNodes.get(target.getNodeId()) == null)
@@ -64,12 +64,13 @@ public class AlgoDijkstra
 
 	private void printHashMap(HashMap<Integer, Noeud> hmNodes)
 	{
-		StringBuffer sb = new StringBuffer("====");
+		StringBuffer sb = new StringBuffer("====\n");
 		for (Entry<Integer, Noeud> e : hmNodes.entrySet())
 		{
 			sb.append(e.getKey() + "(" + e.getValue().getVertexValue() + ")\n");
 		}
 		sb.append("====");
+		System.out.println(sb.toString());
 	}
 
 	private Noeud findEndNode(Vector<Noeud> nodes)

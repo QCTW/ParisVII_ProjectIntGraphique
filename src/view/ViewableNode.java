@@ -36,7 +36,7 @@ public abstract class ViewableNode extends Noeud
 		contentArea = mp;
 		initGraphicSetting(size);
 		if (size == Settings.ICON_WIDTH_SIZE)
-			group.setOnDragDetected(new EventHandlerStartDrag(group));
+			group.setOnDragDetected(new EventHandlerStartDrag(this));
 		else
 		{
 			EventHandlerMove ehm = new EventHandlerMove(this, mp);
@@ -123,7 +123,7 @@ public abstract class ViewableNode extends Noeud
 
 	public Point3D getPoint3D()
 	{
-		return group.localToParent(group.getTranslateX(), group.getTranslateY(), 0);
+		return group.localToParent(group.getLayoutX(), group.getLayoutY(), 0);
 	}
 
 	public void delete()
