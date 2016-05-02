@@ -129,7 +129,7 @@ public class AlgoDijkstra
 		Edge con1 = new Edge(b0, c5);
 		con1.setWeight(14);
 		Edge con4 = new Edge(b1, b2);
-		con4.setWeight(10);
+		con4.setWeight(1);
 		Edge con5 = new Edge(b1, b3);
 		con5.setWeight(1);
 		Edge con6 = new Edge(b2, c5);
