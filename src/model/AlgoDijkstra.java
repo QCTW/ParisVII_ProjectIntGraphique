@@ -73,7 +73,7 @@ public class AlgoDijkstra
 		System.out.println(sb.toString());
 	}
 
-	private Noeud findEndNode(Vector<Noeud> nodes)
+	private Noeud findStartNode(Vector<Noeud> nodes)
 	{
 		for (Noeud n : nodes)
 		{
@@ -85,7 +85,7 @@ public class AlgoDijkstra
 		return null;
 	}
 
-	private Noeud findStartNode(Vector<Noeud> nodes)
+	private Noeud findEndNode(Vector<Noeud> nodes)
 	{
 		for (Noeud n : nodes)
 		{
