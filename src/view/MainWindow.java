@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
@@ -172,6 +173,9 @@ public class MainWindow extends BorderPane
 		// t.alignmentProperty().set(Pos.CENTER);
 		// h.getChildren().addAll(b, c);
 
-		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStepBackButton, bStopButton, bStepForwardButton, new Separator(), b.getFXNode(), c.getFXNode());
+		CheckBox cbGraphReady = new CheckBox("Graph is ready");
+
+		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStepBackButton, bStopButton, bStepForwardButton, new Separator(), cbGraphReady, new Separator(), b.getFXNode(),
+				c.getFXNode());
 	}
 }

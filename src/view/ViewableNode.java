@@ -10,6 +10,7 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import model.Edge;
@@ -29,6 +30,7 @@ public abstract class ViewableNode extends Noeud
 	private final Label labelVertexValue = new Label();
 	private final SelectedRing selectedRing = new SelectedRing();
 	private final PhongMaterial material = new PhongMaterial();
+	private Color originalColor = Settings.DIFFUSE_COLOR;
 
 	public ViewableNode(double size, MainPane mp)
 	{
@@ -64,7 +66,8 @@ public abstract class ViewableNode extends Noeud
 			group.getChildren().add(labelName);
 			group.getChildren().add(labelVertexValue);
 		}
-		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
+
+		material.setDiffuseColor(originalColor);
 		material.setSpecularColor(Settings.SPECULAR_COLOR);
 	}
 
@@ -168,19 +171,27 @@ public abstract class ViewableNode extends Noeud
 	}
 
 	@Override
+	public void setVertexValue(long newValue)
+	{
+		super.setVertexValue(newValue);
+		labelVertexValue.setText(Long.toString(getVertexValue()));
+	}
+
+	@Override
 	public void setStartNode(boolean isOrNot)
 	{
 		super.setStartNode(isOrNot);
 		if (isOrNot)
 		{
-			material.setDiffuseColor(Settings.START_COLOR);
+			originalColor = Settings.START_COLOR;
 			contentArea.resetOtherStartNodes(this);
 		} else
 		{
 			this.setVertexValue(INFINITY);
 			if (!isEndNode())
-				material.setDiffuseColor(Settings.DIFFUSE_COLOR);
+				originalColor = Settings.DIFFUSE_COLOR;
 		}
+		material.setDiffuseColor(originalColor);
 		contentArea.updateEdgesDisplay(); // To ensure that all edges are at the back layer
 	}
 
@@ -190,14 +201,37 @@ public abstract class ViewableNode extends Noeud
 		super.setEndNode(isOrNot);
 		if (isOrNot)
 		{
-			material.setDiffuseColor(Settings.END_COLOR);
+			originalColor = Settings.END_COLOR;
 			contentArea.resetOtherEndNodes(this);
 		} else
 		{
 			if (!isStartNode())
-				material.setDiffuseColor(Settings.DIFFUSE_COLOR);
+				originalColor = Settings.DIFFUSE_COLOR;
 		}
+		material.setDiffuseColor(originalColor);
 		contentArea.updateEdgesDisplay(); // To ensure that all edges are at the back layer
+	}
+
+	public void setAlgoSourceNode(boolean isOrNot)
+	{
+		if (isOrNot)
+		{
+			material.setDiffuseColor(Settings.ALGO_SRC_COLOR);
+		} else
+		{
+			material.setDiffuseColor(originalColor);
+		}
+	}
+
+	public void setAlgoDestNode(boolean isOrNot)
+	{
+		if (isOrNot)
+		{
+			material.setDiffuseColor(Settings.ALGO_DEST_COLOR);
+		} else
+		{
+			material.setDiffuseColor(originalColor);
+		}
 	}
 
 	/**
