@@ -34,6 +34,7 @@ public abstract class ViewableNode extends Noeud
 	{
 		super();
 		contentArea = mp;
+		initGraphicSetting(size);
 		if (size == Settings.ICON_WIDTH_SIZE)
 			group.setOnDragDetected(new EventHandlerStartDrag(group));
 		else
@@ -60,11 +61,11 @@ public abstract class ViewableNode extends Noeud
 			labelVertexValue.setText(INFINITY_SYMBOL);
 			labelVertexValue.widthProperty().addListener(new VertexValueChangeListener(labelVertexValue));
 			selectedRing.initGraphicSetting(size);
+			group.getChildren().add(labelName);
+			group.getChildren().add(labelVertexValue);
 		}
 		material.setDiffuseColor(Settings.DIFFUSE_COLOR);
 		material.setSpecularColor(Settings.SPECULAR_COLOR);
-		group.getChildren().add(labelName);
-		group.getChildren().add(labelVertexValue);
 	}
 
 	public void moveTo(double deltaX, double deltaY, double deltaZ)

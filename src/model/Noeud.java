@@ -2,7 +2,6 @@ package model;
 
 import java.util.Vector;
 
-import view.ViewableEdge;
 import view.Utility;
 
 public class Noeud implements BaseNode
