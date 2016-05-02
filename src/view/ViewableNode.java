@@ -156,7 +156,9 @@ public abstract class ViewableNode extends Noeud
 
 	public boolean hasNodeToConnect()
 	{
+
 		int nTotalNodes = contentArea.getAllNodes().size();
+		System.out.println("nTotalNodes=" + nTotalNodes + ";this.getEdges().size()=" + this.getEdges().size());
 		if ((nTotalNodes - 1) > this.getEdges().size())
 			return true;
 

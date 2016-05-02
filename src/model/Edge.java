@@ -1,7 +1,5 @@
 package model;
 
-import view.ViewableEdge;
-
 public class Edge implements BaseEdge
 {
 	private static final long serialVersionUID = 1L;
@@ -50,7 +48,7 @@ public class Edge implements BaseEdge
 	@Override
 	public String toString()
 	{
-		return "Connection " + nodeFrom.getNodeLabel() + " <-> " + nodeTo.getNodeLabel() + " (length:" + weight + ")";
+		return nodeFrom.getNodeLabel() + " <-[" + weight + "]-> " + nodeTo.getNodeLabel();
 	}
 
 	@Override
@@ -83,20 +81,20 @@ public class Edge implements BaseEdge
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ViewableEdge other = (ViewableEdge) obj;
-		if (nodeFrom == null)
-		{
-			if (other.getStartPoint() != null)
-				return false;
-		} else if (nodeFrom.getNodeId() != other.getStartPoint().getNodeId() && nodeFrom.getNodeId() != other.getEndPoint().getNodeId())
-			return false;
-		if (nodeTo == null)
-		{
-			if (other.getEndPoint() != null)
-				return false;
-		} else if (nodeTo.getNodeId() != other.getEndPoint().getNodeId() && nodeTo.getNodeId() != other.getStartPoint().getNodeId())
-			return false;
-		return true;
+
+		Edge other = (Edge) obj;
+		int nSameNodesCount = 0;
+		if (nodeFrom.getNodeId() == other.getStartPoint().getNodeId())
+			nSameNodesCount++;
+		else if (nodeFrom.getNodeId() == other.getEndPoint().getNodeId())
+			nSameNodesCount++;
+
+		if (nodeTo.getNodeId() == other.getEndPoint().getNodeId())
+			nSameNodesCount++;
+		else if (nodeTo.getNodeId() == other.getStartPoint().getNodeId())
+			nSameNodesCount++;
+
+		return (nSameNodesCount == 2) ? true : false;
 	}
 
 }

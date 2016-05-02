@@ -161,14 +161,16 @@ public class MainPane extends Pane implements Serializable
 		if (action == ActionType.ADD_CONNECTION)
 		{
 			conn.initGraphic(connectFrom, source);
+			this.getChildren().add(0, conn.getFXNode());
 			vConnections.add(conn);
-			this.getChildren().add(conn.getFXNode());
 		} else
 		{
-			conn.delete();
+
 			int nFound = vConnections.indexOf(conn);
-			this.getChildren().remove(vConnections.get(nFound).getFXNode());
+			conn = vConnections.get(nFound);
+			this.getChildren().remove(conn.getFXNode());
 			vConnections.remove(conn);
+			conn.delete();
 		}
 		renableAllObjects();
 		source.removeSelected();

@@ -7,7 +7,7 @@ import view.Utility;
 public class Noeud implements BaseNode
 {
 	private static final long serialVersionUID = 1L;
-	private final Vector<Edge> vConnectedNodes;
+	private final Vector<Edge> vEdges;
 	private final int nodeId;
 	private String nodeLabel = "N/A";
 	private long vertexValue = BaseNode.INFINITY;
@@ -19,7 +19,7 @@ public class Noeud implements BaseNode
 
 	public Noeud()
 	{
-		vConnectedNodes = new Vector<Edge>();
+		vEdges = new Vector<Edge>();
 		nodeId = Utility.generateId();
 	}
 
@@ -80,19 +80,20 @@ public class Noeud implements BaseNode
 	@Override
 	public void addEdge(Edge conn)
 	{
-		vConnectedNodes.add(conn);
+		if (!vEdges.contains(conn))
+			vEdges.add(conn);
 	}
 
 	@Override
 	public void removeEdge(Edge conn)
 	{
-		vConnectedNodes.remove(conn);
+		vEdges.remove(conn);
 	}
 
 	@Override
 	public Vector<Edge> getEdges()
 	{
-		return vConnectedNodes;
+		return vEdges;
 	}
 
 	@Override
@@ -130,7 +131,7 @@ public class Noeud implements BaseNode
 	@Override
 	public boolean hasEdgeToDisconnect()
 	{
-		if (vConnectedNodes.size() > 0)
+		if (vEdges.size() > 0)
 			return true;
 
 		return false;
