@@ -193,7 +193,7 @@ public class MainPane extends Pane implements Serializable
 		}
 	}
 
-	public void deleteNode(BaseNode node)
+	public void deleteNode(ViewableNode node)
 	{
 		Vector<ViewableEdge> conn2Remove = new Vector<ViewableEdge>();
 		for (ViewableEdge conn : vConnections)
@@ -208,11 +208,11 @@ public class MainPane extends Pane implements Serializable
 		{
 			conn.delete();
 			vConnections.remove(conn);
-			this.getChildren().remove(conn);
+			this.getChildren().remove(conn.getFXNode());
 		}
 
 		vAllNodes.remove(node);
-		this.getChildren().remove(node);
+		this.getChildren().remove(node.getFXNode());
 	}
 
 	public void setAction(ActionType atype)
