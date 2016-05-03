@@ -25,13 +25,13 @@ public class ControlButton extends Button
 				isPlay = false;
 				this.getTooltip().setText("Pause");
 				this.setGraphic(iconPause);
-				contentArea.stopAlgo();
+				contentArea.startAlgo();
 			} else
 			{
 				isPlay = true;
 				this.getTooltip().setText("Start to demonstrate the algorithm");
 				this.setGraphic(iconPlay);
-				contentArea.startAlgo();
+				contentArea.stopAlgo();
 			}
 
 		});
