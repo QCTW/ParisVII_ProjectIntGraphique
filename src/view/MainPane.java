@@ -329,6 +329,7 @@ public class MainPane extends Pane implements Serializable
 
 	private void playAlgo()
 	{
+		System.out.println("playAlgo() called. vAlgoSteps=" + vAlgoSteps.size() + ";algoPlayIndex=" + algoPlayIndex);
 		while (algoPlayIndex < vAlgoSteps.size())
 		{
 			playOneStepAlgo();
@@ -344,6 +345,7 @@ public class MainPane extends Pane implements Serializable
 
 	public void playOneStepAlgo()
 	{
+		System.out.println("playOneStepAlgo() called. vAlgoSteps=" + vAlgoSteps.size() + ";algoPlayIndex=" + algoPlayIndex);
 		displayOneStep(vAlgoSteps.get(algoPlayIndex));
 		algoPlayIndex++;
 	}
@@ -362,6 +364,7 @@ public class MainPane extends Pane implements Serializable
 			{
 				ViewableNode target = vAllNodes.get(targetIndex);
 				target.displayNoeudStatus(entry.getKey(), clone);
+				System.out.println("displayNoeudStatus:" + target.toString());
 			}
 		}
 	}
