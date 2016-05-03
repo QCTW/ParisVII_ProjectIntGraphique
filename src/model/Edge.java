@@ -1,9 +1,12 @@
 package model;
 
+import view.Utility;
+
 public class Edge implements BaseEdge
 {
 	private static final long serialVersionUID = 1L;
 	private final Noeud nodeFrom, nodeTo;
+	private final int edgeId;
 	private int weight;
 
 	public Edge(Noeud from, Noeud to)
@@ -12,6 +15,11 @@ public class Edge implements BaseEdge
 		nodeTo = to;
 		from.addEdge(this);
 		to.addEdge(this);
+		edgeId = Utility.generateId();
+	}
+	public int getEdgeId()
+	{
+		return this.edgeId;
 	}
 
 	@Override
