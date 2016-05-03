@@ -242,6 +242,17 @@ public class ViewableNode extends Noeud
 		}
 	}
 
+	private void setAlgoDiscoveredNode(boolean isOrNot)
+	{
+		if (isOrNot)
+		{
+			material.setDiffuseColor(Settings.ALGO_DISCOVERED_COLOR);
+		} else
+		{
+			material.setDiffuseColor(originalColor);
+		}
+	}
+
 	public void setAlgoNewVertexValue(long newValue)
 	{
 		labelVertexValue.setText(convertVertexValue(newValue));
@@ -296,12 +307,14 @@ public class ViewableNode extends Noeud
 			setAlgoSourceNode(true);
 			break;
 		case DISCOVERED:
+			setAlgoDiscoveredNode(true);
 			break;
 		case DISCOVERING:
 			break;
 		default:
 			setAlgoDestNode(false);
 			setAlgoSourceNode(false);
+			setAlgoDiscoveredNode(false);
 			setAlgoNewVertexValue(this.getVertexValue());
 			break;
 		}

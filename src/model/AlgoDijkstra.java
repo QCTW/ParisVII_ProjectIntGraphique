@@ -33,7 +33,8 @@ public class AlgoDijkstra
 		{
 			System.out.println("Discovering node: " + oneNode.getNodeId());
 			hmDiscoveredNodes.put(oneNode.getNodeId(), oneNode);
-			animationSteps.add(new Step(givenNodes, oneNode, NoeudStatus.DISCOVERING));
+			oneNode.setStatus(NoeudStatus.DISCOVERING);
+			animationSteps.add(new Step(givenNodes));
 			Vector<Noeud> vUndiscoveredNodes = new Vector<Noeud>();
 			for (Edge conn : oneNode.getEdges())
 			{
@@ -50,32 +51,44 @@ public class AlgoDijkstra
 				}
 
 				System.out.println(oneNode.getNodeId() + " <-[" + weight + "]-> " + target.getNodeId());
-				Step step = new Step(givenNodes);
 				long lSourceValuePlusWeight = escapeInfinity(oneNode) + weight;
-				step.register(oneNode, NoeudStatus.COMPARE_SRC);
-				step.register(target, NoeudStatus.COMPARE_DEST);
+				oneNode.setStatus(NoeudStatus.COMPARE_SRC);
+				target.setStatus(NoeudStatus.COMPARE_DEST);
+				animationSteps.add(new Step(givenNodes));
 				if (lSourceValuePlusWeight < target.getVertexValue())
 				{
 					System.out.println(target.getNodeId() + "'s value changes from " + target.getVertexValue() + " to " + lSourceValuePlusWeight);
 					target.setVertexValue(lSourceValuePlusWeight);
-					step.register(target, NoeudStatus.CHANGEDVALUE);
+					target.setStatus(NoeudStatus.CHANGEDVALUE);
+					animationSteps.add(new Step(givenNodes));
 				}
-
-				animationSteps.add(step);
 
 				if (hmDiscoveredNodes.get(target.getNodeId()) == null)
 					vUndiscoveredNodes.add(target);
 
 			}
 
-			animationSteps.add(new Step(givenNodes, oneNode, NoeudStatus.DISCOVERED));
-
+			oneNode.setStatus(NoeudStatus.DISCOVERED);
+			animationSteps.add(new Step(givenNodes));
 			printHashMap(hmDiscoveredNodes);
+			resetStatusExceptDiscovered();
+			animationSteps.add(new Step(givenNodes));
 
 			for (Noeud node : vUndiscoveredNodes)
 			{
 				discoverShortestPath(node);
 			}
+		}
+	}
+
+	private void resetStatusExceptDiscovered()
+	{
+		for (Noeud one : givenNodes)
+		{
+			if (hmDiscoveredNodes.get(one.getNodeId()) != null)
+				one.setStatus(NoeudStatus.DISCOVERED);
+			else
+				one.setStatus(NoeudStatus.NONE);
 		}
 	}
 

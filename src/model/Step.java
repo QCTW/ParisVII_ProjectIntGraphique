@@ -16,19 +16,6 @@ public class Step
 		stepId = idCount;
 	}
 
-	public Step(Vector<Noeud> allNodes, Noeud nodeToCopy, NoeudStatus status)
-	{
-		this(allNodes);
-		register(nodeToCopy, status);
-	}
-
-	public void register(Noeud deltaNode, NoeudStatus status)
-	{
-		int index = clonedNodes.indexOf(deltaNode);
-		Noeud cloned = clonedNodes.get(index);
-		cloned.setStatus(status);
-	}
-
 	public Vector<Noeud> getSnapShot()
 	{
 		return clonedNodes;
@@ -39,7 +26,7 @@ public class Step
 		return stepId;
 	}
 
-	private Vector<Noeud> snapShot(Vector<Noeud> allNodes)
+	public Vector<Noeud> snapShot(Vector<Noeud> allNodes)
 	{
 		Vector<Noeud> newVector = new Vector<Noeud>();
 		for (Noeud one : allNodes)
