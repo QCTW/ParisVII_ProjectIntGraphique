@@ -22,7 +22,9 @@ public class AlgoDijkstra
 
 	public void start()
 	{
+		System.out.println("Algo Dijkstra started");
 		discoverShortestPath(startNode);
+		System.out.println("Algo Dijkstra finished with " + animationSteps.size() + " steps");
 	}
 
 	private void discoverShortestPath(Noeud oneNode)

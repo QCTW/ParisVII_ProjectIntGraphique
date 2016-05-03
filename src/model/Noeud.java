@@ -155,4 +155,25 @@ public class Noeud implements BaseNode, Cloneable
 		return super.clone();
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return nodeId;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+
+		Noeud node = (Noeud) obj;
+
+		return (nodeId == node.hashCode());
+	}
+
 }

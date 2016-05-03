@@ -13,8 +13,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
+import model.BaseNode;
 import model.Edge;
 import model.Noeud;
+import model.NoeudStatus;
 
 public class ViewableNode extends Noeud
 {
@@ -174,7 +176,14 @@ public class ViewableNode extends Noeud
 	public void setVertexValue(long newValue)
 	{
 		super.setVertexValue(newValue);
-		labelVertexValue.setText(Long.toString(getVertexValue()));
+		labelVertexValue.setText(convertVertexValue(getVertexValue()));
+	}
+
+	private String convertVertexValue(long value)
+	{
+		if (value == BaseNode.INFINITY)
+			return INFINITY_SYMBOL;
+		return Long.toString(value);
 	}
 
 	@Override
@@ -234,6 +243,14 @@ public class ViewableNode extends Noeud
 		}
 	}
 
+	public void setAlgoNewVertexValue(Noeud newNode)
+	{
+		if (newNode != null)
+		{
+			labelVertexValue.setText(Long.toString(newNode.getVertexValue()));
+		}
+	}
+
 	/**
 	 * This method is used to start/end a selection process and is different from setSelectMode
 	 * Implements in View
@@ -266,6 +283,29 @@ public class ViewableNode extends Noeud
 	public Material getMaterial()
 	{
 		return material;
+	}
+
+	public void displayNoeudStatus(NoeudStatus status, Noeud newValue)
+	{
+		switch (status)
+		{
+		case CHANGEDVALUE:
+			setAlgoNewVertexValue(newValue);
+			break;
+		case COMPARE_DEST:
+			setAlgoDestNode(true);
+			break;
+		case COMPARE_SRC:
+			setAlgoSourceNode(true);
+			break;
+		case DISCOVERED:
+			break;
+		case DISCOVERING:
+			break;
+		default:
+			break;
+		}
+
 	}
 
 }

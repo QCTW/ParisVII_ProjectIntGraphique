@@ -33,6 +33,11 @@ public class Step
 		}
 	}
 
+	public HashMap<NoeudStatus, Noeud> getNoeudStatus()
+	{
+		return noeudsToStatus;
+	}
+
 	public int getStepId()
 	{
 		return stepId;
