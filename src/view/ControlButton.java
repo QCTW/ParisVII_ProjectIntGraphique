@@ -7,27 +7,30 @@ import javafx.scene.input.MouseEvent;
 public class ControlButton extends Button
 {
 	private final MainPane contentArea;
+	private boolean isPlaying = false;
 
 	public ControlButton(MainPane mp)
 	{
 		super();
 		contentArea = mp;
 		Icon iconPause = new Icon(Settings.IMAGE_BPAUSE);
-		Icon iconControl = new Icon(Settings.IMAGE_BPLAY);
+		Icon iconPlay = new Icon(Settings.IMAGE_BPLAY);
 		this.setTooltip(new Tooltip("Start to demonstrate the algorithm"));
-		this.setGraphic(iconControl);
+		this.setGraphic(iconPlay);
 		this.focusTraversableProperty().setValue(false);
 		this.setDisable(true);
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-			if (this.getGraphic() == iconControl)
+			if (isPlaying)
 			{
+				isPlaying = false;
 				this.getTooltip().setText("Pause");
 				this.setGraphic(iconPause);
 				contentArea.stopAlgo();
 			} else
 			{
+				isPlaying = true;
 				this.getTooltip().setText("Start to demonstrate the algorithm");
-				this.setGraphic(iconControl);
+				this.setGraphic(iconPlay);
 				contentArea.startAlgo();
 			}
 
