@@ -10,6 +10,7 @@ public class AlgoDijkstra
 	private final Noeud startNode;
 	private final Noeud endNode;
 	private final Vector<Noeud> givenNodes;
+	private final Vector<Noeud> shortestPathNodes = new Vector<Noeud>();
 	private final Vector<Step> animationSteps = new Vector<Step>();
 	private final HashMap<Integer, Noeud> hmDiscoveredNodes = new HashMap<Integer, Noeud>();
 
@@ -24,7 +25,54 @@ public class AlgoDijkstra
 	{
 		System.out.println("Algo Dijkstra started");
 		discoverShortestPath(startNode);
+		findShortestPath(startNode, endNode);
+		for (Noeud one : shortestPathNodes)
+			one.setStatus(NoeudStatus.SHORTEST);
+
+		animationSteps.add(new Step(givenNodes));
+
 		System.out.println("Algo Dijkstra finished with " + animationSteps.size() + " steps");
+	}
+
+	private void findShortestPath(Noeud start, Noeud end)
+	{
+		Noeud minValueNode = null;
+		for (Edge conn : end.getEdges())
+		{
+			Noeud target = findTargetNodeFromSource(conn, end);
+			if (minValueNode == null)
+				minValueNode = target;
+			else if (target.getVertexValue() < minValueNode.getVertexValue())
+			{
+				minValueNode = target;
+			}
+		}
+
+		if (minValueNode.getNodeId() != start.getNodeId())
+		{
+			findShortestPath(start, minValueNode);
+			shortestPathNodes.add(minValueNode);
+		}
+	}
+
+	public Vector<Noeud> getShortestPathNodes()
+	{
+		return shortestPathNodes;
+	}
+
+	private Noeud findTargetNodeFromSource(Edge conn, Noeud source)
+	{
+		Noeud target = null;
+		Noeud from = conn.getStartPoint();
+		Noeud to = conn.getEndPoint();
+		if (from.getNodeId() != source.getNodeId())
+		{
+			target = from;
+		} else if (to.getNodeId() != source.getNodeId())
+		{
+			target = to;
+		}
+		return target;
 	}
 
 	private void discoverShortestPath(Noeud oneNode)
@@ -38,17 +86,8 @@ public class AlgoDijkstra
 			Vector<Noeud> vUndiscoveredNodes = new Vector<Noeud>();
 			for (Edge conn : oneNode.getEdges())
 			{
-				Noeud target = null;
-				Noeud from = conn.getStartPoint();
-				Noeud to = conn.getEndPoint();
+				Noeud target = findTargetNodeFromSource(conn, oneNode);
 				int weight = conn.getWeight();
-				if (from.getNodeId() != oneNode.getNodeId())
-				{
-					target = from;
-				} else if (to.getNodeId() != oneNode.getNodeId())
-				{
-					target = to;
-				}
 
 				System.out.println(oneNode.getNodeId() + " <-[" + weight + "]-> " + target.getNodeId());
 				long lSourceValuePlusWeight = escapeInfinity(oneNode) + weight;

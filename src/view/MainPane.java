@@ -23,10 +23,10 @@ public class MainPane extends Pane implements Serializable
 	private final Vector<ViewableNode> vGroupSelectedNodes = new Vector<ViewableNode>();
 	private final Vector<EdgeHint> vDisplayLines = new Vector<EdgeHint>();
 	private final Vector<ViewableEdge> vConnections = new Vector<ViewableEdge>();
+	private volatile boolean isPlayingAlgo = false;
 	private Vector<Step> vAlgoSteps = null;
 	private ViewableNode connectFrom;
 	private boolean isSelectMode = false;
-	private boolean isPlayingAlgo = false;
 	private ActionType action = ActionType.NONE;
 	private Rectangle groupSelection = null;
 	private AlgoDijkstra algoDijkstra = null;
@@ -335,9 +335,9 @@ public class MainPane extends Pane implements Serializable
 			@Override
 			protected Void call() throws Exception
 			{
-				while (isPlayingAlgo && algoPlayIndex < vAlgoSteps.size())
+				while (algoPlayIndex < vAlgoSteps.size())
 				{
-					if (isCancelled())
+					if (!isPlayingAlgo || isCancelled())
 						break;
 					Platform.runLater(new Runnable()
 					{

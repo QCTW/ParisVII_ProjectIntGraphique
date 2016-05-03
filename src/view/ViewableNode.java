@@ -105,7 +105,7 @@ public class ViewableNode extends Noeud
 	{
 		return ehm;
 	}
-	
+
 	public EventHandlerRightClick getEhrc()
 	{
 		return ehrc;
@@ -245,6 +245,17 @@ public class ViewableNode extends Noeud
 		contentArea.updateEdgesDisplay(); // To ensure that all edges are at the back layer
 	}
 
+	private void setAlgoShortestNode(boolean isOrNot)
+	{
+		if (isOrNot)
+		{
+			material.setDiffuseColor(Settings.ALGO_SHORTEST_COLOR);
+		} else
+		{
+			material.setDiffuseColor(originalColor);
+		}
+	}
+
 	public void setAlgoSourceNode(boolean isOrNot)
 	{
 		if (isOrNot)
@@ -335,6 +346,9 @@ public class ViewableNode extends Noeud
 			setAlgoDiscoveredNode(true);
 			break;
 		case DISCOVERING:
+			break;
+		case SHORTEST:
+			setAlgoShortestNode(true);
 			break;
 		default:
 			setAlgoDestNode(false);
