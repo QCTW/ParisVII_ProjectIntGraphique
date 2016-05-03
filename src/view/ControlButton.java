@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 public class ControlButton extends Button
 {
 	private final MainPane contentArea;
-	private boolean isPlaying = false;
+	private boolean isPlay = true;
 
 	public ControlButton(MainPane mp)
 	{
@@ -20,15 +20,15 @@ public class ControlButton extends Button
 		this.focusTraversableProperty().setValue(false);
 		this.setDisable(true);
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-			if (isPlaying)
+			if (isPlay)
 			{
-				isPlaying = false;
+				isPlay = false;
 				this.getTooltip().setText("Pause");
 				this.setGraphic(iconPause);
 				contentArea.stopAlgo();
 			} else
 			{
-				isPlaying = true;
+				isPlay = true;
 				this.getTooltip().setText("Start to demonstrate the algorithm");
 				this.setGraphic(iconPlay);
 				contentArea.startAlgo();
