@@ -3,6 +3,7 @@ package view;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.Effect;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class Settings
 {
@@ -19,6 +20,7 @@ public class Settings
 	public static final Color ALGO_SRC_COLOR = Color.GREEN;
 	public static final Color ALGO_DEST_COLOR = Color.GREENYELLOW;
 	public static final Color ALGO_DISCOVERED_COLOR = Color.RED;
+	public static final Duration DURATION_PER_FRAME = Duration.millis(1500);
 	public static final String CSS_PATH = "resource/stylesheets.css"; // Note that this file is read from the Main.java
 	public static final String IMAGE_APP_ICON = "resource/ic_share_48pt_3x.png"; // Note that this file is read from the Main.java
 	public static final String IMAGE_BNEW = "../resource/ic_add_box_48pt_3x.png";

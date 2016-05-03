@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Vector;
 
+import javafx.animation.Timeline;
+import javafx.concurrent.Task;
 import javafx.geometry.Point3D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -28,6 +30,7 @@ public class MainPane extends Pane implements Serializable
 	private Rectangle groupSelection = null;
 	private AlgoDijkstra algoDijkstra = null;
 	private int algoPlayIndex = 0;
+	private final Timeline timeline = new Timeline();
 
 	public MainPane()
 	{
@@ -38,6 +41,7 @@ public class MainPane extends Pane implements Serializable
 				displayEdgesHintsTo(event.getX(), event.getY(), event.getZ());
 			}
 		});
+		timeline.setCycleCount(Timeline.INDEFINITE);
 	}
 
 	public Cube createCube()
@@ -53,7 +57,6 @@ public class MainPane extends Pane implements Serializable
 		Ball b = new Ball(Settings.NODE_SIZE, this);
 		this.getChildren().add(b.getFXNode());
 		vAllNodes.add(b);
-		System.out.println(b.toString() + " added");
 		return b;
 	}
 
@@ -320,17 +323,34 @@ public class MainPane extends Pane implements Serializable
 			algoDijkstra = new AlgoDijkstra(Utility.convertViewToModel(vAllNodes));
 			algoDijkstra.start();
 			vAlgoSteps = algoDijkstra.getAnimationSteps();
+
+			// KeyValue kv = new KeyValue(rectBasicTimeline.xProperty(), 300);
+			// KeyFrame kf = new KeyFrame(Settings.DURATION_PER_FRAME, kv);
+			// timeline.getKeyFrames().add(kf);
+			// timeline.play();
 		}
 		playAlgo();
 	}
 
 	private void playAlgo()
 	{
-		while (algoPlayIndex < vAlgoSteps.size())
+		Task<Void> longTask = new Task<Void>()
 		{
-			playOneStepAlgo();
-			break;
-		}
+			@Override
+			protected Void call() throws Exception
+			{
+				while (algoPlayIndex < vAlgoSteps.size())
+				{
+					if (isCancelled())
+						break;
+
+					playOneStepAlgo();
+					Thread.sleep(1000);
+				}
+				return null;
+			}
+		};
+		new Thread(longTask).start();
 	}
 
 	public void playOneStepAlgo()
