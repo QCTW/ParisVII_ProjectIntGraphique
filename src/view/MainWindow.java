@@ -204,6 +204,11 @@ public class MainWindow extends BorderPane
 					if(!(condition1 && condition2))
 					{
 						cbGraphReady.setSelected(false);
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Information");
+						alert.setHeaderText(null);
+						alert.setContentText("You have not set your start node or end node");
+						alert.showAndWait();
 						return;
 					}
 					
