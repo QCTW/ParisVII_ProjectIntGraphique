@@ -11,7 +11,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import model.BaseNode;
 import model.Edge;
@@ -245,7 +244,7 @@ public class ViewableNode extends Noeud
 		contentArea.updateEdgesDisplay(); // To ensure that all edges are at the back layer
 	}
 
-	private void setAlgoShortestNode(boolean isOrNot)
+	public void setAlgoShortestNode(boolean isOrNot)
 	{
 		if (isOrNot)
 		{
@@ -323,7 +322,7 @@ public class ViewableNode extends Noeud
 		isSelectMode = trueOrFalse;
 	}
 
-	public Material getMaterial()
+	public PhongMaterial getMaterial()
 	{
 		return material;
 	}

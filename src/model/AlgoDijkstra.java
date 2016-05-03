@@ -29,6 +29,8 @@ public class AlgoDijkstra
 		for (Noeud one : shortestPathNodes)
 			one.setStatus(NoeudStatus.SHORTEST);
 
+		startNode.setStatus(NoeudStatus.NONE);
+		endNode.setStatus(NoeudStatus.NONE);
 		animationSteps.add(new Step(givenNodes));
 
 		System.out.println("Algo Dijkstra finished with " + animationSteps.size() + " steps");

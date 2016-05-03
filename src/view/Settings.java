@@ -15,11 +15,11 @@ public class Settings
 	public static final int CONTENT_AREA_HEIGHT = 400;
 	public static final Color DIFFUSE_COLOR = Color.rgb(51, 102, 153);// CSS: #336699
 	public static final Color SPECULAR_COLOR = Color.rgb(0, 153, 204);// CSS: #0099cc
-	public static final Color START_COLOR = Color.rgb(204, 204, 255);// CSS:ccccff
-	public static final Color END_COLOR = Color.rgb(204, 0, 255); // CSS:cc00ff
+	public static final Color START_COLOR = Color.YELLOW;
+	public static final Color END_COLOR = Color.RED;
 	public static final Color ALGO_SRC_COLOR = Color.GREEN;
 	public static final Color ALGO_DEST_COLOR = Color.GREENYELLOW;
-	public static final Color ALGO_DISCOVERED_COLOR = Color.RED;
+	public static final Color ALGO_DISCOVERED_COLOR = Color.GRAY;
 	public static final Color ALGO_SHORTEST_COLOR = Color.WHITE;
 	public static final Duration DURATION_PER_FRAME = Duration.millis(1500);
 	public static final String CSS_PATH = "resource/stylesheets.css"; // Note that this file is read from the Main.java

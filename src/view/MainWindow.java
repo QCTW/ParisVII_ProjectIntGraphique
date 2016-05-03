@@ -21,16 +21,16 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.Noeud;
 import model.Serializor;
 
 public class MainWindow extends BorderPane
 {
 	ToolBar toolBar = new ToolBar();
 	MainPane contentArea = new MainPane();
-	Label msgBox = new Label("Drag and drop a ball or cube to start your graph");
+	HBox descBox = new HBox();
 	FileChooser fileChooser = new FileChooser();
 	Serializor serializeur = new Serializor();
 
@@ -39,10 +39,10 @@ public class MainWindow extends BorderPane
 		super();
 		initToolBar(toolBar);
 		initContentArea(contentArea);
-		initMessageBox(msgBox);
+		initMessageBox(descBox);
 		this.setTop(toolBar);
 		this.setCenter(contentArea);
-		this.setBottom(msgBox);
+		this.setBottom(descBox);
 	}
 
 	private void initContentArea(MainPane s)
@@ -62,9 +62,26 @@ public class MainWindow extends BorderPane
 		s.setOnMouseReleased(eventGroupSelect);
 	}
 
-	private void initMessageBox(Label l)
+	private void initMessageBox(HBox hb)
 	{
-
+		Ball bSrc = new Ball(Settings.ICON_WIDTH_SIZE);
+		bSrc.getMaterial().setDiffuseColor(Settings.START_COLOR);
+		Ball bDest = new Ball(Settings.ICON_WIDTH_SIZE);
+		bDest.getMaterial().setDiffuseColor(Settings.END_COLOR);
+		Ball bAlgoSrc = new Ball(Settings.ICON_WIDTH_SIZE);
+		bAlgoSrc.getMaterial().setDiffuseColor(Settings.ALGO_SRC_COLOR);
+		Ball bAlgoDest = new Ball(Settings.ICON_WIDTH_SIZE);
+		bAlgoDest.getMaterial().setDiffuseColor(Settings.ALGO_DEST_COLOR);
+		Ball bAlgoShortest = new Ball(Settings.ICON_WIDTH_SIZE);
+		bAlgoShortest.getMaterial().setDiffuseColor(Settings.ALGO_SHORTEST_COLOR);
+		Label labelSrc = new Label("SRC", bSrc.getFXNode());
+		Label labelDest = new Label("DEST", bDest.getFXNode());
+		Label labelAlgoSrc = new Label("Discovering SRC", bAlgoSrc.getFXNode());
+		Label labelAlgoDest = new Label("Discovering DEST", bAlgoDest.getFXNode());
+		Label labelAlgoShortest = new Label("Shortest", bAlgoShortest.getFXNode());
+		hb.setSpacing(Settings.PADDING_IN_BAR);
+		hb.setPadding(new Insets(Settings.PADDING_IN_BAR));
+		hb.getChildren().addAll(labelSrc, labelDest, labelAlgoSrc, labelAlgoDest, labelAlgoShortest);
 	}
 
 	private void initToolBar(ToolBar t)
@@ -106,7 +123,7 @@ public class MainWindow extends BorderPane
 					{
 						serializeur.setFile(file);
 						serializeur.serialize(contentArea);
-						msgBox.setText(serializeur.getMessage());
+						// msgBox.setText(serializeur.getMessage());
 					} else
 					{
 						System.out.println("No file is chosen");
@@ -132,10 +149,10 @@ public class MainWindow extends BorderPane
 					contentArea = mp;
 					initContentArea(contentArea);
 					this.setCenter(contentArea);
-					msgBox.setText(serializeur.getMessage());
+					// msgBox.setText(serializeur.getMessage());
 				} else
 				{
-					msgBox.setText("Unable to open serialized file:" + file.getAbsolutePath());
+					// msgBox.setText("Unable to open serialized file:" + file.getAbsolutePath());
 				}
 			} else
 			{
@@ -154,7 +171,7 @@ public class MainWindow extends BorderPane
 			{
 				serializeur.setFile(file);
 				serializeur.serialize(contentArea);
-				msgBox.setText(serializeur.getMessage());
+				// msgBox.setText(serializeur.getMessage());
 			} else
 			{
 				System.out.println("No file is chosen");
@@ -180,28 +197,29 @@ public class MainWindow extends BorderPane
 		cbGraphReady.selectedProperty().addListener(new ChangeListener<Boolean>()
 		{
 			@Override
-			public void changed(ObservableValue<? extends Boolean> observalue, Boolean oldValue, Boolean newValue){
+			public void changed(ObservableValue<? extends Boolean> observalue, Boolean oldValue, Boolean newValue)
+			{
 				bControlButton.setDisable(!newValue);
 				bStepForwardButton.setDisable(!newValue);
 				bStepBackButton.setDisable(!newValue);
 				bStopButton.setDisable(!newValue);
-				if(newValue)
-				{	
+				if (newValue)
+				{
 					boolean condition1 = false;
 					boolean condition2 = false;
-					for(ViewableNode v: contentArea.getAllNodes())
+					for (ViewableNode v : contentArea.getAllNodes())
 					{
-						if(condition1 == false && v.isStartNode() == true)
+						if (condition1 == false && v.isStartNode() == true)
 						{
 							condition1 = true;
 						}
-						if(condition2 == false && v.isEndNode() == true)
+						if (condition2 == false && v.isEndNode() == true)
 						{
 							condition2 = true;
 						}
 					}
-					
-					if(!(condition1 && condition2))
+
+					if (!(condition1 && condition2))
 					{
 						cbGraphReady.setSelected(false);
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -211,19 +229,19 @@ public class MainWindow extends BorderPane
 						alert.showAndWait();
 						return;
 					}
-					
-					for(ViewableNode v : contentArea.getAllNodes())
-					{	
+
+					for (ViewableNode v : contentArea.getAllNodes())
+					{
 						v.getEhm().setListener(false);
 						v.getEhrc().setListener(false);
 					}
 					b.getEsd().setListener(false);
 					c.getEsd().setListener(false);
 				}
-				
+
 				else
 				{
-					for(ViewableNode v : contentArea.getAllNodes())
+					for (ViewableNode v : contentArea.getAllNodes())
 					{
 						v.getEhm().setListener(true);
 						v.getEhrc().setListener(true);
@@ -231,7 +249,7 @@ public class MainWindow extends BorderPane
 					b.getEsd().setListener(true);
 					c.getEsd().setListener(true);
 				}
-				
+
 			}
 		});
 
