@@ -34,6 +34,7 @@ public class ViewableNode extends Noeud
 	private Color originalColor = Settings.DIFFUSE_COLOR;
 	private EventHandlerStartDrag esd;
 	private EventHandlerMove ehm;
+	private EventHandlerRightClick ehrc;
 
 	public ViewableNode(double size, MainPane mp)
 	{
@@ -52,7 +53,8 @@ public class ViewableNode extends Noeud
 			group.setOnMousePressed(ehm);
 			group.setOnMouseDragged(ehm);
 			group.setOnMouseReleased(ehm);
-			group.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerRightClick(this));
+			ehrc = new EventHandlerRightClick(this);
+			group.addEventHandler(MouseEvent.MOUSE_CLICKED, ehrc);
 
 			EventHandlerSelectNode ehsn = new EventHandlerSelectNode(this, mp);
 			group.addEventHandler(MouseEvent.MOUSE_CLICKED, ehsn);
@@ -102,6 +104,11 @@ public class ViewableNode extends Noeud
 	public EventHandlerMove getEhm()
 	{
 		return ehm;
+	}
+	
+	public EventHandlerRightClick getEhrc()
+	{
+		return ehrc;
 	}
 
 	public void displaySelected()
