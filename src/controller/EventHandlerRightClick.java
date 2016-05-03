@@ -10,6 +10,7 @@ public class EventHandlerRightClick implements EventHandler<MouseEvent>
 {
 	ViewableNode targetNode;
 	ActionMenu menuRightClick;
+	private boolean unlock = true;
 
 	public EventHandlerRightClick(ViewableNode b)
 	{
@@ -22,11 +23,18 @@ public class EventHandlerRightClick implements EventHandler<MouseEvent>
 	{
 		if (!targetNode.isSelectMode())
 		{
-			if (event.getButton() == MouseButton.SECONDARY)
-			{
-				menuRightClick.refreshMenuItems();
-				menuRightClick.show(targetNode.getFXNode(), event.getScreenX(), event.getScreenY());
+			if(unlock){
+				if (event.getButton() == MouseButton.SECONDARY)
+				{
+					menuRightClick.refreshMenuItems();
+					menuRightClick.show(targetNode.getFXNode(), event.getScreenX(), event.getScreenY());
+				}
 			}
 		}
+	}
+	
+	public void setListener(boolean onOrOff)
+	{
+		unlock = onOrOff;
 	}
 }

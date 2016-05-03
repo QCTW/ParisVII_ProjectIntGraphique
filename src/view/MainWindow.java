@@ -23,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Noeud;
 import model.Serializor;
 
 public class MainWindow extends BorderPane
@@ -185,10 +186,31 @@ public class MainWindow extends BorderPane
 				bStepBackButton.setDisable(!newValue);
 				bStopButton.setDisable(!newValue);
 				if(newValue)
-				{
-					for(ViewableNode v : contentArea.getAllNodes())
+				{	
+					boolean condition1 = false;
+					boolean condition2 = false;
+					for(ViewableNode v: contentArea.getAllNodes())
 					{
+						if(condition1 == false && v.isStartNode() == true)
+						{
+							condition1 = true;
+						}
+						if(condition2 == false && v.isEndNode() == true)
+						{
+							condition2 = true;
+						}
+					}
+					
+					if(!(condition1 && condition2))
+					{
+						cbGraphReady.setSelected(false);
+						return;
+					}
+					
+					for(ViewableNode v : contentArea.getAllNodes())
+					{	
 						v.getEhm().setListener(false);
+						v.getEhrc().setListener(false);
 					}
 					b.getEsd().setListener(false);
 					c.getEsd().setListener(false);
@@ -199,6 +221,7 @@ public class MainWindow extends BorderPane
 					for(ViewableNode v : contentArea.getAllNodes())
 					{
 						v.getEhm().setListener(true);
+						v.getEhrc().setListener(true);
 					}
 					b.getEsd().setListener(true);
 					c.getEsd().setListener(true);
