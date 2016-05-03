@@ -184,6 +184,26 @@ public class MainWindow extends BorderPane
 				bStepForwardButton.setDisable(!newValue);
 				bStepBackButton.setDisable(!newValue);
 				bStopButton.setDisable(!newValue);
+				if(newValue)
+				{
+					for(ViewableNode v : contentArea.getAllNodes())
+					{
+						v.getEhm().setListener(false);
+					}
+					b.getEsd().setListener(false);
+					c.getEsd().setListener(false);
+				}
+				
+				else
+				{
+					for(ViewableNode v : contentArea.getAllNodes())
+					{
+						v.getEhm().setListener(true);
+					}
+					b.getEsd().setListener(true);
+					c.getEsd().setListener(true);
+				}
+				
 			}
 		});
 

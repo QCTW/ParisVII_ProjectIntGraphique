@@ -33,6 +33,8 @@ public class ViewableNode extends Noeud
 	private final SelectedRing selectedRing = new SelectedRing();
 	private final PhongMaterial material = new PhongMaterial();
 	private Color originalColor = Settings.DIFFUSE_COLOR;
+	private EventHandlerStartDrag esd;
+	private EventHandlerMove ehm;
 
 	public ViewableNode(double size, MainPane mp)
 	{
@@ -40,10 +42,15 @@ public class ViewableNode extends Noeud
 		contentArea = mp;
 		initGraphicSetting(size);
 		if (size == Settings.ICON_WIDTH_SIZE)
-			group.setOnDragDetected(new EventHandlerStartDrag(this));
+		{
+			esd = new EventHandlerStartDrag(this);
+			group.setOnDragDetected(esd);
+		}
+			
+			
 		else
 		{
-			EventHandlerMove ehm = new EventHandlerMove(this, mp);
+			ehm = new EventHandlerMove(this, mp);
 			group.setOnMousePressed(ehm);
 			group.setOnMouseDragged(ehm);
 			group.setOnMouseReleased(ehm);
@@ -87,6 +94,16 @@ public class ViewableNode extends Noeud
 	public Group getFXNode()
 	{
 		return group;
+	}
+	
+	public EventHandlerStartDrag getEsd()
+	{
+		return esd;
+	}
+	
+	public EventHandlerMove getEhm()
+	{
+		return ehm;
 	}
 
 	public void displaySelected()
