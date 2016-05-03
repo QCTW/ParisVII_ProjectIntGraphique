@@ -2,7 +2,6 @@ package view;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Vector;
 
 import javafx.geometry.Point3D;
@@ -13,7 +12,6 @@ import model.AlgoDijkstra;
 import model.BaseNode;
 import model.Edge;
 import model.Noeud;
-import model.NoeudStatus;
 import model.Step;
 
 public class MainPane extends Pane implements Serializable
@@ -329,39 +327,35 @@ public class MainPane extends Pane implements Serializable
 
 	private void playAlgo()
 	{
+		System.out.println("playAlgo() called. vAlgoSteps=" + vAlgoSteps.size() + ";algoPlayIndex=" + algoPlayIndex);
 		while (algoPlayIndex < vAlgoSteps.size())
 		{
 			playOneStepAlgo();
-			try
-			{
-				Thread.sleep(1500);
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
+			break;
 		}
 	}
 
 	public void playOneStepAlgo()
 	{
+		System.out.println("playOneStepAlgo() called. vAlgoSteps=" + vAlgoSteps.size() + ";algoPlayIndex=" + algoPlayIndex);
 		displayOneStep(vAlgoSteps.get(algoPlayIndex));
 		algoPlayIndex++;
 	}
 
 	private void displayOneStep(Step step)
 	{
-		HashMap<NoeudStatus, Noeud> map = step.getNoeudStatus();
-		for (Entry<NoeudStatus, Noeud> entry : map.entrySet())
+		Vector<Noeud> snapShot = step.getSnapShot();
+		for (Noeud oneNode : snapShot)
 		{
-			ViewableNode clone = (ViewableNode) entry.getValue();
-			int targetIndex = vAllNodes.indexOf(clone);
+			ViewableNode snap = (ViewableNode) oneNode;
+			int targetIndex = vAllNodes.indexOf(snap);
 			if (targetIndex == -1)
 			{
-				System.out.println("Unable to find node:" + clone.toString());
+				System.out.println("Unable to find node:" + snap.toString());
 			} else
 			{
 				ViewableNode target = vAllNodes.get(targetIndex);
-				target.displayNoeudStatus(entry.getKey(), clone);
+				target.displaySnapShot(snap);
 			}
 		}
 	}

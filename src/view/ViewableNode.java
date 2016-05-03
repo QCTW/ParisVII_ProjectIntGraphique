@@ -16,7 +16,6 @@ import javafx.scene.paint.PhongMaterial;
 import model.BaseNode;
 import model.Edge;
 import model.Noeud;
-import model.NoeudStatus;
 
 public class ViewableNode extends Noeud
 {
@@ -260,12 +259,9 @@ public class ViewableNode extends Noeud
 		}
 	}
 
-	public void setAlgoNewVertexValue(Noeud newNode)
+	public void setAlgoNewVertexValue(long newValue)
 	{
-		if (newNode != null)
-		{
-			labelVertexValue.setText(Long.toString(newNode.getVertexValue()));
-		}
+		labelVertexValue.setText(convertVertexValue(newValue));
 	}
 
 	/**
@@ -302,12 +298,13 @@ public class ViewableNode extends Noeud
 		return material;
 	}
 
-	public void displayNoeudStatus(NoeudStatus status, Noeud newValue)
+	public void displaySnapShot(Noeud snapShot)
 	{
-		switch (status)
+		switch (snapShot.getStatus())
 		{
 		case CHANGEDVALUE:
-			setAlgoNewVertexValue(newValue);
+			setAlgoDestNode(true);
+			setAlgoNewVertexValue(snapShot.getVertexValue());
 			break;
 		case COMPARE_DEST:
 			setAlgoDestNode(true);
@@ -320,6 +317,9 @@ public class ViewableNode extends Noeud
 		case DISCOVERING:
 			break;
 		default:
+			setAlgoDestNode(false);
+			setAlgoSourceNode(false);
+			setAlgoNewVertexValue(this.getVertexValue());
 			break;
 		}
 

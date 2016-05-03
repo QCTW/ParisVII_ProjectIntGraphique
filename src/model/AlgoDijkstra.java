@@ -33,7 +33,7 @@ public class AlgoDijkstra
 		{
 			System.out.println("Discovering node: " + oneNode.getNodeId());
 			hmDiscoveredNodes.put(oneNode.getNodeId(), oneNode);
-			animationSteps.add(new Step(oneNode, NoeudStatus.DISCOVERING));
+			animationSteps.add(new Step(givenNodes, oneNode, NoeudStatus.DISCOVERING));
 			Vector<Noeud> vUndiscoveredNodes = new Vector<Noeud>();
 			for (Edge conn : oneNode.getEdges())
 			{
@@ -50,7 +50,7 @@ public class AlgoDijkstra
 				}
 
 				System.out.println(oneNode.getNodeId() + " <-[" + weight + "]-> " + target.getNodeId());
-				Step step = new Step();
+				Step step = new Step(givenNodes);
 				long lSourceValuePlusWeight = escapeInfinity(oneNode) + weight;
 				step.register(oneNode, NoeudStatus.COMPARE_SRC);
 				step.register(target, NoeudStatus.COMPARE_DEST);
@@ -68,7 +68,7 @@ public class AlgoDijkstra
 
 			}
 
-			animationSteps.add(new Step(oneNode, NoeudStatus.DISCOVERED));
+			animationSteps.add(new Step(givenNodes, oneNode, NoeudStatus.DISCOVERED));
 
 			printHashMap(hmDiscoveredNodes);
 
