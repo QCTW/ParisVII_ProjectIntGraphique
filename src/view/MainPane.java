@@ -315,8 +315,7 @@ public class MainPane extends Pane implements Serializable
 
 	public void startAlgo()
 	{
-		System.out.println("startAlgo() called. vAlgoSteps=" + vAlgoSteps);
-		if (vAlgoSteps == null)
+		if (vAlgoSteps == null || vAlgoSteps.size() == 0)
 		{
 			algoDijkstra = new AlgoDijkstra(Utility.convertViewToModel(vAllNodes));
 			algoDijkstra.start();
@@ -327,7 +326,6 @@ public class MainPane extends Pane implements Serializable
 
 	private void playAlgo()
 	{
-		System.out.println("playAlgo() called. vAlgoSteps=" + vAlgoSteps.size() + ";algoPlayIndex=" + algoPlayIndex);
 		while (algoPlayIndex < vAlgoSteps.size())
 		{
 			playOneStepAlgo();
@@ -337,7 +335,6 @@ public class MainPane extends Pane implements Serializable
 
 	public void playOneStepAlgo()
 	{
-		System.out.println("playOneStepAlgo() called. vAlgoSteps=" + vAlgoSteps.size() + ";algoPlayIndex=" + algoPlayIndex);
 		displayOneStep(vAlgoSteps.get(algoPlayIndex));
 		algoPlayIndex++;
 	}

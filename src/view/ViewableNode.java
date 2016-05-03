@@ -312,11 +312,11 @@ public class ViewableNode extends Noeud
 
 	public void displaySnapShot(Noeud snapShot)
 	{
+		setAlgoNewVertexValue(snapShot.getVertexValue());
 		switch (snapShot.getStatus())
 		{
 		case CHANGEDVALUE:
 			setAlgoDestNode(true);
-			setAlgoNewVertexValue(snapShot.getVertexValue());
 			break;
 		case COMPARE_DEST:
 			setAlgoDestNode(true);
@@ -333,7 +333,6 @@ public class ViewableNode extends Noeud
 			setAlgoDestNode(false);
 			setAlgoSourceNode(false);
 			setAlgoDiscoveredNode(false);
-			setAlgoNewVertexValue(this.getVertexValue());
 			break;
 		}
 
