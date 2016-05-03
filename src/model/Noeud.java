@@ -16,6 +16,7 @@ public class Noeud implements BaseNode, Cloneable
 	private double posZ = 0;
 	private boolean isStartNode = false;
 	private boolean isEndNode = false;
+	private NoeudStatus nodeStatus = NoeudStatus.NONE;
 
 	public Noeud()
 	{
@@ -149,10 +150,27 @@ public class Noeud implements BaseNode, Cloneable
 		vertexValue = newValue;
 	}
 
-	@Override
-	protected Object clone() throws CloneNotSupportedException
+	public NoeudStatus getStatus()
 	{
-		return super.clone();
+		return nodeStatus;
+	}
+
+	public void setStatus(NoeudStatus status)
+	{
+		nodeStatus = status;
+	}
+
+	@Override
+	protected Object clone()
+	{
+		try
+		{
+			return super.clone();
+		} catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override

@@ -1,46 +1,54 @@
 package model;
 
-import java.util.HashMap;
+import java.util.Vector;
 
 public class Step
 {
 	private static int idCount = 0;
 
 	private final int stepId;
-	private final HashMap<NoeudStatus, Noeud> noeudsToStatus = new HashMap<NoeudStatus, Noeud>();
+	private Vector<Noeud> clonedNodes = null;
 
-	public Step()
+	public Step(Vector<Noeud> allNodes)
 	{
+		clonedNodes = snapShot(allNodes);
 		idCount++;
 		stepId = idCount;
 	}
 
-	public Step(Noeud nodeToCopy, NoeudStatus status)
+	public Step(Vector<Noeud> allNodes, Noeud nodeToCopy, NoeudStatus status)
 	{
-		this();
+		this(allNodes);
 		register(nodeToCopy, status);
 	}
 
-	public void register(Noeud nodeToCopy, NoeudStatus status)
+	public void register(Noeud deltaNode, NoeudStatus status)
 	{
-		try
-		{
-			Noeud copy = (Noeud) nodeToCopy.clone();
-			noeudsToStatus.put(status, copy);
-		} catch (CloneNotSupportedException e)
-		{
-			e.printStackTrace();
-		}
+		int index = clonedNodes.indexOf(deltaNode);
+		Noeud cloned = clonedNodes.get(index);
+		cloned.setStatus(status);
 	}
 
-	public HashMap<NoeudStatus, Noeud> getNoeudStatus()
+	public Vector<Noeud> getSnapShot()
 	{
-		return noeudsToStatus;
+		return clonedNodes;
 	}
 
 	public int getStepId()
 	{
 		return stepId;
+	}
+
+	private Vector<Noeud> snapShot(Vector<Noeud> allNodes)
+	{
+		Vector<Noeud> newVector = new Vector<Noeud>();
+		for (Noeud one : allNodes)
+		{
+			Noeud clone = (Noeud) one.clone();
+			if (clone != null)
+				newVector.add(clone);
+		}
+		return newVector;
 	}
 
 }
