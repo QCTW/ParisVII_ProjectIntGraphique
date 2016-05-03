@@ -13,5 +13,6 @@ public class StopButton extends Button
 		this.setTooltip(new Tooltip("Stop demonstrating the algorithm"));
 		this.setGraphic(iconStop);
 		this.focusTraversableProperty().setValue(false);
+		this.setDisable(true);
 	}
 }

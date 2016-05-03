@@ -13,6 +13,7 @@ public class StepForwardButton extends Button
 		this.setTooltip(new Tooltip("Play one step back"));
 		this.setGraphic(iconControl);
 		this.focusTraversableProperty().setValue(false);
+		this.setDisable(true);
 	}
 
 }

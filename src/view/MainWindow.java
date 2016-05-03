@@ -7,6 +7,8 @@ import java.util.Vector;
 import controller.EventHandlerDragAndDrop;
 import controller.EventHandlerGroupSelect;
 import controller.EventHandlerMouseOverEnlarge;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -174,6 +176,16 @@ public class MainWindow extends BorderPane
 		// h.getChildren().addAll(b, c);
 
 		CheckBox cbGraphReady = new CheckBox("Graph is ready");
+		cbGraphReady.selectedProperty().addListener(new ChangeListener<Boolean>()
+		{
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observalue, Boolean oldValue, Boolean newValue){
+				bControlButton.setDisable(!newValue);
+				bStepForwardButton.setDisable(!newValue);
+				bStepBackButton.setDisable(!newValue);
+				bStopButton.setDisable(!newValue);
+			}
+		});
 
 		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStepBackButton, bStopButton, bStepForwardButton, new Separator(), cbGraphReady, new Separator(), b.getFXNode(),
 				c.getFXNode());

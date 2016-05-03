@@ -17,6 +17,7 @@ public class ControlButton extends Button
 		this.setTooltip(new Tooltip("Start to demonstrate the algorithm"));
 		this.setGraphic(iconControl);
 		this.focusTraversableProperty().setValue(false);
+		this.setDisable(true);
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 			if (this.getGraphic() == iconControl)
 			{
