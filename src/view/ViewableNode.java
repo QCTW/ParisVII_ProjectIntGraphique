@@ -45,8 +45,7 @@ public class ViewableNode extends Noeud
 			esd = new EventHandlerStartDrag(this);
 			group.setOnDragDetected(esd);
 		}
-			
-			
+
 		else
 		{
 			ehm = new EventHandlerMove(this, mp);
@@ -94,12 +93,12 @@ public class ViewableNode extends Noeud
 	{
 		return group;
 	}
-	
+
 	public EventHandlerStartDrag getEsd()
 	{
 		return esd;
 	}
-	
+
 	public EventHandlerMove getEhm()
 	{
 		return ehm;
@@ -208,6 +207,7 @@ public class ViewableNode extends Noeud
 		super.setStartNode(isOrNot);
 		if (isOrNot)
 		{
+			super.setEndNode(false);
 			originalColor = Settings.START_COLOR;
 			contentArea.resetOtherStartNodes(this);
 		} else
@@ -226,6 +226,7 @@ public class ViewableNode extends Noeud
 		super.setEndNode(isOrNot);
 		if (isOrNot)
 		{
+			super.setStartNode(false);
 			originalColor = Settings.END_COLOR;
 			contentArea.resetOtherEndNodes(this);
 		} else
