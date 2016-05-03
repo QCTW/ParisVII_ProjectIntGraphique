@@ -8,8 +8,10 @@ import javafx.geometry.Point3D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import model.AlgoDijkstra;
 import model.BaseNode;
 import model.Edge;
+import model.Step;
 
 public class MainPane extends Pane implements Serializable
 {
@@ -18,10 +20,13 @@ public class MainPane extends Pane implements Serializable
 	private final Vector<ViewableNode> vGroupSelectedNodes = new Vector<ViewableNode>();
 	private final Vector<EdgeHint> vDisplayLines = new Vector<EdgeHint>();
 	private final Vector<ViewableEdge> vConnections = new Vector<ViewableEdge>();
+	private Vector<Step> vAlgoSteps = null;
 	private ViewableNode connectFrom;
 	private boolean isSelectMode = false;
 	private ActionType action = ActionType.NONE;
 	private Rectangle groupSelection = null;
+	private AlgoDijkstra algoDijkstra = null;
+	private int algoPlayIndex = 0;
 
 	public MainPane()
 	{
@@ -305,6 +310,49 @@ public class MainPane extends Pane implements Serializable
 			selected.moveTo(deltaX, deltaY, 0);
 		}
 		updateEdgesDisplay();
+	}
+
+	public void startAlgo()
+	{
+		if (vAlgoSteps == null)
+		{
+			algoDijkstra = new AlgoDijkstra(Utility.convertViewToModel(vAllNodes));
+			algoDijkstra.start();
+			vAlgoSteps = algoDijkstra.getAnimationSteps();
+		}
+		playAlgo();
+	}
+
+	private void playAlgo()
+	{
+		while (algoPlayIndex < vAlgoSteps.size())
+		{
+			playOneStepAlgo();
+			try
+			{
+				wait(1000);
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void playOneStepAlgo()
+	{
+		displayOneStep(vAlgoSteps.get(algoPlayIndex));
+		algoPlayIndex++;
+	}
+
+	private void displayOneStep(Step step)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void stopAlgo()
+	{
+
 	}
 
 }

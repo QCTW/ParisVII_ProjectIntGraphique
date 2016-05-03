@@ -10,6 +10,7 @@ public class AlgoDijkstra
 	private final Noeud startNode;
 	private final Noeud endNode;
 	private final Vector<Noeud> givenNodes;
+	private final Vector<Step> animationSteps = new Vector<Step>();
 	private final HashMap<Integer, Noeud> hmDiscoveredNodes = new HashMap<Integer, Noeud>();
 
 	public AlgoDijkstra(Vector<Noeud> allNodes)
@@ -30,6 +31,7 @@ public class AlgoDijkstra
 		{
 			System.out.println("Discovering node: " + oneNode.getNodeId());
 			hmDiscoveredNodes.put(oneNode.getNodeId(), oneNode);
+			animationSteps.add(new Step(oneNode, NoeudStatus.DISCOVERING));
 			Vector<Noeud> vUndiscoveredNodes = new Vector<Noeud>();
 			for (Edge conn : oneNode.getEdges())
 			{
@@ -46,18 +48,25 @@ public class AlgoDijkstra
 				}
 
 				System.out.println(oneNode.getNodeId() + " <-[" + weight + "]-> " + target.getNodeId());
-
+				Step step = new Step();
 				long lSourceValuePlusWeight = escapeInfinity(oneNode) + weight;
+				step.register(oneNode, NoeudStatus.COMPARE_SRC);
+				step.register(target, NoeudStatus.COMPARE_DEST);
 				if (lSourceValuePlusWeight < target.getVertexValue())
 				{
 					System.out.println(target.getNodeId() + "'s value changes from " + target.getVertexValue() + " to " + lSourceValuePlusWeight);
 					target.setVertexValue(lSourceValuePlusWeight);
+					step.register(target, NoeudStatus.CHANGEDVALUE);
 				}
+
+				animationSteps.add(step);
 
 				if (hmDiscoveredNodes.get(target.getNodeId()) == null)
 					vUndiscoveredNodes.add(target);
 
 			}
+
+			animationSteps.add(new Step(oneNode, NoeudStatus.DISCOVERED));
 
 			printHashMap(hmDiscoveredNodes);
 
@@ -66,6 +75,11 @@ public class AlgoDijkstra
 				discoverShortestPath(node);
 			}
 		}
+	}
+
+	public Vector<Step> getAnimationSteps()
+	{
+		return animationSteps;
 	}
 
 	private long escapeInfinity(Noeud oneNode)

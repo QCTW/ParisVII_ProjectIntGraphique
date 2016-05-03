@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Vector;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
@@ -12,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import model.Noeud;
 
 public final class Utility
 {
@@ -62,6 +65,16 @@ public final class Utility
 		clipShape.yProperty().bind(y);
 
 		return frostView;
+	}
+
+	public static Vector<Noeud> convertViewToModel(Vector<ViewableNode> vAllNodes)
+	{
+		Vector<Noeud> vNoeuds = new Vector<Noeud>();
+		for (ViewableNode one : vAllNodes)
+		{
+			vNoeuds.add(one);
+		}
+		return vNoeuds;
 	}
 
 }

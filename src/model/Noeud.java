@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import view.Utility;
 
-public class Noeud implements BaseNode
+public class Noeud implements BaseNode, Cloneable
 {
 	private static final long serialVersionUID = 1L;
 	private final Vector<Edge> vEdges;
@@ -147,6 +147,12 @@ public class Noeud implements BaseNode
 	public void setVertexValue(long newValue)
 	{
 		vertexValue = newValue;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException
+	{
+		return super.clone();
 	}
 
 }

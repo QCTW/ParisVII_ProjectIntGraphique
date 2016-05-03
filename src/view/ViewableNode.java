@@ -16,7 +16,7 @@ import javafx.scene.paint.PhongMaterial;
 import model.Edge;
 import model.Noeud;
 
-public abstract class ViewableNode extends Noeud
+public class ViewableNode extends Noeud
 {
 	public static String INFINITY_SYMBOL = "∞";
 	private static final long serialVersionUID = 1L;
@@ -156,9 +156,7 @@ public abstract class ViewableNode extends Noeud
 
 	public boolean hasNodeToConnect()
 	{
-
 		int nTotalNodes = contentArea.getAllNodes().size();
-		System.out.println("nTotalNodes=" + nTotalNodes + ";this.getEdges().size()=" + this.getEdges().size());
 		if ((nTotalNodes - 1) > this.getEdges().size())
 			return true;
 

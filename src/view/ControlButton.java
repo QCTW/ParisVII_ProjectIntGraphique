@@ -1,17 +1,17 @@
 package view;
 
-import java.util.Vector;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
 public class ControlButton extends Button
 {
+	private final MainPane contentArea;
 
-	public ControlButton(Vector<ViewableNode> allNodes, Vector<ViewableEdge> allConnections)
+	public ControlButton(MainPane mp)
 	{
 		super();
+		contentArea = mp;
 		Icon iconPause = new Icon(Settings.IMAGE_BPAUSE);
 		Icon iconControl = new Icon(Settings.IMAGE_BPLAY);
 		this.setTooltip(new Tooltip("Start to demonstrate the algorithm"));
@@ -22,11 +22,12 @@ public class ControlButton extends Button
 			{
 				this.getTooltip().setText("Pause");
 				this.setGraphic(iconPause);
-				// AlgoDijkstra algo = new AlgoDijkstra(allNodes,allConnections);
+				contentArea.stopAlgo();
 			} else
 			{
 				this.getTooltip().setText("Start to demonstrate the algorithm");
 				this.setGraphic(iconControl);
+				contentArea.startAlgo();
 			}
 
 		});

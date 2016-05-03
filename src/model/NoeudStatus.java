@@ -1,0 +1,6 @@
+package model;
+
+public enum NoeudStatus
+{
+	COMPARE_SRC, COMPARE_DEST, DISCOVERED, DISCOVERING, CHANGEDVALUE
+}
