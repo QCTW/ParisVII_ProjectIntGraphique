@@ -12,6 +12,7 @@ import view.ViewableNode;
 
 public class EventHandlerStartDrag implements EventHandler<MouseEvent>
 {
+	private boolean unlock = true;
 	ViewableNode targetNode;
 
 	public EventHandlerStartDrag(ViewableNode node)
@@ -22,15 +23,23 @@ public class EventHandlerStartDrag implements EventHandler<MouseEvent>
 	@Override
 	public void handle(MouseEvent event)
 	{
-		Dragboard db = targetNode.getFXNode().startDragAndDrop(TransferMode.COPY_OR_MOVE);
-		SnapshotParameters spParams = new SnapshotParameters();
-		spParams.setFill(Color.TRANSPARENT);
-		WritableImage img = targetNode.getFXNode().snapshot(spParams, null);
-		ClipboardContent content = new ClipboardContent();
-		content.putString(targetNode.getClass().getSimpleName());
-		db.setContent(content);
-		db.setDragView(img);
-		event.consume();
+		if(unlock)
+		{
+			Dragboard db = targetNode.getFXNode().startDragAndDrop(TransferMode.COPY_OR_MOVE);
+			SnapshotParameters spParams = new SnapshotParameters();
+			spParams.setFill(Color.TRANSPARENT);
+			WritableImage img = targetNode.getFXNode().snapshot(spParams, null);
+			ClipboardContent content = new ClipboardContent();
+			content.putString(targetNode.getClass().getSimpleName());
+			db.setContent(content);
+			db.setDragView(img);
+			event.consume();
+		}
+	}
+	
+	public void setListener(boolean onOrOff)
+	{
+		unlock = onOrOff;
 	}
 
 }
