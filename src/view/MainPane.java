@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Vector;
 
-import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Point3D;
 import javafx.scene.input.MouseEvent;
@@ -26,11 +26,11 @@ public class MainPane extends Pane implements Serializable
 	private Vector<Step> vAlgoSteps = null;
 	private ViewableNode connectFrom;
 	private boolean isSelectMode = false;
+	private boolean isPlayingAlgo = false;
 	private ActionType action = ActionType.NONE;
 	private Rectangle groupSelection = null;
 	private AlgoDijkstra algoDijkstra = null;
 	private int algoPlayIndex = 0;
-	private final Timeline timeline = new Timeline();
 
 	public MainPane()
 	{
@@ -41,7 +41,6 @@ public class MainPane extends Pane implements Serializable
 				displayEdgesHintsTo(event.getX(), event.getY(), event.getZ());
 			}
 		});
-		timeline.setCycleCount(Timeline.INDEFINITE);
 	}
 
 	public Cube createCube()
@@ -318,18 +317,15 @@ public class MainPane extends Pane implements Serializable
 
 	public void startAlgo()
 	{
+		isPlayingAlgo = true;
 		if (vAlgoSteps == null || vAlgoSteps.size() == 0)
 		{
 			algoDijkstra = new AlgoDijkstra(Utility.convertViewToModel(vAllNodes));
 			algoDijkstra.start();
 			vAlgoSteps = algoDijkstra.getAnimationSteps();
 
-			// KeyValue kv = new KeyValue(rectBasicTimeline.xProperty(), 300);
-			// KeyFrame kf = new KeyFrame(Settings.DURATION_PER_FRAME, kv);
-			// timeline.getKeyFrames().add(kf);
-			// timeline.play();
+			playAlgo();
 		}
-		playAlgo();
 	}
 
 	private void playAlgo()
@@ -339,12 +335,18 @@ public class MainPane extends Pane implements Serializable
 			@Override
 			protected Void call() throws Exception
 			{
-				while (algoPlayIndex < vAlgoSteps.size())
+				while (isPlayingAlgo && algoPlayIndex < vAlgoSteps.size())
 				{
 					if (isCancelled())
 						break;
-
-					playOneStepAlgo();
+					Platform.runLater(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							playOneStepAlgo();
+						}
+					});
 					Thread.sleep(1000);
 				}
 				return null;
@@ -379,7 +381,7 @@ public class MainPane extends Pane implements Serializable
 
 	public void stopAlgo()
 	{
-
+		isPlayingAlgo = false;
 	}
 
 }
