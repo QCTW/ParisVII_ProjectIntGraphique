@@ -74,14 +74,17 @@ public class MainWindow extends BorderPane
 		bAlgoDest.getMaterial().setDiffuseColor(Settings.ALGO_DEST_COLOR);
 		Ball bAlgoShortest = new Ball(Settings.ICON_WIDTH_SIZE);
 		bAlgoShortest.getMaterial().setDiffuseColor(Settings.ALGO_SHORTEST_COLOR);
+		Ball bAlgoDiscovered = new Ball(Settings.ICON_WIDTH_SIZE);
+		bAlgoDiscovered.getMaterial().setDiffuseColor(Settings.ALGO_DISCOVERED_COLOR);
 		Label labelSrc = new Label("SRC", bSrc.getFXNode());
 		Label labelDest = new Label("DEST", bDest.getFXNode());
 		Label labelAlgoSrc = new Label("Discovering SRC", bAlgoSrc.getFXNode());
 		Label labelAlgoDest = new Label("Discovering DEST", bAlgoDest.getFXNode());
 		Label labelAlgoShortest = new Label("Shortest", bAlgoShortest.getFXNode());
+		Label labelAlgoDiscovered = new Label("Discovered", bAlgoDiscovered.getFXNode());
 		hb.setSpacing(Settings.PADDING_IN_BAR);
 		hb.setPadding(new Insets(Settings.PADDING_IN_BAR));
-		hb.getChildren().addAll(labelSrc, labelDest, labelAlgoSrc, labelAlgoDest, labelAlgoShortest);
+		hb.getChildren().addAll(labelSrc, labelDest, labelAlgoSrc, labelAlgoDest, labelAlgoShortest, labelAlgoDiscovered);
 	}
 
 	private void initToolBar(ToolBar t)
