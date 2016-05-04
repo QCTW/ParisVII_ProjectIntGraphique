@@ -114,7 +114,8 @@ public class ViewableNode extends Noeud
 	{
 		selectedTranslateX = group.getTranslateX();
 		selectedTranslateY = group.getTranslateY();
-		group.getChildren().add(0, selectedRing);
+		if (!group.getChildren().contains(selectedRing))
+			group.getChildren().add(0, selectedRing);
 		ensureAllConnectionsUnderNodes();
 	}
 

@@ -170,25 +170,31 @@ public class MainPane extends Pane implements Serializable
 	public void stopNodeSelectMode(ViewableNode source)
 	{
 		isSelectMode = false;
-		ViewableEdge conn = new ViewableEdge(connectFrom, source);
-		if (action == ActionType.ADD_CONNECTION)
+		if (source != null)
 		{
-			conn.initGraphic(connectFrom, source);
-			this.getChildren().add(0, conn.getFXNode());
-			vConnections.add(conn);
-		} else
-		{
+			ViewableEdge conn = new ViewableEdge(connectFrom, source);
+			if (action == ActionType.ADD_CONNECTION)
+			{
+				conn.initGraphic(connectFrom, source);
+				this.getChildren().add(0, conn.getFXNode());
+				vConnections.add(conn);
+			} else
+			{
 
-			int nFound = vConnections.indexOf(conn);
-			conn = vConnections.get(nFound);
-			this.getChildren().remove(conn.getFXNode());
-			vConnections.remove(conn);
-			conn.delete();
+				int nFound = vConnections.indexOf(conn);
+				conn = vConnections.get(nFound);
+				this.getChildren().remove(conn.getFXNode());
+				vConnections.remove(conn);
+				conn.delete();
+			}
+			source.removeSelected();
 		}
 		renableAllObjects();
-		source.removeSelected();
-		connectFrom.removeSelected();
-		connectFrom.resetSelectedStartingNode();
+		if (connectFrom != null)
+		{
+			connectFrom.removeSelected();
+			connectFrom.resetSelectedStartingNode();
+		}
 		action = ActionType.NONE;
 	}
 
@@ -546,6 +552,12 @@ public class MainPane extends Pane implements Serializable
 	public void updateControlPanel()
 	{
 		panel.update(algoPlayIndex, vAlgoSteps);
+	}
+
+	public void cancelCurrentAction()
+	{
+		stopNodeSelectMode(null);
+		removeEdgesHints();
 	}
 
 }

@@ -264,4 +264,9 @@ public class MainWindow extends BorderPane
 
 		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), controlpanel, new Separator(), cbGraphReady, new Separator(), b.getFXNode(), c.getFXNode());
 	}
+
+	public void typedEsc()
+	{
+		contentArea.cancelCurrentAction();
+	}
 }
