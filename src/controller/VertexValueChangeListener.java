@@ -17,7 +17,7 @@ public class VertexValueChangeListener implements ChangeListener<Number>
 	@Override
 	public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
 	{
-		targetLabel.relocate(targetLabel.getTranslateX() - newValue.doubleValue() / 2, targetLabel.getTranslateY() - Settings.NODE_SIZE);
+		targetLabel.relocate(targetLabel.getTranslateX() - newValue.doubleValue() / 2, targetLabel.getTranslateY() - Settings.NODE_SIZE - 3);
 	}
 
 }

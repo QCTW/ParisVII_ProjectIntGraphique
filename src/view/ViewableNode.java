@@ -68,6 +68,7 @@ public class ViewableNode extends Noeud
 		{
 			labelName.setText(getNodeLabel());
 			labelName.widthProperty().addListener(new LabelTextChangeListener(labelName));
+			labelVertexValue.getStyleClass().add("value-label-node");
 			labelVertexValue.setText(INFINITY_SYMBOL);
 			labelVertexValue.widthProperty().addListener(new VertexValueChangeListener(labelVertexValue));
 			selectedRing.initGraphicSetting(size);
@@ -224,6 +225,7 @@ public class ViewableNode extends Noeud
 				originalColor = Settings.DIFFUSE_COLOR;
 		}
 		material.setDiffuseColor(originalColor);
+		labelVertexValue.setTextFill(originalColor);
 		contentArea.updateEdgesDisplay(); // To ensure that all edges are at the back layer
 	}
 
@@ -242,6 +244,7 @@ public class ViewableNode extends Noeud
 				originalColor = Settings.DIFFUSE_COLOR;
 		}
 		material.setDiffuseColor(originalColor);
+		labelVertexValue.setTextFill(originalColor);
 		contentArea.updateEdgesDisplay(); // To ensure that all edges are at the back layer
 	}
 
@@ -250,9 +253,11 @@ public class ViewableNode extends Noeud
 		if (isOrNot)
 		{
 			material.setDiffuseColor(Settings.ALGO_SHORTEST_COLOR);
+			labelVertexValue.setTextFill(Settings.ALGO_SHORTEST_COLOR);
 		} else
 		{
 			material.setDiffuseColor(originalColor);
+			labelVertexValue.setTextFill(originalColor);
 		}
 	}
 
@@ -261,9 +266,11 @@ public class ViewableNode extends Noeud
 		if (isOrNot)
 		{
 			material.setDiffuseColor(Settings.ALGO_SRC_COLOR);
+			labelVertexValue.setTextFill(Settings.ALGO_SRC_COLOR);
 		} else
 		{
 			material.setDiffuseColor(originalColor);
+			labelVertexValue.setTextFill(originalColor);
 		}
 	}
 
@@ -272,9 +279,11 @@ public class ViewableNode extends Noeud
 		if (isOrNot)
 		{
 			material.setDiffuseColor(Settings.ALGO_DEST_COLOR);
+			labelVertexValue.setTextFill(Settings.ALGO_DEST_COLOR);
 		} else
 		{
 			material.setDiffuseColor(originalColor);
+			labelVertexValue.setTextFill(originalColor);
 		}
 	}
 
@@ -283,9 +292,11 @@ public class ViewableNode extends Noeud
 		if (isOrNot)
 		{
 			material.setDiffuseColor(Settings.ALGO_DISCOVERED_COLOR);
+			labelVertexValue.setTextFill(Settings.ALGO_DISCOVERED_COLOR);
 		} else
 		{
 			material.setDiffuseColor(originalColor);
+			labelVertexValue.setTextFill(originalColor);
 		}
 	}
 

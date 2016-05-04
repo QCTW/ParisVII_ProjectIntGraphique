@@ -1,7 +1,7 @@
 .label
 {
 	-fx-text-alignment: center;
-	-fx-font: 20px "Serif";
+	-fx-font: 18px "Serif";
 	-fx-text-fill: #0099cc;
 }
 
@@ -43,4 +43,17 @@
 .stackpane
 {
     -fx-background-color: #333366;
+}
+
+.value-label-node
+{
+	-fx-font: 26px "fantasy";
+	-fx-text-alignment: center;
+}
+
+.value-label-edge
+{
+	-fx-font: 26px "fantasy";
+	-fx-text-alignment: center;
+	-fx-text-fill: #00ffff;
 }

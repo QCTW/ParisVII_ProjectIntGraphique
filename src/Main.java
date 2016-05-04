@@ -1,7 +1,5 @@
 
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import view.MainWindow;
@@ -14,9 +12,6 @@ import javafx.scene.input.KeyEvent;
 
 public class Main extends Application
 {
-	private final DoubleProperty zoomProperty = new SimpleDoubleProperty(200);
-	private final double zoomSize = 10;
-
 	@Override
 	public void start(Stage primaryStage)
 	{

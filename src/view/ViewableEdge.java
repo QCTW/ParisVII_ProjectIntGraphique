@@ -36,6 +36,7 @@ public class ViewableEdge extends Edge
 		group.getChildren().add(bond);
 
 		label = new Label();
+		label.getStyleClass().add("value-label-edge");
 		group.getChildren().add(label);
 
 		moveTo(to.getPoint3D(), from.getPoint3D());
@@ -88,9 +89,11 @@ public class ViewableEdge extends Edge
 		if (isOrNot)
 		{
 			material.setDiffuseColor(Settings.ALGO_SHORTEST_COLOR);
+			label.setTextFill(Settings.ALGO_SHORTEST_COLOR);
 		} else
 		{
 			material.setDiffuseColor(originalColor);
+			label.setTextFill(originalColor);
 		}
 	}
 
@@ -99,9 +102,11 @@ public class ViewableEdge extends Edge
 		if (isOrNot)
 		{
 			material.setDiffuseColor(Settings.ALGO_SRC_COLOR);
+			label.setTextFill(Settings.ALGO_SRC_COLOR);
 		} else
 		{
 			material.setDiffuseColor(originalColor);
+			label.setTextFill(originalColor);
 		}
 	}
 
