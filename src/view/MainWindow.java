@@ -33,6 +33,12 @@ public class MainWindow extends BorderPane
 	HBox descBox = new HBox();
 	FileChooser fileChooser = new FileChooser();
 	Serializor serializeur = new Serializor();
+	Ball bSrc = new Ball(Settings.ICON_WIDTH_SIZE);
+	Ball bDest = new Ball(Settings.ICON_WIDTH_SIZE);
+	Ball bAlgoSrc = new Ball(Settings.ICON_WIDTH_SIZE);
+	Ball bAlgoDest = new Ball(Settings.ICON_WIDTH_SIZE);
+	Ball bAlgoShortest = new Ball(Settings.ICON_WIDTH_SIZE);
+	Ball bAlgoDiscovered = new Ball(Settings.ICON_WIDTH_SIZE);
 
 	public MainWindow()
 	{
@@ -64,17 +70,11 @@ public class MainWindow extends BorderPane
 
 	private void initMessageBox(HBox hb)
 	{
-		Ball bSrc = new Ball(Settings.ICON_WIDTH_SIZE);
 		bSrc.getMaterial().setDiffuseColor(Settings.START_COLOR);
-		Ball bDest = new Ball(Settings.ICON_WIDTH_SIZE);
 		bDest.getMaterial().setDiffuseColor(Settings.END_COLOR);
-		Ball bAlgoSrc = new Ball(Settings.ICON_WIDTH_SIZE);
 		bAlgoSrc.getMaterial().setDiffuseColor(Settings.ALGO_SRC_COLOR);
-		Ball bAlgoDest = new Ball(Settings.ICON_WIDTH_SIZE);
 		bAlgoDest.getMaterial().setDiffuseColor(Settings.ALGO_DEST_COLOR);
-		Ball bAlgoShortest = new Ball(Settings.ICON_WIDTH_SIZE);
 		bAlgoShortest.getMaterial().setDiffuseColor(Settings.ALGO_SHORTEST_COLOR);
-		Ball bAlgoDiscovered = new Ball(Settings.ICON_WIDTH_SIZE);
 		bAlgoDiscovered.getMaterial().setDiffuseColor(Settings.ALGO_DISCOVERED_COLOR);
 		Label labelSrc = new Label("SRC", bSrc.getFXNode());
 		Label labelDest = new Label("DEST", bDest.getFXNode());
@@ -238,6 +238,12 @@ public class MainWindow extends BorderPane
 						v.getEhm().setListener(false);
 						v.getEhrc().setListener(false);
 					}
+					bSrc.getEsd().setListener(false);
+					bDest.getEsd().setListener(false);
+					bAlgoSrc.getEsd().setListener(false);
+					bAlgoDest.getEsd().setListener(false);
+					bAlgoShortest.getEsd().setListener(false);
+					bAlgoDiscovered.getEsd().setListener(false);
 					b.getEsd().setListener(false);
 					c.getEsd().setListener(false);
 				}
@@ -249,6 +255,12 @@ public class MainWindow extends BorderPane
 						v.getEhm().setListener(true);
 						v.getEhrc().setListener(true);
 					}
+					bSrc.getEsd().setListener(true);
+					bDest.getEsd().setListener(true);
+					bAlgoSrc.getEsd().setListener(true);
+					bAlgoDest.getEsd().setListener(true);
+					bAlgoShortest.getEsd().setListener(true);
+					bAlgoDiscovered.getEsd().setListener(true);
 					b.getEsd().setListener(true);
 					c.getEsd().setListener(true);
 				}
