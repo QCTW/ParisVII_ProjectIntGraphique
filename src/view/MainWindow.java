@@ -184,7 +184,7 @@ public class MainWindow extends BorderPane
 		ControlButton bControlButton = new ControlButton(contentArea);
 		StepForwardButton bStepForwardButton = new StepForwardButton();
 		StepBackButton bStepBackButton = new StepBackButton();
-		StopButton bStopButton = new StopButton();
+		StopButton bStopButton = new StopButton(contentArea,bControlButton);
 
 		Ball b = new Ball(Settings.ICON_WIDTH_SIZE);
 		b.getFXNode().addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(b.getFXNode()));
