@@ -205,12 +205,16 @@ public class MainPane extends Pane implements Serializable
 
 	public void updateEdgesDisplay()
 	{
-		for (ViewableEdge conn : vConnections)
+		for (ViewableNode node : vGroupSelectedNodes)
 		{
-			ViewableNode from = (ViewableNode) conn.getStartPoint();
-			ViewableNode to = (ViewableNode) conn.getEndPoint();
-			conn.moveTo(to.getPoint3D(), from.getPoint3D());
-			conn.getFXNode().toBack();
+			for (Edge conn : node.getEdges())
+			{
+				ViewableEdge edge = (ViewableEdge) conn;
+				ViewableNode from = (ViewableNode) conn.getStartPoint();
+				ViewableNode to = (ViewableNode) conn.getEndPoint();
+				edge.moveTo(to.getPoint3D(), from.getPoint3D());
+				edge.getFXNode().toBack();
+			}
 		}
 	}
 
@@ -434,7 +438,7 @@ public class MainPane extends Pane implements Serializable
 		Vector<Noeud> snapShot = step.getSnapShot();
 		for (Noeud oneNode : snapShot)
 		{
-			ViewableNode snap = (ViewableNode) oneNode;
+			Noeud snap = oneNode;
 			if (snap.getStatus() == NoeudStatus.COMPARE_SRC)
 				src = snap;
 			else if (snap.getStatus() == NoeudStatus.COMPARE_DEST)
@@ -486,7 +490,7 @@ public class MainPane extends Pane implements Serializable
 		ensureAllEdgesAtBack();
 	}
 
-	private void markShortestEdges(ViewableNode snap)
+	private void markShortestEdges(Noeud snap)
 	{
 		for (Edge e : snap.getEdges())
 		{

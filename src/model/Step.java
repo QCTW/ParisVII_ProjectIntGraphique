@@ -31,7 +31,7 @@ public class Step
 		Vector<Noeud> newVector = new Vector<Noeud>();
 		for (Noeud one : allNodes)
 		{
-			Noeud clone = (Noeud) one.clone();
+			Noeud clone = new Noeud(one);
 			if (clone != null)
 				newVector.add(clone);
 		}

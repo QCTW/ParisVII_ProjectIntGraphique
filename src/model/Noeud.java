@@ -4,12 +4,12 @@ import java.util.Vector;
 
 import view.Utility;
 
-public class Noeud implements BaseNode, Cloneable
+public class Noeud implements BaseNode
 {
 	private static final long serialVersionUID = 1L;
 	private final Vector<Edge> vEdges;
 	private final int nodeId;
-	private String nodeLabel = "N/A";
+	private String nodeLabel;
 	private long vertexValue = BaseNode.INFINITY;
 	private double posX = 0;
 	private double posY = 0;
@@ -18,10 +18,31 @@ public class Noeud implements BaseNode, Cloneable
 	private boolean isEndNode = false;
 	private NoeudStatus nodeStatus = NoeudStatus.NONE;
 
+	public Noeud(Noeud copy)
+	{
+		vEdges = copy.getEdges();
+		nodeId = copy.nodeId;
+		nodeLabel = copy.nodeLabel;
+		vertexValue = copy.vertexValue;
+		posX = copy.posX;
+		posY = copy.posY;
+		posZ = copy.posZ;
+		isStartNode = copy.isStartNode;
+		isEndNode = copy.isEndNode;
+		nodeStatus = copy.nodeStatus;
+	}
+
 	public Noeud()
 	{
 		vEdges = new Vector<Edge>();
 		nodeId = Utility.generateId();
+		nodeLabel = Integer.toString(nodeId);
+	}
+
+	@Override
+	public String toString()
+	{
+		return nodeLabel + "(" + vertexValue + ")" + "@" + this.hashCode();
 	}
 
 	@Override
@@ -185,8 +206,6 @@ public class Noeud implements BaseNode, Cloneable
 		if (this == obj)
 			return true;
 		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
 			return false;
 
 		Noeud node = (Noeud) obj;

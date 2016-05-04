@@ -226,7 +226,7 @@ public class ViewableNode extends Noeud
 		}
 		material.setDiffuseColor(originalColor);
 		labelVertexValue.setTextFill(originalColor);
-		contentArea.updateEdgesDisplay(); // To ensure that all edges are at the back layer
+		contentArea.ensureAllEdgesAtBack(); // To ensure that all edges are at the back layer
 	}
 
 	@Override
@@ -245,7 +245,7 @@ public class ViewableNode extends Noeud
 		}
 		material.setDiffuseColor(originalColor);
 		labelVertexValue.setTextFill(originalColor);
-		contentArea.updateEdgesDisplay(); // To ensure that all edges are at the back layer
+		contentArea.ensureAllEdgesAtBack(); // To ensure that all edges are at the back layer
 	}
 
 	public void setAlgoShortestNode(boolean isOrNot)
@@ -345,6 +345,7 @@ public class ViewableNode extends Noeud
 		setAlgoDestNode(false);
 		setAlgoSourceNode(false);
 		setAlgoDiscoveredNode(false);
+		setAlgoShortestNode(false);
 	}
 
 	public void displaySnapShot(Noeud snapShot)
@@ -373,6 +374,7 @@ public class ViewableNode extends Noeud
 			setAlgoDestNode(false);
 			setAlgoSourceNode(false);
 			setAlgoDiscoveredNode(false);
+			setAlgoShortestNode(false);
 			break;
 		}
 	}
