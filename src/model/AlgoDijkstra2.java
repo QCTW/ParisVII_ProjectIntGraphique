@@ -12,6 +12,7 @@ public class AlgoDijkstra2
 	private Noeud startNode;
 	private Noeud endNode;
 	private static Vector<Noeud> givenNodes;
+	private final Vector<Step> animationSteps = new Vector<Step>();
 //
 //	public AlgoDijkstra(Vector<Noeud> allNodes)
 //	{
@@ -114,6 +115,7 @@ public class AlgoDijkstra2
 			{
 				startNode = n;
 				hmDiscoveredNode.put(n.getNodeId(),n);
+				
 			}
 			else if(n.isEndNode())
 			{
@@ -131,16 +133,18 @@ public class AlgoDijkstra2
 	
 	public void start()
 	{	
-		while(!hmRestEdge.isEmpty())
+		while(hmDiscoveredNode.get(endNode.getNodeId())==null)
 		{
 			long min = Long.MAX_VALUE;
-			Noeud minPath = startNode;
+			Noeud minPath = null;
 			Edge minConne = null;
 			for(Map.Entry<Integer,Noeud> entry : hmDiscoveredNode.entrySet())
 			{
 				Noeud begin = entry.getValue();
 				int idBegin = entry.getKey(); 
 				System.out.println("Node Id "+idBegin);
+				begin.setStatus(NoeudStatus.DISCOVERING);
+				animationSteps.add(new Step(givenNodes));
 				for(Edge e: begin.getEdges())
 				{
 					if (hmRestEdge.get(e.getEdgeId()) != null)
@@ -160,6 +164,7 @@ public class AlgoDijkstra2
 						{	
 							System.out.println("Path: "+target.getNodeId()+" >>> "+begin.getNodeId()+" >>> "+startNode.getNodeId());
 							target.setVertexValue(e.getWeight()+begin.getVertexValue());
+							animationSteps.add(new Step(givenNodes));
 							System.out.println("Node Id is ("+target.getNodeId()+") and VertexValue is "+target.getVertexValue());
 						}
 						
@@ -174,6 +179,8 @@ public class AlgoDijkstra2
 			}
 			System.out.println("the shortest node is "+minPath.getNodeId()+" --cancel the edge of distance "+minConne.getWeight());
 			hmDiscoveredNode.put(minPath.getNodeId(),minPath);
+			minPath.setStatus(NoeudStatus.SHORTEST);
+			animationSteps.add(new Step(givenNodes));
 			hmRestEdge.remove(minConne.getEdgeId());
 			System.out.println("=================");
 		}
@@ -184,6 +191,11 @@ public class AlgoDijkstra2
 		{			
 			System.out.println("Node = " + entry.getKey() + ", Distance = " + entry.getValue().getVertexValue());
 		}
+	}
+	
+	public Vector<Step> getAnimationSteps()
+	{
+		return animationSteps;
 	}
 	
 	
