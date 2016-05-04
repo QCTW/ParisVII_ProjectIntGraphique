@@ -282,6 +282,7 @@ public class MainPane extends Pane implements Serializable
 			node.removeSelected();
 		}
 		vGroupSelectedNodes.clear();
+		ensureAllEdgesAtBack();
 	}
 
 	public void detectSelectedNodes(double clickedX, double clickedY, double currentX, double currentY)
@@ -305,6 +306,7 @@ public class MainPane extends Pane implements Serializable
 			vGroupSelectedNodes.add(nodeToAdd);
 			nodeToAdd.displaySelected();
 		}
+		ensureAllEdgesAtBack();
 	}
 
 	public void moveSelectedNodes(double deltaX, double deltaY)
@@ -314,6 +316,7 @@ public class MainPane extends Pane implements Serializable
 			selected.moveTo(deltaX, deltaY, 0);
 		}
 		updateEdgesDisplay();
+		ensureAllEdgesAtBack();
 	}
 
 	public void startAlgo(ControlButton controlButton)
@@ -411,6 +414,8 @@ public class MainPane extends Pane implements Serializable
 				hasEdge.setAlgoSource(true);
 			}
 		}
+
+		ensureAllEdgesAtBack();
 	}
 
 	private void markShortestEdges(ViewableNode snap)
