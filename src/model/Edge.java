@@ -17,6 +17,7 @@ public class Edge implements BaseEdge
 		to.addEdge(this);
 		edgeId = Utility.generateId();
 	}
+
 	public int getEdgeId()
 	{
 		return this.edgeId;
@@ -87,8 +88,8 @@ public class Edge implements BaseEdge
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		// if (getClass() != obj.getClass())
+		// return false;
 
 		Edge other = (Edge) obj;
 		int nSameNodesCount = 0;

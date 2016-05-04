@@ -5,6 +5,8 @@ import java.util.Map.Entry;
 
 import java.util.Vector;
 
+import view.Utility;
+
 public class AlgoDijkstra
 {
 	private final Noeud startNode;
@@ -43,7 +45,7 @@ public class AlgoDijkstra
 		long valueEnd = end.getVertexValue();
 		for (Edge conn : end.getEdges())
 		{
-			Noeud target = findTargetNodeFromSource(conn, end);
+			Noeud target = Utility.findTargetNodeFromSource(conn, end);
 			if (target.getVertexValue() == valueEnd - conn.getWeight())
 			{
 				minValueNode = target;
@@ -63,21 +65,6 @@ public class AlgoDijkstra
 		return shortestPathNodes;
 	}
 
-	private Noeud findTargetNodeFromSource(Edge conn, Noeud source)
-	{
-		Noeud target = null;
-		Noeud from = conn.getStartPoint();
-		Noeud to = conn.getEndPoint();
-		if (from.getNodeId() != source.getNodeId())
-		{
-			target = from;
-		} else if (to.getNodeId() != source.getNodeId())
-		{
-			target = to;
-		}
-		return target;
-	}
-
 	private void discoverShortestPath(Noeud oneNode)
 	{
 		if (hmDiscoveredNodes.get(oneNode.getNodeId()) == null)
@@ -89,7 +76,7 @@ public class AlgoDijkstra
 			Vector<Noeud> vUndiscoveredNodes = new Vector<Noeud>();
 			for (Edge conn : oneNode.getEdges())
 			{
-				Noeud target = findTargetNodeFromSource(conn, oneNode);
+				Noeud target = Utility.findTargetNodeFromSource(conn, oneNode);
 				int weight = conn.getWeight();
 
 				System.out.println(oneNode.getNodeId() + " <-[" + weight + "]-> " + target.getNodeId());

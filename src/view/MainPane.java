@@ -14,6 +14,7 @@ import model.AlgoDijkstra;
 import model.BaseNode;
 import model.Edge;
 import model.Noeud;
+import model.NoeudStatus;
 import model.Step;
 
 public class MainPane extends Pane implements Serializable
@@ -368,10 +369,24 @@ public class MainPane extends Pane implements Serializable
 
 	private void displayOneStep(Step step)
 	{
+		Noeud src = null;
+		Noeud dest = null;
+		for (ViewableEdge e : vConnections)
+			e.setAlgoSource(false);
+
 		Vector<Noeud> snapShot = step.getSnapShot();
 		for (Noeud oneNode : snapShot)
 		{
 			ViewableNode snap = (ViewableNode) oneNode;
+			if (snap.getStatus() == NoeudStatus.COMPARE_SRC)
+				src = snap;
+			else if (snap.getStatus() == NoeudStatus.COMPARE_DEST)
+				dest = snap;
+			else if (snap.getStatus() == NoeudStatus.SHORTEST)
+			{
+				markShortestEdges(snap);
+			}
+
 			int targetIndex = vAllNodes.indexOf(snap);
 			if (targetIndex == -1)
 			{
@@ -382,11 +397,54 @@ public class MainPane extends Pane implements Serializable
 				target.displaySnapShot(snap);
 			}
 		}
+
+		if (src != null && dest != null)
+		{
+			Edge edge = new Edge(src, dest);
+			int edgeIndex = vConnections.indexOf(edge);
+			if (edgeIndex == -1)
+			{
+				System.out.println("Unable to find edge:" + edge.toString());
+			} else
+			{
+				ViewableEdge hasEdge = vConnections.get(edgeIndex);
+				hasEdge.setAlgoSource(true);
+			}
+		}
+	}
+
+	private void markShortestEdges(ViewableNode snap)
+	{
+		for (Edge e : snap.getEdges())
+		{
+			Noeud dest = Utility.findTargetNodeFromSource(e, snap);
+			Edge edge = new Edge(snap, dest);
+			if (dest.getStatus() == NoeudStatus.SHORTEST || dest.isStartNode() || dest.isEndNode())
+			{
+				int edgeIndex = vConnections.indexOf(edge);
+				if (edgeIndex == -1)
+				{
+					System.out.println("Unable to find edge:" + edge.toString());
+				} else
+				{
+					ViewableEdge hasEdge = vConnections.get(edgeIndex);
+					hasEdge.setAlgoShortest(true);
+				}
+			}
+		}
 	}
 
 	public void stopAlgo(ControlButton controlButton)
 	{
 		isPlayingAlgo = false;
+	}
+
+	public void ensureAllEdgesAtBack()
+	{
+		for (ViewableEdge e : vConnections)
+		{
+			e.getFXNode().toBack();
+		}
 	}
 
 }

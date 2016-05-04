@@ -14,7 +14,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import model.Edge;
 import model.Noeud;
+import view.Settings;
+import view.ViewableNode;
 
 public final class Utility
 {
@@ -75,6 +78,21 @@ public final class Utility
 			vNoeuds.add(one);
 		}
 		return vNoeuds;
+	}
+
+	public static Noeud findTargetNodeFromSource(Edge conn, Noeud source)
+	{
+		Noeud target = null;
+		Noeud from = conn.getStartPoint();
+		Noeud to = conn.getEndPoint();
+		if (from.getNodeId() != source.getNodeId())
+		{
+			target = from;
+		} else if (to.getNodeId() != source.getNodeId())
+		{
+			target = to;
+		}
+		return target;
 	}
 
 }
