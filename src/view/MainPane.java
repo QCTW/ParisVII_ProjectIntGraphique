@@ -315,20 +315,21 @@ public class MainPane extends Pane implements Serializable
 		updateEdgesDisplay();
 	}
 
-	public void startAlgo()
+	public void startAlgo(ControlButton controlButton)
 	{
 		isPlayingAlgo = true;
-		if (vAlgoSteps == null || vAlgoSteps.size() == 0)
+		if (vAlgoSteps == null)
 		{
 			algoDijkstra = new AlgoDijkstra(Utility.convertViewToModel(vAllNodes));
 			algoDijkstra.start();
 			vAlgoSteps = algoDijkstra.getAnimationSteps();
-
-			playAlgo();
 		}
+
+		if (vAlgoSteps.size() > 0)
+			playAlgo(controlButton);
 	}
 
-	private void playAlgo()
+	private void playAlgo(ControlButton controlButton)
 	{
 		Task<Void> longTask = new Task<Void>()
 		{
@@ -339,26 +340,30 @@ public class MainPane extends Pane implements Serializable
 				{
 					if (!isPlayingAlgo || isCancelled())
 						break;
+
 					Platform.runLater(new Runnable()
 					{
 						@Override
 						public void run()
 						{
-							playOneStepAlgo();
+							playOneStepAlgo(controlButton);
 						}
 					});
 					Thread.sleep(1000);
 				}
+
 				return null;
 			}
 		};
 		new Thread(longTask).start();
 	}
 
-	public void playOneStepAlgo()
+	public void playOneStepAlgo(ControlButton controlButton)
 	{
 		displayOneStep(vAlgoSteps.get(algoPlayIndex));
 		algoPlayIndex++;
+		if (algoPlayIndex >= vAlgoSteps.size())
+			controlButton.playEnd();
 	}
 
 	private void displayOneStep(Step step)
@@ -379,7 +384,7 @@ public class MainPane extends Pane implements Serializable
 		}
 	}
 
-	public void stopAlgo()
+	public void stopAlgo(ControlButton controlButton)
 	{
 		isPlayingAlgo = false;
 	}

@@ -24,6 +24,7 @@ public class AlgoDijkstra
 	public void start()
 	{
 		System.out.println("Algo Dijkstra started");
+		animationSteps.add(new Step(givenNodes));
 		discoverShortestPath(startNode);
 		findShortestPath(startNode, endNode);
 		for (Noeud one : shortestPathNodes)
@@ -39,14 +40,14 @@ public class AlgoDijkstra
 	private void findShortestPath(Noeud start, Noeud end)
 	{
 		Noeud minValueNode = null;
+		long valueEnd = end.getVertexValue();
 		for (Edge conn : end.getEdges())
 		{
 			Noeud target = findTargetNodeFromSource(conn, end);
-			if (minValueNode == null)
-				minValueNode = target;
-			else if (target.getVertexValue() < minValueNode.getVertexValue())
+			if (target.getVertexValue() == valueEnd - conn.getWeight())
 			{
 				minValueNode = target;
+				break;
 			}
 		}
 
@@ -102,6 +103,7 @@ public class AlgoDijkstra
 					target.setVertexValue(lSourceValuePlusWeight);
 					target.setStatus(NoeudStatus.CHANGEDVALUE);
 					animationSteps.add(new Step(givenNodes));
+
 				}
 
 				if (hmDiscoveredNodes.get(target.getNodeId()) == null)
