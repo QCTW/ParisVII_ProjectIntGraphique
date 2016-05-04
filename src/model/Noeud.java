@@ -161,7 +161,7 @@ public class Noeud implements BaseNode, Cloneable
 	}
 
 	@Override
-	protected Object clone()
+	public Object clone()
 	{
 		try
 		{

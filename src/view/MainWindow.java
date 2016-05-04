@@ -240,7 +240,7 @@ public class MainWindow extends BorderPane
 					bAlgoDiscovered.getEsd().setListener(false);
 					b.getEsd().setListener(false);
 					c.getEsd().setListener(false);
-
+					contentArea.updateControlPanel();
 				} else
 				{
 					contentArea.playReset();
@@ -258,7 +258,6 @@ public class MainWindow extends BorderPane
 					b.getEsd().setListener(true);
 					c.getEsd().setListener(true);
 				}
-				contentArea.updateControlPanel();
 			}
 		});
 

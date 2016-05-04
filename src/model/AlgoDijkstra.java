@@ -52,7 +52,7 @@ public class AlgoDijkstra
 				break;
 			}
 		}
-
+		System.out.println("Check:minValueNode=" + minValueNode + ";start=" + start);
 		if (minValueNode.getNodeId() != start.getNodeId())
 		{
 			findShortestPath(start, minValueNode);
