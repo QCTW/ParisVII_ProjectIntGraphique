@@ -15,3 +15,6 @@ Project implemented:
 4. Be able to add, remove an edge between 2 nodes by mouse right click menu.
 5. Be able to set as start/end node by mouse right click menu for algorithm Dijkstra to find its shortest path.
 6. Be able to calculate the distance between 2 nodes directly and displayed its distance.
+7. Be able to animate Dijkstra's algorithm step by step forward/backward/flow.
+8. Difference between edit mode and play mode.
+9. Be able to cancel an right menu action by pressing ESC
