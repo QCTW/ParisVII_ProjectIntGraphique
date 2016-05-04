@@ -19,6 +19,7 @@ public class ResetButton extends Button
 		this.setDisable(true);
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 			contentArea.rewindAlgo();
+
 		});
 	}
 }

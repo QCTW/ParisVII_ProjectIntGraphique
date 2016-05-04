@@ -169,6 +169,16 @@ public class AlgoDijkstra
 		return null;
 	}
 
+	public Noeud getStartNode()
+	{
+		return startNode;
+	}
+
+	public Noeud getEndNode()
+	{
+		return endNode;
+	}
+
 	public static void main(String[] args)
 	{
 		System.out.println("Algo Dijkstra");

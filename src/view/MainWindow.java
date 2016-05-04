@@ -220,9 +220,9 @@ public class MainWindow extends BorderPane
 					{
 						cbGraphReady.setSelected(false);
 						Alert alert = new Alert(AlertType.INFORMATION);
-						alert.setTitle("Information");
-						alert.setHeaderText(null);
-						alert.setContentText("You have not set your start node or end node");
+						alert.setTitle("Start/End Nodes Check");
+						alert.setHeaderText("Missing Start/End Nodes");
+						alert.setContentText("You have to set one start node and one end node by right click menu.");
 						alert.showAndWait();
 						return;
 					}
@@ -240,10 +240,10 @@ public class MainWindow extends BorderPane
 					bAlgoDiscovered.getEsd().setListener(false);
 					b.getEsd().setListener(false);
 					c.getEsd().setListener(false);
-				}
 
-				else
+				} else
 				{
+					contentArea.playReset();
 					for (ViewableNode v : contentArea.getAllNodes())
 					{
 						v.getEhm().setListener(true);
@@ -258,7 +258,7 @@ public class MainWindow extends BorderPane
 					b.getEsd().setListener(true);
 					c.getEsd().setListener(true);
 				}
-
+				contentArea.updateControlPanel();
 			}
 		});
 

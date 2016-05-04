@@ -11,10 +11,12 @@ public class ControlPanel extends HBox
 	private final StepForwardButton bStepForwardButton;
 	private final StepBackButton bStepBackButton;
 	private final ResetButton bResetButton;
+	private final MainPane mp;
 
 	public ControlPanel(MainPane contentArea)
 	{
 		super();
+		mp = contentArea;
 		bControlButton = new ControlButton(contentArea);
 		bStepForwardButton = new StepForwardButton(contentArea);
 		bStepBackButton = new StepBackButton(contentArea);
@@ -53,7 +55,13 @@ public class ControlPanel extends HBox
 
 	public void update(int algoPlayIndex, Vector<Step> vAlgoSteps)
 	{
-		if (algoPlayIndex >= vAlgoSteps.size())
+		if (vAlgoSteps == null)
+		{
+			bStepForwardButton.setDisable(false);
+			bStepBackButton.setDisable(true);
+			bResetButton.setDisable(true);
+			bControlButton.setDisable(false);
+		} else if (algoPlayIndex >= vAlgoSteps.size())
 		{
 			bControlButton.end();
 			bStepForwardButton.setDisable(true);

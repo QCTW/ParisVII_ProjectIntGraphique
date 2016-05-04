@@ -7,6 +7,8 @@ import java.util.Vector;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Point3D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
@@ -323,9 +325,11 @@ public class MainPane extends Pane implements Serializable
 
 	public void rewindAlgo()
 	{
-		algoPlayIndex = 0;
 		stopAlgo();
-		startAlgo();
+		algoPlayIndex = 0;
+		if (vAlgoSteps.size() > 0)
+			playOneStepAlgo();
+
 	}
 
 	public void startAlgoOneStepForward()
@@ -385,7 +389,6 @@ public class MainPane extends Pane implements Serializable
 					algoPlayIndex++;
 					Thread.sleep(1000);
 				}
-
 				return null;
 			}
 		};
@@ -399,8 +402,18 @@ public class MainPane extends Pane implements Serializable
 			@Override
 			public void run()
 			{
-				displayOneStep(vAlgoSteps.get(algoPlayIndex));
-				panel.update(algoPlayIndex, vAlgoSteps);
+				if (algoPlayIndex < vAlgoSteps.size())
+					displayOneStep(vAlgoSteps.get(algoPlayIndex));
+
+				if (algoPlayIndex == vAlgoSteps.size() - 1)
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("End of Algorithm");
+					alert.setHeaderText("Dijkstra's algorithm has finished");
+					alert.setContentText("The shortest path will be marked in white.");
+					alert.showAndWait();
+				}
+				updateControlPanel();
 			}
 		});
 	}
@@ -450,6 +463,20 @@ public class MainPane extends Pane implements Serializable
 			}
 		}
 
+		if (algoDijkstra.getShortestPathNodes().size() == 0 && algoPlayIndex == vAlgoSteps.size() - 1)
+		{
+			Edge edge = new Edge(algoDijkstra.getStartNode(), algoDijkstra.getEndNode());
+			int edgeIndex = vConnections.indexOf(edge);
+			if (edgeIndex == -1)
+			{
+				System.out.println("Unable to find edge:" + edge.toString());
+			} else
+			{
+				ViewableEdge hasEdge = vConnections.get(edgeIndex);
+				hasEdge.setAlgoShortest(true);
+			}
+		}
+
 		ensureAllEdgesAtBack();
 	}
 
@@ -479,6 +506,8 @@ public class MainPane extends Pane implements Serializable
 		isPlayingAlgo = false;
 		if (longPlayTask != null)
 			longPlayTask.cancel();
+
+		panel.getControlButton().setPlay();
 	}
 
 	public void ensureAllEdgesAtBack()
@@ -497,6 +526,7 @@ public class MainPane extends Pane implements Serializable
 			vAlgoSteps.clear();
 
 		vAlgoSteps = null;
+		algoPlayIndex = 0;
 		for (ViewableNode one : vAllNodes)
 		{
 			one.resetNodeStatus();
@@ -506,12 +536,16 @@ public class MainPane extends Pane implements Serializable
 		{
 			e.resetStatus();
 		}
-
 	}
 
 	public void setControlPanel(ControlPanel controlpanel)
 	{
 		panel = controlpanel;
+	}
+
+	public void updateControlPanel()
+	{
+		panel.update(algoPlayIndex, vAlgoSteps);
 	}
 
 }
