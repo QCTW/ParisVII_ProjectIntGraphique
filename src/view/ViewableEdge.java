@@ -105,4 +105,10 @@ public class ViewableEdge extends Edge
 		}
 	}
 
+	public void resetStatus()
+	{
+		setAlgoSource(false);
+		setAlgoShortest(false);
+	}
+
 }

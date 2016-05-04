@@ -327,6 +327,14 @@ public class ViewableNode extends Noeud
 		return material;
 	}
 
+	public void resetNodeStatus()
+	{
+		setAlgoNewVertexValue(BaseNode.INFINITY);
+		setAlgoDestNode(false);
+		setAlgoSourceNode(false);
+		setAlgoDiscoveredNode(false);
+	}
+
 	public void displaySnapShot(Noeud snapShot)
 	{
 		setAlgoNewVertexValue(snapShot.getVertexValue());
@@ -355,7 +363,6 @@ public class ViewableNode extends Noeud
 			setAlgoDiscoveredNode(false);
 			break;
 		}
-
 	}
 
 }

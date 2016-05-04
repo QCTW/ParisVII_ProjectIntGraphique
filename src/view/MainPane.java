@@ -25,13 +25,15 @@ public class MainPane extends Pane implements Serializable
 	private final Vector<EdgeHint> vDisplayLines = new Vector<EdgeHint>();
 	private final Vector<ViewableEdge> vConnections = new Vector<ViewableEdge>();
 	private volatile boolean isPlayingAlgo = false;
+	private volatile int algoPlayIndex = 0;
 	private Vector<Step> vAlgoSteps = null;
 	private ViewableNode connectFrom;
 	private boolean isSelectMode = false;
 	private ActionType action = ActionType.NONE;
 	private Rectangle groupSelection = null;
 	private AlgoDijkstra algoDijkstra = null;
-	private int algoPlayIndex = 0;
+	private ControlPanel panel = null;
+	private Task<Void> longPlayTask;
 
 	public MainPane()
 	{
@@ -319,23 +321,57 @@ public class MainPane extends Pane implements Serializable
 		ensureAllEdgesAtBack();
 	}
 
-	public void startAlgo(ControlButton controlButton)
+	public void rewindAlgo()
+	{
+		algoPlayIndex = 0;
+		stopAlgo();
+		startAlgo();
+	}
+
+	public void startAlgoOneStepForward()
+	{
+		stopAlgo();
+		isPlayingAlgo = true;
+		runAlgoDijkstraIfNotExecuted();
+		if (algoPlayIndex < vAlgoSteps.size())
+			algoPlayIndex++;
+		if (vAlgoSteps.size() > 0)
+			playOneStepAlgo();
+	}
+
+	public void startAlgoOneStepBackward()
+	{
+		stopAlgo();
+		isPlayingAlgo = true;
+		runAlgoDijkstraIfNotExecuted();
+		if (algoPlayIndex > 0)
+			algoPlayIndex--;
+		if (vAlgoSteps.size() > 0)
+			playOneStepAlgo();
+	}
+
+	public void startAlgo()
 	{
 		isPlayingAlgo = true;
+		runAlgoDijkstraIfNotExecuted();
+
+		if (vAlgoSteps.size() > 0)
+			playAlgo();
+	}
+
+	private void runAlgoDijkstraIfNotExecuted()
+	{
 		if (vAlgoSteps == null)
 		{
 			algoDijkstra = new AlgoDijkstra(Utility.convertViewToModel(vAllNodes));
 			algoDijkstra.start();
 			vAlgoSteps = algoDijkstra.getAnimationSteps();
 		}
-
-		if (vAlgoSteps.size() > 0)
-			playAlgo(controlButton);
 	}
 
-	private void playAlgo(ControlButton controlButton)
+	private void playAlgo()
 	{
-		Task<Void> longTask = new Task<Void>()
+		longPlayTask = new Task<Void>()
 		{
 			@Override
 			protected Void call() throws Exception
@@ -345,29 +381,28 @@ public class MainPane extends Pane implements Serializable
 					if (!isPlayingAlgo || isCancelled())
 						break;
 
-					Platform.runLater(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							playOneStepAlgo(controlButton);
-						}
-					});
+					playOneStepAlgo();
+					algoPlayIndex++;
 					Thread.sleep(1000);
 				}
 
 				return null;
 			}
 		};
-		new Thread(longTask).start();
+		new Thread(longPlayTask).start();
 	}
 
-	public void playOneStepAlgo(ControlButton controlButton)
+	private void playOneStepAlgo()
 	{
-		displayOneStep(vAlgoSteps.get(algoPlayIndex));
-		algoPlayIndex++;
-		if (algoPlayIndex >= vAlgoSteps.size())
-			controlButton.playEnd();
+		Platform.runLater(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				displayOneStep(vAlgoSteps.get(algoPlayIndex));
+				panel.update(algoPlayIndex, vAlgoSteps);
+			}
+		});
 	}
 
 	private void displayOneStep(Step step)
@@ -439,9 +474,11 @@ public class MainPane extends Pane implements Serializable
 		}
 	}
 
-	public void stopAlgo(ControlButton controlButton)
+	public void stopAlgo()
 	{
 		isPlayingAlgo = false;
+		if (longPlayTask != null)
+			longPlayTask.cancel();
 	}
 
 	public void ensureAllEdgesAtBack()
@@ -450,6 +487,31 @@ public class MainPane extends Pane implements Serializable
 		{
 			e.getFXNode().toBack();
 		}
+	}
+
+	public void playReset()
+	{
+		stopAlgo();
+		longPlayTask = null;
+		if (vAlgoSteps != null)
+			vAlgoSteps.clear();
+
+		vAlgoSteps = null;
+		for (ViewableNode one : vAllNodes)
+		{
+			one.resetNodeStatus();
+		}
+
+		for (ViewableEdge e : vConnections)
+		{
+			e.resetStatus();
+		}
+
+	}
+
+	public void setControlPanel(ControlPanel controlpanel)
+	{
+		panel = controlpanel;
 	}
 
 }

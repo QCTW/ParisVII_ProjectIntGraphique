@@ -4,22 +4,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
-public class StepForwardButton extends Button
+public class ResetButton extends Button
 {
 	private final MainPane contentArea;
 
-	public StepForwardButton(MainPane mp)
+	public ResetButton(MainPane mp)
 	{
 		super();
 		contentArea = mp;
-		Icon iconControl = new Icon(Settings.IMAGE_BSTEP_FORWARD);
-		this.setTooltip(new Tooltip("Play one step forward"));
-		this.setGraphic(iconControl);
+		Icon iconStop = new Icon(Settings.IMAGE_BRESET);
+		this.setTooltip(new Tooltip("Back to first step"));
+		this.setGraphic(iconStop);
 		this.focusTraversableProperty().setValue(false);
 		this.setDisable(true);
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-			contentArea.startAlgoOneStepForward();
+			contentArea.rewindAlgo();
 		});
 	}
-
 }

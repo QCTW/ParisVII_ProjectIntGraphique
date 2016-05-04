@@ -33,6 +33,7 @@ public class MainWindow extends BorderPane
 	HBox descBox = new HBox();
 	FileChooser fileChooser = new FileChooser();
 	Serializor serializeur = new Serializor();
+	ControlPanel controlpanel;
 	Ball bSrc = new Ball(Settings.ICON_WIDTH_SIZE);
 	Ball bDest = new Ball(Settings.ICON_WIDTH_SIZE);
 	Ball bAlgoSrc = new Ball(Settings.ICON_WIDTH_SIZE);
@@ -45,7 +46,7 @@ public class MainWindow extends BorderPane
 		super();
 		initToolBar(toolBar);
 		initContentArea(contentArea);
-		initMessageBox(descBox);
+		initDescriptionBox(descBox);
 		this.setTop(toolBar);
 		this.setCenter(contentArea);
 		this.setBottom(descBox);
@@ -66,9 +67,10 @@ public class MainWindow extends BorderPane
 		s.setOnMousePressed(eventGroupSelect);
 		s.setOnMouseDragged(eventGroupSelect);
 		s.setOnMouseReleased(eventGroupSelect);
+		s.setControlPanel(controlpanel);
 	}
 
-	private void initMessageBox(HBox hb)
+	private void initDescriptionBox(HBox hb)
 	{
 		bSrc.getMaterial().setDiffuseColor(Settings.START_COLOR);
 		bDest.getMaterial().setDiffuseColor(Settings.END_COLOR);
@@ -89,7 +91,7 @@ public class MainWindow extends BorderPane
 
 	private void initToolBar(ToolBar t)
 	{
-
+		controlpanel = new ControlPanel(contentArea);
 		fileChooser.setTitle("File Navigator");
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Graph serialized file (.ser)", "*.ser"));
 
@@ -181,11 +183,6 @@ public class MainWindow extends BorderPane
 			}
 		});
 
-		ControlButton bControlButton = new ControlButton(contentArea);
-		StepForwardButton bStepForwardButton = new StepForwardButton();
-		StepBackButton bStepBackButton = new StepBackButton();
-		StopButton bStopButton = new StopButton();
-
 		Ball b = new Ball(Settings.ICON_WIDTH_SIZE);
 		b.getFXNode().addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandlerMouseOverEnlarge(b.getFXNode()));
 		b.getFXNode().addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandlerMouseOverEnlarge(b.getFXNode()));
@@ -202,10 +199,7 @@ public class MainWindow extends BorderPane
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observalue, Boolean oldValue, Boolean newValue)
 			{
-				bControlButton.setDisable(!newValue);
-				bStepForwardButton.setDisable(!newValue);
-				bStepBackButton.setDisable(!newValue);
-				bStopButton.setDisable(!newValue);
+				controlpanel.setDisableAll(!newValue);
 				if (newValue)
 				{
 					boolean condition1 = false;
@@ -268,7 +262,6 @@ public class MainWindow extends BorderPane
 			}
 		});
 
-		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), bControlButton, bStepBackButton, bStopButton, bStepForwardButton, new Separator(), cbGraphReady, new Separator(), b.getFXNode(),
-				c.getFXNode());
+		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), controlpanel, new Separator(), cbGraphReady, new Separator(), b.getFXNode(), c.getFXNode());
 	}
 }

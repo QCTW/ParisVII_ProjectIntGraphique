@@ -22,26 +22,36 @@ public class ControlButton extends Button
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 			if (isPlay)
 			{
-				isPlay = false;
-				this.getTooltip().setText("Pause");
-				this.setGraphic(iconPause);
-				contentArea.startAlgo(this);
+				setPause();
+				contentArea.startAlgo();
 			} else
 			{
-				isPlay = true;
-				this.getTooltip().setText("Start to demonstrate the algorithm");
-				this.setGraphic(iconPlay);
-				contentArea.stopAlgo(this);
+				setPlay();
+				contentArea.stopAlgo();
 			}
-
 		});
 	}
 
-	public void playEnd()
+	public void setPause()
+	{
+		isPlay = false;
+		this.getTooltip().setText("Pause current demonstration");
+		this.setGraphic(iconPause);
+	}
+
+	public void setPlay()
 	{
 		isPlay = true;
 		this.getTooltip().setText("Start to demonstrate the algorithm");
 		this.setGraphic(iconPlay);
+	}
+
+	public void end()
+	{
+		isPlay = true;
+		this.getTooltip().setText("Start to demonstrate the algorithm");
+		this.setGraphic(iconPlay);
+		this.setDisable(true);
 	}
 
 }
