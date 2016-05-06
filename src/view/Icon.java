@@ -15,4 +15,8 @@ public class Icon extends ImageView
 		this.setFitWidth(Settings.ICON_WIDTH_SIZE);
 	}
 
+	public void setSize(double width)
+	{
+		this.setFitWidth(width);
+	}
 }

@@ -12,7 +12,7 @@ public class Cube extends ViewableNode
 		this(size, null);
 	}
 
-	public Cube(double size, MainPane mp)
+	public Cube(double size, ViewableGraph mp)
 	{
 		super(size, mp);
 		box = new Box(size, size, size);

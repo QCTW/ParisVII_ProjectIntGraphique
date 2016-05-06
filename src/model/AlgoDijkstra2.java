@@ -9,7 +9,7 @@ public class AlgoDijkstra2
 	private Noeud startNode;
 	private Noeud endNode;
 	private static Vector<Noeud> givenNodes;
-	private final Vector<Step> animationSteps = new Vector<Step>();
+	private final Vector<Snapshot> animationSteps = new Vector<Snapshot>();
 	private static Vector<Edge> givenEdges;
 	private static HashMap<Integer, Edge> hmRestEdge = new HashMap<Integer, Edge>();
 	private static HashMap<Integer, Noeud> hmDiscoveredNode = new HashMap<Integer, Noeud>();
@@ -51,7 +51,7 @@ public class AlgoDijkstra2
 				int idBegin = entry.getKey();
 				System.out.println("Node Id " + idBegin);
 				begin.setStatus(NoeudStatus.DISCOVERING);
-				animationSteps.add(new Step(givenNodes));
+				animationSteps.add(new Snapshot(givenNodes));
 				for (Edge e : begin.getEdges())
 				{
 					if (hmRestEdge.get(e.getEdgeId()) != null)
@@ -70,7 +70,7 @@ public class AlgoDijkstra2
 						{
 							System.out.println("Path: " + target.getNodeId() + " >>> " + begin.getNodeId() + " >>> " + startNode.getNodeId());
 							target.setVertexValue(e.getWeight() + begin.getVertexValue());
-							animationSteps.add(new Step(givenNodes));
+							animationSteps.add(new Snapshot(givenNodes));
 							System.out.println("Node Id is (" + target.getNodeId() + ") and VertexValue is " + target.getVertexValue());
 						}
 
@@ -86,7 +86,7 @@ public class AlgoDijkstra2
 			System.out.println("the shortest node is " + minPath.getNodeId() + " --cancel the edge of distance " + minConne.getWeight());
 			hmDiscoveredNode.put(minPath.getNodeId(), minPath);
 			minPath.setStatus(NoeudStatus.SHORTEST);
-			animationSteps.add(new Step(givenNodes));
+			animationSteps.add(new Snapshot(givenNodes));
 			hmRestEdge.remove(minConne.getEdgeId());
 			System.out.println("=================");
 		}
@@ -98,7 +98,7 @@ public class AlgoDijkstra2
 		}
 	}
 
-	public Vector<Step> getAnimationSteps()
+	public Vector<Snapshot> getAnimationSteps()
 	{
 		return animationSteps;
 	}

@@ -6,9 +6,9 @@ import javafx.scene.input.MouseEvent;
 
 public class ResetButton extends Button
 {
-	private final MainPane contentArea;
+	private final ViewableGraph contentArea;
 
-	public ResetButton(MainPane mp)
+	public ResetButton(ViewableGraph mp)
 	{
 		super();
 		contentArea = mp;

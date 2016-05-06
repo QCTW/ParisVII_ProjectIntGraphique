@@ -2,16 +2,16 @@ package controller;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import view.MainPane;
+import view.ViewableGraph;
 
 public class EventHandlerGroupSelect implements EventHandler<MouseEvent>
 {
 
-	private final MainPane targetNode;
+	private final ViewableGraph targetNode;
 	private double clickedX, clickedY;
 	private boolean bStartGrouping = false;
 
-	public EventHandlerGroupSelect(MainPane node)
+	public EventHandlerGroupSelect(ViewableGraph node)
 	{
 		targetNode = node;
 	}

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import view.MainPane;
+import view.ViewableGraph;
 
 public class Serializor
 {
@@ -58,22 +58,22 @@ public class Serializor
 		}
 	}
 
-	public MainPane deserialize()
+	public ViewableGraph deserialize()
 	{
-		MainPane mp = null;
+		ViewableGraph mp = null;
 		ObjectInputStream in = null;
 		try
 		{
 			FileInputStream fileIn = new FileInputStream(targetFile);
 			in = new ObjectInputStream(fileIn);
-			mp = (MainPane) in.readObject();
+			mp = (ViewableGraph) in.readObject();
 			strMsg = "Your graph is opened from:" + targetFile.getAbsolutePath();
 		} catch (IOException i)
 		{
 			i.printStackTrace();
 		} catch (ClassNotFoundException c)
 		{
-			System.out.println("Unable to find class:" + MainPane.class.getSimpleName());
+			System.out.println("Unable to find class:" + ViewableGraph.class.getSimpleName());
 		} finally
 		{
 			if (in != null)

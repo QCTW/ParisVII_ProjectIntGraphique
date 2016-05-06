@@ -29,7 +29,7 @@ import model.Serializor;
 public class MainWindow extends BorderPane
 {
 	ToolBar toolBar = new ToolBar();
-	MainPane contentArea = new MainPane();
+	ViewableGraph contentArea = new ViewableGraph();
 	HBox descBox = new HBox();
 	FileChooser fileChooser = new FileChooser();
 	Serializor serializeur = new Serializor();
@@ -40,6 +40,8 @@ public class MainWindow extends BorderPane
 	Ball bAlgoDest = new Ball(Settings.ICON_WIDTH_SIZE);
 	Ball bAlgoShortest = new Ball(Settings.ICON_WIDTH_SIZE);
 	Ball bAlgoDiscovered = new Ball(Settings.ICON_WIDTH_SIZE);
+	Ball bAlgoFindSmallest = new Ball(Settings.ICON_WIDTH_SIZE);
+	Ball bAlgoSmallest = new Ball(Settings.ICON_WIDTH_SIZE);
 
 	public MainWindow()
 	{
@@ -52,7 +54,7 @@ public class MainWindow extends BorderPane
 		this.setBottom(descBox);
 	}
 
-	private void initContentArea(MainPane s)
+	private void initContentArea(ViewableGraph s)
 	{
 		s.getStyleClass().add("stackpane");
 		s.setPrefSize(Settings.CONTENT_AREA_WIDTH, Settings.CONTENT_AREA_HEIGHT);
@@ -78,15 +80,19 @@ public class MainWindow extends BorderPane
 		bAlgoDest.getMaterial().setDiffuseColor(Settings.ALGO_DEST_COLOR);
 		bAlgoShortest.getMaterial().setDiffuseColor(Settings.ALGO_SHORTEST_COLOR);
 		bAlgoDiscovered.getMaterial().setDiffuseColor(Settings.ALGO_DISCOVERED_COLOR);
+		bAlgoFindSmallest.getMaterial().setDiffuseColor(Settings.ALGO_FINDSMALLEST_COLOR);
+		bAlgoSmallest.getMaterial().setDiffuseColor(Settings.ALGO_SMALLEST_COLOR);
 		Label labelSrc = new Label("SRC", bSrc.getFXNode());
 		Label labelDest = new Label("DEST", bDest.getFXNode());
 		Label labelAlgoSrc = new Label("Visiting SRC", bAlgoSrc.getFXNode());
 		Label labelAlgoDest = new Label("Visiting DEST", bAlgoDest.getFXNode());
 		Label labelAlgoShortest = new Label("Shortest", bAlgoShortest.getFXNode());
 		Label labelAlgoDiscovered = new Label("Discovered", bAlgoDiscovered.getFXNode());
+		Label labelAlgoFindSmallest = new Label("Visited", bAlgoFindSmallest.getFXNode());
+		Label labelAlgoSmallest = new Label("Smallest", bAlgoSmallest.getFXNode());
 		hb.setSpacing(Settings.PADDING_IN_BAR);
 		hb.setPadding(new Insets(Settings.PADDING_IN_BAR));
-		hb.getChildren().addAll(labelSrc, labelDest, labelAlgoSrc, labelAlgoDest, labelAlgoShortest, labelAlgoDiscovered);
+		hb.getChildren().addAll(labelSrc, labelDest, labelAlgoSrc, labelAlgoDest, labelAlgoFindSmallest, labelAlgoSmallest, labelAlgoDiscovered, labelAlgoShortest);
 	}
 
 	private void initToolBar(ToolBar t)
@@ -147,7 +153,7 @@ public class MainWindow extends BorderPane
 			if (file != null)
 			{
 				serializeur.setFile(file);
-				MainPane mp = serializeur.deserialize();
+				ViewableGraph mp = serializeur.deserialize();
 				if (mp != null)
 				{
 					this.getChildren().remove(contentArea);
@@ -192,7 +198,9 @@ public class MainWindow extends BorderPane
 		t.setPadding(new Insets(Settings.PADDING_IN_BAR));
 		// t.alignmentProperty().set(Pos.CENTER);
 		// h.getChildren().addAll(b, c);
-
+		MultiModeIcon editPlayModeIcon = new MultiModeIcon(2);
+		editPlayModeIcon.initImage(Settings.IMAGE_EDIT_MODE);
+		editPlayModeIcon.setImage(1, Settings.IMAGE_PLAY_MODE);
 		CheckBox cbGraphReady = new CheckBox("Graph is ready");
 		cbGraphReady.selectedProperty().addListener(new ChangeListener<Boolean>()
 		{
@@ -225,22 +233,26 @@ public class MainWindow extends BorderPane
 						alert.setContentText("You have to set one start node and one end node by right click menu.");
 						alert.showAndWait();
 						return;
-					}
-
-					for (ViewableNode v : contentArea.getAllNodes())
+					} else
 					{
-						v.getEhm().setListener(false);
-						v.getEhrc().setListener(false);
+						for (ViewableNode v : contentArea.getAllNodes())
+						{
+							v.getEhm().setListener(false);
+							v.getEhrc().setListener(false);
+						}
+						bSrc.getEsd().setListener(false);
+						bDest.getEsd().setListener(false);
+						bAlgoSrc.getEsd().setListener(false);
+						bAlgoDest.getEsd().setListener(false);
+						bAlgoShortest.getEsd().setListener(false);
+						bAlgoDiscovered.getEsd().setListener(false);
+						bAlgoFindSmallest.getEsd().setListener(false);
+						bAlgoSmallest.getEsd().setListener(false);
+						b.getEsd().setListener(false);
+						c.getEsd().setListener(false);
+						contentArea.updateControlPanel();
+						editPlayModeIcon.swtichToMode(1);
 					}
-					bSrc.getEsd().setListener(false);
-					bDest.getEsd().setListener(false);
-					bAlgoSrc.getEsd().setListener(false);
-					bAlgoDest.getEsd().setListener(false);
-					bAlgoShortest.getEsd().setListener(false);
-					bAlgoDiscovered.getEsd().setListener(false);
-					b.getEsd().setListener(false);
-					c.getEsd().setListener(false);
-					contentArea.updateControlPanel();
 				} else
 				{
 					contentArea.playReset();
@@ -255,13 +267,16 @@ public class MainWindow extends BorderPane
 					bAlgoDest.getEsd().setListener(true);
 					bAlgoShortest.getEsd().setListener(true);
 					bAlgoDiscovered.getEsd().setListener(true);
+					bAlgoFindSmallest.getEsd().setListener(true);
+					bAlgoSmallest.getEsd().setListener(true);
 					b.getEsd().setListener(true);
 					c.getEsd().setListener(true);
+					editPlayModeIcon.swtichToMode(0);
 				}
 			}
 		});
 
-		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), controlpanel, new Separator(), cbGraphReady, new Separator(), b.getFXNode(), c.getFXNode());
+		t.getItems().addAll(bNew, bLoad, bSave, new Separator(), controlpanel, new Separator(), editPlayModeIcon, cbGraphReady, new Separator(), b.getFXNode(), c.getFXNode());
 	}
 
 	public void typedEsc()

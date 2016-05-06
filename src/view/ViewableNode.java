@@ -20,7 +20,7 @@ public class ViewableNode extends Noeud
 {
 	public static String INFINITY_SYMBOL = "∞";
 	private static final long serialVersionUID = 1L;
-	private final MainPane contentArea;
+	private final ViewableGraph contentArea;
 	private final Group group = new Group();
 	private boolean isSelectMode = false;
 	private boolean isSelectedStartingNode = false;
@@ -35,7 +35,7 @@ public class ViewableNode extends Noeud
 	private EventHandlerMove ehm;
 	private EventHandlerRightClick ehrc;
 
-	public ViewableNode(double size, MainPane mp)
+	public ViewableNode(double size, ViewableGraph mp)
 	{
 		super();
 		contentArea = mp;
@@ -261,6 +261,32 @@ public class ViewableNode extends Noeud
 		}
 	}
 
+	public void setAlgoFindSmallestNode(boolean isOrNot)
+	{
+		if (isOrNot)
+		{
+			material.setDiffuseColor(Settings.ALGO_FINDSMALLEST_COLOR);
+			labelVertexValue.setTextFill(Settings.ALGO_FINDSMALLEST_COLOR);
+		} else
+		{
+			material.setDiffuseColor(originalColor);
+			labelVertexValue.setTextFill(originalColor);
+		}
+	}
+
+	public void setAlgoSmallestNode(boolean isOrNot)
+	{
+		if (isOrNot)
+		{
+			material.setDiffuseColor(Settings.ALGO_SMALLEST_COLOR);
+			labelVertexValue.setTextFill(Settings.ALGO_SMALLEST_COLOR);
+		} else
+		{
+			material.setDiffuseColor(originalColor);
+			labelVertexValue.setTextFill(originalColor);
+		}
+	}
+
 	public void setAlgoSourceNode(boolean isOrNot)
 	{
 		if (isOrNot)
@@ -370,11 +396,19 @@ public class ViewableNode extends Noeud
 		case SHORTEST:
 			setAlgoShortestNode(true);
 			break;
+		case FINDSMALLEST:
+			setAlgoFindSmallestNode(true);
+			break;
+		case SMALLEST:
+			setAlgoSmallestNode(true);
+			break;
 		default:
 			setAlgoDestNode(false);
 			setAlgoSourceNode(false);
 			setAlgoDiscoveredNode(false);
 			setAlgoShortestNode(false);
+			setAlgoSmallestNode(false);
+			setAlgoFindSmallestNode(false);
 			break;
 		}
 	}

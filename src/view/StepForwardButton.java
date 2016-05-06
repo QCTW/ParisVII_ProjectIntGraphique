@@ -6,9 +6,9 @@ import javafx.scene.input.MouseEvent;
 
 public class StepForwardButton extends Button
 {
-	private final MainPane contentArea;
+	private final ViewableGraph contentArea;
 
-	public StepForwardButton(MainPane mp)
+	public StepForwardButton(ViewableGraph mp)
 	{
 		super();
 		contentArea = mp;

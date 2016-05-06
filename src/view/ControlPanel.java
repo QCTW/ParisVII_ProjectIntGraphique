@@ -11,12 +11,10 @@ public class ControlPanel extends HBox
 	private final StepForwardButton bStepForwardButton;
 	private final StepBackButton bStepBackButton;
 	private final ResetButton bResetButton;
-	private final MainPane mp;
 
-	public ControlPanel(MainPane contentArea)
+	public ControlPanel(ViewableGraph contentArea)
 	{
 		super();
-		mp = contentArea;
 		bControlButton = new ControlButton(contentArea);
 		bStepForwardButton = new StepForwardButton(contentArea);
 		bStepBackButton = new StepBackButton(contentArea);

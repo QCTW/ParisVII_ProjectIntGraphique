@@ -7,9 +7,9 @@ import javafx.scene.input.MouseEvent;
 public class StepBackButton extends Button
 {
 
-	private final MainPane contentArea;
+	private final ViewableGraph contentArea;
 
-	public StepBackButton(MainPane mp)
+	public StepBackButton(ViewableGraph mp)
 	{
 		super();
 		contentArea = mp;

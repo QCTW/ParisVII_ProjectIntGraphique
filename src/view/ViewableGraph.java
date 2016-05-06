@@ -19,7 +19,7 @@ import model.Noeud;
 import model.NoeudStatus;
 import model.Snapshot;
 
-public class MainPane extends Pane implements Serializable
+public class ViewableGraph extends Pane implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private final Vector<ViewableNode> vAllNodes = new Vector<ViewableNode>();
@@ -37,7 +37,7 @@ public class MainPane extends Pane implements Serializable
 	private ControlPanel panel = null;
 	private Task<Void> longPlayTask;
 
-	public MainPane()
+	public ViewableGraph()
 	{
 		super();
 		this.addEventHandler(MouseEvent.MOUSE_MOVED, event -> {

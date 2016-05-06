@@ -12,7 +12,7 @@ public class Ball extends ViewableNode
 		this(size, null);
 	}
 
-	public Ball(double size, MainPane mp)
+	public Ball(double size, ViewableGraph mp)
 	{
 		super(size, mp);
 		sphere = new Sphere(size / 2);

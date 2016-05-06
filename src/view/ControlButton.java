@@ -6,12 +6,12 @@ import javafx.scene.input.MouseEvent;
 
 public class ControlButton extends Button
 {
-	private final MainPane contentArea;
+	private final ViewableGraph contentArea;
 	private boolean isPlay = true;
 	Icon iconPause = new Icon(Settings.IMAGE_BPAUSE);
 	Icon iconPlay = new Icon(Settings.IMAGE_BPLAY);
 
-	public ControlButton(MainPane mp)
+	public ControlButton(ViewableGraph mp)
 	{
 		super();
 		contentArea = mp;

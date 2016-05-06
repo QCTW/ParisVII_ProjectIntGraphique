@@ -108,6 +108,8 @@ public class AlgoDijkstra
 		Noeud smallest = findSmallestValueNode(nodesExamed);
 		if (smallest != null)
 			discoverShortestPath(smallest);
+		else
+			System.out.println("All nodes has been discovered");
 	}
 
 	private Noeud getCorrectClonedObject(Noeud original)
@@ -120,11 +122,13 @@ public class AlgoDijkstra
 	{
 		long smallestValue = BaseNode.INFINITY;
 		Noeud smallestNode = null;
+		Vector<Noeud> vUpatedNodes = new Vector<Noeud>();
 		for (Noeud one : nodes)
 		{
 			if (!one.isDiscovered()) // Only check not-discovered node
 			{
 				one.setStatus(NoeudStatus.FINDSMALLEST);
+				vUpatedNodes.add(one);
 				if (one.getVertexValue() < smallestValue)
 				{
 					smallestValue = one.getVertexValue();
@@ -132,8 +136,18 @@ public class AlgoDijkstra
 				}
 			}
 		}
-		animationSteps.add(new Snapshot(givenNodes));
-		smallestNode.setStatus(NoeudStatus.SMALLEST);
+		if (smallestNode != null)
+		{
+			animationSteps.add(new Snapshot(givenNodes));
+			smallestNode.setStatus(NoeudStatus.SMALLEST);
+			animationSteps.add(new Snapshot(givenNodes));
+		}
+
+		for (Noeud one : vUpatedNodes)
+		{
+			if (one.getNodeId() != smallestNode.getNodeId())
+				one.setStatus(NoeudStatus.NONE);
+		}
 		animationSteps.add(new Snapshot(givenNodes));
 		return smallestNode;
 	}

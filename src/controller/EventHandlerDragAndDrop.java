@@ -6,14 +6,14 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import view.Ball;
 import view.Cube;
-import view.MainPane;
+import view.ViewableGraph;
 
 public class EventHandlerDragAndDrop implements EventHandler<DragEvent>
 {
 
-	MainPane targetNode;
+	ViewableGraph targetNode;
 
-	public EventHandlerDragAndDrop(MainPane node)
+	public EventHandlerDragAndDrop(ViewableGraph node)
 	{
 		targetNode = node;
 	}
