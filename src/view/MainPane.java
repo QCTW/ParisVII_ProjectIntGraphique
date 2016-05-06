@@ -17,7 +17,7 @@ import model.BaseNode;
 import model.Edge;
 import model.Noeud;
 import model.NoeudStatus;
-import model.Step;
+import model.Snapshot;
 
 public class MainPane extends Pane implements Serializable
 {
@@ -28,7 +28,7 @@ public class MainPane extends Pane implements Serializable
 	private final Vector<ViewableEdge> vConnections = new Vector<ViewableEdge>();
 	private volatile boolean isPlayingAlgo = false;
 	private volatile int algoPlayIndex = 0;
-	private Vector<Step> vAlgoSteps = null;
+	private Vector<Snapshot> vAlgoSteps = null;
 	private ViewableNode connectFrom;
 	private boolean isSelectMode = false;
 	private ActionType action = ActionType.NONE;
@@ -428,7 +428,7 @@ public class MainPane extends Pane implements Serializable
 		});
 	}
 
-	private void displayOneStep(Step step)
+	private void displayOneStep(Snapshot step)
 	{
 		Noeud src = null;
 		Noeud dest = null;

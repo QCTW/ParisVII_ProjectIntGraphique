@@ -16,11 +16,11 @@ public class Noeud implements BaseNode
 	private double posZ = 0;
 	private boolean isStartNode = false;
 	private boolean isEndNode = false;
+	private boolean hasExamed = false;
 	private NoeudStatus nodeStatus = NoeudStatus.NONE;
 
 	public Noeud(Noeud copy)
 	{
-		vEdges = copy.getEdges();
 		nodeId = copy.nodeId;
 		nodeLabel = copy.nodeLabel;
 		vertexValue = copy.vertexValue;
@@ -30,6 +30,7 @@ public class Noeud implements BaseNode
 		isStartNode = copy.isStartNode;
 		isEndNode = copy.isEndNode;
 		nodeStatus = copy.nodeStatus;
+		vEdges = copy.getEdges(); // Note that the edge in this Vector still points to the old, not-cloned node
 	}
 
 	public Noeud()
@@ -179,6 +180,18 @@ public class Noeud implements BaseNode
 	public void setStatus(NoeudStatus status)
 	{
 		nodeStatus = status;
+	}
+
+	@Override
+	public boolean isDiscovered()
+	{
+		return hasExamed;
+	}
+
+	@Override
+	public void setIsDiscovered(boolean trueOrFalse)
+	{
+		hasExamed = trueOrFalse;
 	}
 
 	@Override

@@ -85,12 +85,12 @@ public final class Utility
 		Noeud target = null;
 		Noeud from = conn.getStartPoint();
 		Noeud to = conn.getEndPoint();
-		if (from.getNodeId() != source.getNodeId())
-		{
-			target = from;
-		} else if (to.getNodeId() != source.getNodeId())
+		if (source.getNodeId() == from.getNodeId())
 		{
 			target = to;
+		} else
+		{
+			target = from;
 		}
 		return target;
 	}

@@ -45,4 +45,8 @@ public interface BaseNode extends Serializable
 
 	public void setPosZ(double z);
 
+	public void setIsDiscovered(boolean trueOrFalse);
+
+	public boolean isDiscovered();
+
 }

@@ -2,16 +2,16 @@ package model;
 
 import java.util.Vector;
 
-public class Step
+public class Snapshot
 {
 	private static int idCount = 0;
 
 	private final int stepId;
 	private Vector<Noeud> clonedNodes = null;
 
-	public Step(Vector<Noeud> allNodes)
+	public Snapshot(Vector<Noeud> allNodes)
 	{
-		clonedNodes = snapShot(allNodes);
+		clonedNodes = zap(allNodes);
 		idCount++;
 		stepId = idCount;
 	}
@@ -26,7 +26,7 @@ public class Step
 		return stepId;
 	}
 
-	public Vector<Noeud> snapShot(Vector<Noeud> allNodes)
+	public Vector<Noeud> zap(Vector<Noeud> allNodes)
 	{
 		Vector<Noeud> newVector = new Vector<Noeud>();
 		for (Noeud one : allNodes)

@@ -3,7 +3,7 @@ package view;
 import java.util.Vector;
 
 import javafx.scene.layout.HBox;
-import model.Step;
+import model.Snapshot;
 
 public class ControlPanel extends HBox
 {
@@ -53,7 +53,7 @@ public class ControlPanel extends HBox
 		return bResetButton;
 	}
 
-	public void update(int algoPlayIndex, Vector<Step> vAlgoSteps)
+	public void update(int algoPlayIndex, Vector<Snapshot> vAlgoSteps)
 	{
 		if (vAlgoSteps == null)
 		{

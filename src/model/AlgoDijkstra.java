@@ -1,24 +1,22 @@
 package model;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import java.util.Vector;
 
 import view.Utility;
 
 public class AlgoDijkstra
 {
-	private final Noeud startNode;
-	private final Noeud endNode;
+	private Noeud startNode = null;
+	private Noeud endNode = null;
 	private final Vector<Noeud> givenNodes;
+	private final Vector<Noeud> nodesExamed = new Vector<Noeud>();
 	private final Vector<Noeud> shortestPathNodes = new Vector<Noeud>();
-	private final Vector<Step> animationSteps = new Vector<Step>();
-	private final HashMap<Integer, Noeud> hmDiscoveredNodes = new HashMap<Integer, Noeud>();
+	private final Vector<Snapshot> animationSteps = new Vector<Snapshot>();
+	// private final HashMap<Integer, Noeud> hmDiscoveredNodes = new HashMap<Integer, Noeud>();
 
 	public AlgoDijkstra(Vector<Noeud> allNodes)
 	{
-		givenNodes = allNodes;
+		givenNodes = new Snapshot(allNodes).getSnapShot();
 		startNode = findStartNode(givenNodes);
 		endNode = findEndNode(givenNodes);
 	}
@@ -26,15 +24,20 @@ public class AlgoDijkstra
 	public void start()
 	{
 		System.out.println("Algo Dijkstra started");
-		animationSteps.add(new Step(givenNodes));
+		animationSteps.add(new Snapshot(givenNodes));
+		nodesExamed.add(startNode);
 		discoverShortestPath(startNode);
+
+		System.out.println("startNode: " + startNode.getNodeId() + "(" + startNode.getVertexValue() + ")");
+		System.out.println("endNode: " + endNode.getNodeId() + "(" + endNode.getVertexValue() + ")");
 		findShortestPath(startNode, endNode);
+
 		for (Noeud one : shortestPathNodes)
 			one.setStatus(NoeudStatus.SHORTEST);
 
 		startNode.setStatus(NoeudStatus.NONE);
 		endNode.setStatus(NoeudStatus.NONE);
-		animationSteps.add(new Step(givenNodes));
+		animationSteps.add(new Snapshot(givenNodes));
 
 		System.out.println("Algo Dijkstra finished with " + animationSteps.size() + " steps");
 	}
@@ -46,17 +49,20 @@ public class AlgoDijkstra
 		for (Edge conn : end.getEdges())
 		{
 			Noeud target = Utility.findTargetNodeFromSource(conn, end);
-			if (target.getVertexValue() == valueEnd - conn.getWeight())
+			target = getCorrectClonedObject(target);
+			long valueTarget = target.getVertexValue();
+			if (valueTarget == valueEnd - conn.getWeight())
 			{
 				minValueNode = target;
 				break;
 			}
 		}
-		System.out.println("Check:minValueNode=" + minValueNode + ";start=" + start);
-		if (minValueNode.getNodeId() != start.getNodeId())
+
+		if (minValueNode != null && minValueNode.getNodeId() != start.getNodeId())
 		{
 			findShortestPath(start, minValueNode);
 			shortestPathNodes.add(minValueNode);
+			System.out.println("Shortest node " + minValueNode.getNodeId() + " added");
 		}
 	}
 
@@ -67,62 +73,72 @@ public class AlgoDijkstra
 
 	private void discoverShortestPath(Noeud oneNode)
 	{
-		if (hmDiscoveredNodes.get(oneNode.getNodeId()) == null)
-		{
-			System.out.println("Discovering node: " + oneNode.getNodeId());
-			hmDiscoveredNodes.put(oneNode.getNodeId(), oneNode);
-			oneNode.setStatus(NoeudStatus.DISCOVERING);
-			animationSteps.add(new Step(givenNodes));
-			Vector<Noeud> vUndiscoveredNodes = new Vector<Noeud>();
-			for (Edge conn : oneNode.getEdges())
-			{
-				Noeud target = Utility.findTargetNodeFromSource(conn, oneNode);
-				int weight = conn.getWeight();
+		System.out.println("Discovering node: " + oneNode.getNodeId() + "(" + oneNode.getVertexValue() + ")");
+		oneNode.setStatus(NoeudStatus.DISCOVERING);
+		animationSteps.add(new Snapshot(givenNodes));
 
-				System.out.println(oneNode.getNodeId() + " <-[" + weight + "]-> " + target.getNodeId());
-				long lSourceValuePlusWeight = escapeInfinity(oneNode) + weight;
-				oneNode.setStatus(NoeudStatus.COMPARE_SRC);
+		for (Edge conn : oneNode.getEdges())
+		{
+			Noeud target = Utility.findTargetNodeFromSource(conn, oneNode);
+			target = getCorrectClonedObject(target);
+			int weight = conn.getWeight();
+			System.out.println(oneNode.getNodeId() + " checks its edge:" + oneNode.getNodeId() + " <-[" + weight + "]-> " + target.getNodeId());
+			long lSourceValuePlusWeight = escapeInfinity(oneNode) + weight;
+			oneNode.setStatus(NoeudStatus.COMPARE_SRC);
+			if (!target.isDiscovered())
+			{
 				target.setStatus(NoeudStatus.COMPARE_DEST);
-				animationSteps.add(new Step(givenNodes));
+				animationSteps.add(new Snapshot(givenNodes));
 				if (lSourceValuePlusWeight < target.getVertexValue())
 				{
 					System.out.println(target.getNodeId() + "'s value changes from " + target.getVertexValue() + " to " + lSourceValuePlusWeight);
 					target.setVertexValue(lSourceValuePlusWeight);
 					target.setStatus(NoeudStatus.CHANGEDVALUE);
-					animationSteps.add(new Step(givenNodes));
-
+					animationSteps.add(new Snapshot(givenNodes));
+					if (!nodesExamed.contains(target))
+						nodesExamed.add(target);
 				}
-
-				if (hmDiscoveredNodes.get(target.getNodeId()) == null)
-					vUndiscoveredNodes.add(target);
-
-			}
-
-			oneNode.setStatus(NoeudStatus.DISCOVERED);
-			animationSteps.add(new Step(givenNodes));
-			printHashMap(hmDiscoveredNodes);
-			resetStatusExceptDiscovered();
-			animationSteps.add(new Step(givenNodes));
-
-			for (Noeud node : vUndiscoveredNodes)
-			{
-				discoverShortestPath(node);
 			}
 		}
+
+		oneNode.setIsDiscovered(true);
+		oneNode.setStatus(NoeudStatus.DISCOVERED);
+		animationSteps.add(new Snapshot(givenNodes));
+		printVector(nodesExamed);
+		Noeud smallest = findSmallestValueNode(nodesExamed);
+		if (smallest != null)
+			discoverShortestPath(smallest);
 	}
 
-	private void resetStatusExceptDiscovered()
+	private Noeud getCorrectClonedObject(Noeud original)
 	{
-		for (Noeud one : givenNodes)
-		{
-			if (hmDiscoveredNodes.get(one.getNodeId()) != null)
-				one.setStatus(NoeudStatus.DISCOVERED);
-			else
-				one.setStatus(NoeudStatus.NONE);
-		}
+		int index = givenNodes.indexOf(original);
+		return givenNodes.get(index);
 	}
 
-	public Vector<Step> getAnimationSteps()
+	private Noeud findSmallestValueNode(Vector<Noeud> nodes)
+	{
+		long smallestValue = BaseNode.INFINITY;
+		Noeud smallestNode = null;
+		for (Noeud one : nodes)
+		{
+			if (!one.isDiscovered()) // Only check not-discovered node
+			{
+				one.setStatus(NoeudStatus.FINDSMALLEST);
+				if (one.getVertexValue() < smallestValue)
+				{
+					smallestValue = one.getVertexValue();
+					smallestNode = one;
+				}
+			}
+		}
+		animationSteps.add(new Snapshot(givenNodes));
+		smallestNode.setStatus(NoeudStatus.SMALLEST);
+		animationSteps.add(new Snapshot(givenNodes));
+		return smallestNode;
+	}
+
+	public Vector<Snapshot> getAnimationSteps()
 	{
 		return animationSteps;
 	}
@@ -134,12 +150,12 @@ public class AlgoDijkstra
 		return oneNode.getVertexValue();
 	}
 
-	private void printHashMap(HashMap<Integer, Noeud> hmNodes)
+	private void printVector(Vector<Noeud> vNodes)
 	{
 		StringBuffer sb = new StringBuffer("====\n");
-		for (Entry<Integer, Noeud> e : hmNodes.entrySet())
+		for (Noeud e : vNodes)
 		{
-			sb.append(e.getKey() + "(" + e.getValue().getVertexValue() + ")\n");
+			sb.append(e.getNodeId() + "(" + e.getVertexValue() + ")\n");
 		}
 		sb.append("====");
 		System.out.println(sb.toString());
