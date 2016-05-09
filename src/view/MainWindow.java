@@ -89,7 +89,7 @@ public class MainWindow extends BorderPane
 		Label labelAlgoShortest = new Label("Shortest", bAlgoShortest.getFXNode());
 		Label labelAlgoDiscovered = new Label("Discovered", bAlgoDiscovered.getFXNode());
 		Label labelAlgoFindSmallest = new Label("Visited", bAlgoFindSmallest.getFXNode());
-		Label labelAlgoSmallest = new Label("Smallest", bAlgoSmallest.getFXNode());
+		Label labelAlgoSmallest = new Label("Visited Smallest", bAlgoSmallest.getFXNode());
 		hb.setSpacing(Settings.PADDING_IN_BAR);
 		hb.setPadding(new Insets(Settings.PADDING_IN_BAR));
 		hb.getChildren().addAll(labelSrc, labelDest, labelAlgoSrc, labelAlgoDest, labelAlgoFindSmallest, labelAlgoSmallest, labelAlgoDiscovered, labelAlgoShortest);
