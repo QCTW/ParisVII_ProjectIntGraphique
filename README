@@ -18,3 +18,7 @@ Project implemented:
 7. Be able to animate Dijkstra's algorithm step by step forward/backward/flow.
 8. Difference between edit mode and play mode.
 9. Be able to cancel an right menu action by pressing ESC
+10.Implemented ESC key listener, left click mouse listener, right click mouse listener, left mouse drag and drop
+11.Use lambda expression in ActionMenu
+12.Play buttons are updated for each of its playing status
+13.Snapshot all nodes for each steps in the algorithm.
