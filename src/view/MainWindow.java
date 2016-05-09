@@ -50,25 +50,25 @@ public class MainWindow extends BorderPane
 		initContentArea(contentArea);
 		initDescriptionBox(descBox);
 		this.setTop(toolBar);
-		this.setCenter(contentArea);
+		this.setCenter(contentArea.getFXNode());
 		this.setBottom(descBox);
 	}
 
 	private void initContentArea(ViewableGraph s)
 	{
-		s.getStyleClass().add("stackpane");
-		s.setPrefSize(Settings.CONTENT_AREA_WIDTH, Settings.CONTENT_AREA_HEIGHT);
+		s.getFXNode().getStyleClass().add("stackpane");
+		s.getFXNode().setPrefSize(Settings.CONTENT_AREA_WIDTH, Settings.CONTENT_AREA_HEIGHT);
 		EventHandlerDragAndDrop eventMaster = new EventHandlerDragAndDrop(s);
-		s.setOnDragOver(eventMaster);
-		s.setOnDragEntered(eventMaster);
-		s.setOnDragExited(eventMaster);
-		s.setOnDragDropped(eventMaster);
-		s.setOnDragDone(eventMaster);
+		s.getFXNode().setOnDragOver(eventMaster);
+		s.getFXNode().setOnDragEntered(eventMaster);
+		s.getFXNode().setOnDragExited(eventMaster);
+		s.getFXNode().setOnDragDropped(eventMaster);
+		s.getFXNode().setOnDragDone(eventMaster);
 
 		EventHandlerGroupSelect eventGroupSelect = new EventHandlerGroupSelect(s);
-		s.setOnMousePressed(eventGroupSelect);
-		s.setOnMouseDragged(eventGroupSelect);
-		s.setOnMouseReleased(eventGroupSelect);
+		s.getFXNode().setOnMousePressed(eventGroupSelect);
+		s.getFXNode().setOnMouseDragged(eventGroupSelect);
+		s.getFXNode().setOnMouseReleased(eventGroupSelect);
 		s.setControlPanel(controlpanel);
 	}
 
@@ -107,7 +107,7 @@ public class MainWindow extends BorderPane
 		bNew.setGraphic(iconNew);
 		bNew.setTooltip(new Tooltip("Start a new design graph"));
 		bNew.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-			if ((contentArea.getAllNodes().size() != 0) || (contentArea.getAllConnection().size() != 0))
+			if ((contentArea.getAllNodes().size() != 0) || (contentArea.getAllEdges().size() != 0))
 			{
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Save Confirmation");
@@ -122,7 +122,7 @@ public class MainWindow extends BorderPane
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == buttonConfirm)
 				{
-					Vector<ViewableNode> allNodes = contentArea.getAllNodes();
+					Vector<ViewableNode> allNodes = contentArea.getAllViewableNodes();
 					for (int i = allNodes.size() - 1; i >= 0; i--)
 					{
 						allNodes.get(i).delete();
@@ -159,7 +159,7 @@ public class MainWindow extends BorderPane
 					this.getChildren().remove(contentArea);
 					contentArea = mp;
 					initContentArea(contentArea);
-					this.setCenter(contentArea);
+					this.setCenter(contentArea.getFXNode());
 					// msgBox.setText(serializeur.getMessage());
 				} else
 				{
@@ -212,7 +212,7 @@ public class MainWindow extends BorderPane
 				{
 					boolean condition1 = false;
 					boolean condition2 = false;
-					for (ViewableNode v : contentArea.getAllNodes())
+					for (ViewableNode v : contentArea.getAllViewableNodes())
 					{
 						if (condition1 == false && v.isStartNode() == true)
 						{
@@ -235,7 +235,7 @@ public class MainWindow extends BorderPane
 						return;
 					} else
 					{
-						for (ViewableNode v : contentArea.getAllNodes())
+						for (ViewableNode v : contentArea.getAllViewableNodes())
 						{
 							v.getEhm().setListener(false);
 							v.getEhrc().setListener(false);
@@ -256,7 +256,7 @@ public class MainWindow extends BorderPane
 				} else
 				{
 					contentArea.playReset();
-					for (ViewableNode v : contentArea.getAllNodes())
+					for (ViewableNode v : contentArea.getAllViewableNodes())
 					{
 						v.getEhm().setListener(true);
 						v.getEhrc().setListener(true);

@@ -80,6 +80,26 @@ public final class Utility
 		return vNoeuds;
 	}
 
+	public static Vector<ViewableNode> convertNodeModelToView(Vector<Noeud> vAllNodes)
+	{
+		Vector<ViewableNode> vNoeuds = new Vector<ViewableNode>();
+		for (Noeud one : vAllNodes)
+		{
+			vNoeuds.add((ViewableNode) one);
+		}
+		return vNoeuds;
+	}
+
+	public static Vector<ViewableEdge> convertEdgeModelToView(Vector<Edge> vAllEdges)
+	{
+		Vector<ViewableEdge> vEdges = new Vector<ViewableEdge>();
+		for (Edge one : vAllEdges)
+		{
+			vEdges.add((ViewableEdge) one);
+		}
+		return vEdges;
+	}
+
 	public static Noeud findTargetNodeFromSource(Edge conn, Noeud source)
 	{
 		Noeud target = null;

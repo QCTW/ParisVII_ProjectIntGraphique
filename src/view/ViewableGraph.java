@@ -1,6 +1,5 @@
 package view;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -15,19 +14,19 @@ import javafx.scene.shape.Rectangle;
 import model.AlgoDijkstra;
 import model.BaseNode;
 import model.Edge;
+import model.Graph;
 import model.Noeud;
 import model.NoeudStatus;
 import model.Snapshot;
 
-public class ViewableGraph extends Pane implements Serializable
+public class ViewableGraph extends Graph
 {
 	private static final long serialVersionUID = 1L;
-	private final Vector<ViewableNode> vAllNodes = new Vector<ViewableNode>();
 	private final Vector<ViewableNode> vGroupSelectedNodes = new Vector<ViewableNode>();
 	private final Vector<EdgeHint> vDisplayLines = new Vector<EdgeHint>();
-	private final Vector<ViewableEdge> vConnections = new Vector<ViewableEdge>();
 	private volatile boolean isPlayingAlgo = false;
 	private volatile int algoPlayIndex = 0;
+	private final Pane mainPane = new Pane();
 	private Vector<Snapshot> vAlgoSteps = null;
 	private ViewableNode connectFrom;
 	private boolean isSelectMode = false;
@@ -40,7 +39,7 @@ public class ViewableGraph extends Pane implements Serializable
 	public ViewableGraph()
 	{
 		super();
-		this.addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
+		mainPane.addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
 			if (isSelectMode && action == ActionType.ADD_CONNECTION)
 			{
 				displayEdgesHintsTo(event.getX(), event.getY(), event.getZ());
@@ -48,39 +47,34 @@ public class ViewableGraph extends Pane implements Serializable
 		});
 	}
 
+	public Pane getFXNode()
+	{
+		return mainPane;
+	}
+
 	public Cube createCube()
 	{
 		Cube c = new Cube(Settings.NODE_SIZE, this);
-		this.getChildren().add(c.getFXNode());
-		vAllNodes.add(c);
+		mainPane.getChildren().add(c.getFXNode());
+		getAllNodes().add(c);
 		return c;
 	}
 
 	public Ball createBall()
 	{
 		Ball b = new Ball(Settings.NODE_SIZE, this);
-		this.getChildren().add(b.getFXNode());
-		vAllNodes.add(b);
+		mainPane.getChildren().add(b.getFXNode());
+		getAllNodes().add(b);
 		return b;
-	}
-
-	public Vector<ViewableNode> getAllNodes()
-	{
-		return vAllNodes;
-	}
-
-	public Vector<ViewableEdge> getAllConnection()
-	{
-		return vConnections;
 	}
 
 	public void displayEdgesHintsFrom(double x, double y, double z)
 	{
 		removeEdgesHints();
-		for (ViewableNode n : vAllNodes)
+		for (Noeud n : getAllNodes())
 		{
 			EdgeHint line = new EdgeHint(n.getPosX(), n.getPosY(), x, y);
-			this.getChildren().add(line);
+			mainPane.getChildren().add(line);
 			vDisplayLines.add(line);
 		}
 	}
@@ -89,7 +83,7 @@ public class ViewableGraph extends Pane implements Serializable
 	{
 		removeEdgesHints();
 		EdgeHint line = new EdgeHint(connectFrom.getPosX(), connectFrom.getPosY(), x, y);
-		this.getChildren().add(line);
+		mainPane.getChildren().add(line);
 		vDisplayLines.add(line);
 	}
 
@@ -99,7 +93,7 @@ public class ViewableGraph extends Pane implements Serializable
 		{
 			for (EdgeHint l : vDisplayLines)
 			{
-				this.getChildren().remove(l);
+				mainPane.getChildren().remove(l);
 			}
 			vDisplayLines.removeAllElements();
 		}
@@ -118,7 +112,7 @@ public class ViewableGraph extends Pane implements Serializable
 			hmRelatedNodes.put(end.getNodeId(), end);
 		}
 
-		for (ViewableNode node : vAllNodes)
+		for (ViewableNode node : getAllViewableNodes())
 		{
 			if (action == ActionType.ADD_CONNECTION)
 			{
@@ -156,7 +150,7 @@ public class ViewableGraph extends Pane implements Serializable
 
 	private void renableAllObjects()
 	{
-		for (ViewableNode node : vAllNodes)
+		for (ViewableNode node : getAllViewableNodes())
 		{
 			node.setSelectMode(isSelectMode);
 			node.setEnabled();
@@ -176,15 +170,15 @@ public class ViewableGraph extends Pane implements Serializable
 			if (action == ActionType.ADD_CONNECTION)
 			{
 				conn.initGraphic(connectFrom, source);
-				this.getChildren().add(0, conn.getFXNode());
-				vConnections.add(conn);
+				mainPane.getChildren().add(0, conn.getFXNode());
+				getAllEdges().add(conn);
 			} else
 			{
 
-				int nFound = vConnections.indexOf(conn);
-				conn = vConnections.get(nFound);
-				this.getChildren().remove(conn.getFXNode());
-				vConnections.remove(conn);
+				int nFound = getAllEdges().indexOf(conn);
+				conn = getAllViewableEdges().get(nFound);
+				mainPane.getChildren().remove(conn.getFXNode());
+				getAllEdges().remove(conn);
 				conn.delete();
 			}
 			source.removeSelected();
@@ -221,7 +215,7 @@ public class ViewableGraph extends Pane implements Serializable
 	public void deleteNode(ViewableNode node)
 	{
 		Vector<ViewableEdge> conn2Remove = new Vector<ViewableEdge>();
-		for (ViewableEdge conn : vConnections)
+		for (ViewableEdge conn : getAllViewableEdges())
 		{
 			if (conn.getEndPoint().getNodeId() == node.getNodeId() || conn.getStartPoint().getNodeId() == node.getNodeId())
 			{
@@ -232,12 +226,12 @@ public class ViewableGraph extends Pane implements Serializable
 		for (ViewableEdge conn : conn2Remove)
 		{
 			conn.delete();
-			vConnections.remove(conn);
-			this.getChildren().remove(conn.getFXNode());
+			getAllEdges().remove(conn);
+			mainPane.getChildren().remove(conn.getFXNode());
 		}
 
-		vAllNodes.remove(node);
-		this.getChildren().remove(node.getFXNode());
+		getAllNodes().remove(node);
+		mainPane.getChildren().remove(node.getFXNode());
 	}
 
 	public void setAction(ActionType atype)
@@ -247,7 +241,7 @@ public class ViewableGraph extends Pane implements Serializable
 
 	public void resetOtherStartNodes(ViewableNode node)
 	{
-		for (ViewableNode one : vAllNodes)
+		for (Noeud one : getAllNodes())
 		{
 			if (one.getNodeId() != node.getNodeId())
 				one.setStartNode(false);
@@ -256,7 +250,7 @@ public class ViewableGraph extends Pane implements Serializable
 
 	public void resetOtherEndNodes(ViewableNode node)
 	{
-		for (ViewableNode one : vAllNodes)
+		for (Noeud one : getAllNodes())
 		{
 			if (one.getNodeId() != node.getNodeId())
 				one.setEndNode(false);
@@ -275,23 +269,23 @@ public class ViewableGraph extends Pane implements Serializable
 			groupSelection.setStrokeWidth(1);
 		} else
 		{
-			this.getChildren().remove(groupSelection);
+			mainPane.getChildren().remove(groupSelection);
 		}
 
 		Point3D pointClicked = new Point3D(clickedX, clickedY, 0);
 		// Point3D pointCurrent = new Point3D(currentX, currentY, 0);
-		Point3D convertClicked = this.sceneToLocal(pointClicked);
+		Point3D convertClicked = mainPane.sceneToLocal(pointClicked);
 		groupSelection.setX(convertClicked.getX());
 		groupSelection.setY(convertClicked.getY());
 		groupSelection.setWidth(currentX - clickedX);
 		groupSelection.setHeight(currentY - clickedY);
-		this.getChildren().add(groupSelection);
+		mainPane.getChildren().add(groupSelection);
 
 	}
 
 	public void removeSelectedGroup()
 	{
-		for (ViewableNode node : vAllNodes)
+		for (ViewableNode node : getAllViewableNodes())
 		{
 			node.removeSelected();
 		}
@@ -301,16 +295,16 @@ public class ViewableGraph extends Pane implements Serializable
 
 	public void detectSelectedNodes(double clickedX, double clickedY, double currentX, double currentY)
 	{
-		for (ViewableNode node : vAllNodes)
+		for (ViewableNode node : getAllViewableNodes())
 		{
 			Point3D p = new Point3D(node.getPosX(), node.getPosY(), node.getPosZ());
-			Point3D pScene = this.localToScene(p);
+			Point3D pScene = mainPane.localToScene(p);
 			if (pScene.getX() > clickedX && pScene.getX() < currentX && pScene.getY() > clickedY && pScene.getY() < currentY)
 			{
 				addSelected(node);
 			}
 		}
-		this.getChildren().remove(groupSelection);
+		mainPane.getChildren().remove(groupSelection);
 	}
 
 	public void addSelected(ViewableNode nodeToAdd)
@@ -377,7 +371,7 @@ public class ViewableGraph extends Pane implements Serializable
 	{
 		if (vAlgoSteps == null)
 		{
-			algoDijkstra = new AlgoDijkstra(Utility.convertViewToModel(vAllNodes));
+			algoDijkstra = new AlgoDijkstra(getAllNodes());
 			algoDijkstra.start();
 			vAlgoSteps = algoDijkstra.getAnimationSteps();
 		}
@@ -432,7 +426,7 @@ public class ViewableGraph extends Pane implements Serializable
 	{
 		Noeud src = null;
 		Noeud dest = null;
-		for (ViewableEdge e : vConnections)
+		for (ViewableEdge e : getAllViewableEdges())
 			e.setAlgoSource(false);
 
 		Vector<Noeud> snapShot = step.getSnapShot();
@@ -448,13 +442,13 @@ public class ViewableGraph extends Pane implements Serializable
 				markShortestEdges(snap);
 			}
 
-			int targetIndex = vAllNodes.indexOf(snap);
+			int targetIndex = getAllNodes().indexOf(snap);
 			if (targetIndex == -1)
 			{
 				System.out.println("Unable to find node:" + snap.toString());
 			} else
 			{
-				ViewableNode target = vAllNodes.get(targetIndex);
+				ViewableNode target = getAllViewableNodes().get(targetIndex);
 				target.displaySnapShot(snap);
 			}
 		}
@@ -462,13 +456,13 @@ public class ViewableGraph extends Pane implements Serializable
 		if (src != null && dest != null)
 		{
 			Edge edge = new Edge(src, dest);
-			int edgeIndex = vConnections.indexOf(edge);
+			int edgeIndex = getAllEdges().indexOf(edge);
 			if (edgeIndex == -1)
 			{
 				System.out.println("Unable to find edge:" + edge.toString());
 			} else
 			{
-				ViewableEdge hasEdge = vConnections.get(edgeIndex);
+				ViewableEdge hasEdge = getAllViewableEdges().get(edgeIndex);
 				hasEdge.setAlgoSource(true);
 			}
 		}
@@ -476,13 +470,13 @@ public class ViewableGraph extends Pane implements Serializable
 		if (algoDijkstra.getShortestPathNodes().size() == 0 && algoPlayIndex == vAlgoSteps.size() - 1)
 		{
 			Edge edge = new Edge(algoDijkstra.getStartNode(), algoDijkstra.getEndNode());
-			int edgeIndex = vConnections.indexOf(edge);
+			int edgeIndex = getAllEdges().indexOf(edge);
 			if (edgeIndex == -1)
 			{
 				System.out.println("Unable to find edge:" + edge.toString());
 			} else
 			{
-				ViewableEdge hasEdge = vConnections.get(edgeIndex);
+				ViewableEdge hasEdge = getAllViewableEdges().get(edgeIndex);
 				hasEdge.setAlgoShortest(true);
 			}
 		}
@@ -498,13 +492,13 @@ public class ViewableGraph extends Pane implements Serializable
 			Edge edge = new Edge(snap, dest);
 			if (dest.getStatus() == NoeudStatus.SHORTEST || dest.isStartNode() || dest.isEndNode())
 			{
-				int edgeIndex = vConnections.indexOf(edge);
+				int edgeIndex = getAllEdges().indexOf(edge);
 				if (edgeIndex == -1)
 				{
 					System.out.println("Unable to find edge:" + edge.toString());
 				} else
 				{
-					ViewableEdge hasEdge = vConnections.get(edgeIndex);
+					ViewableEdge hasEdge = getAllViewableEdges().get(edgeIndex);
 					hasEdge.setAlgoShortest(true);
 				}
 			}
@@ -522,7 +516,7 @@ public class ViewableGraph extends Pane implements Serializable
 
 	public void ensureAllEdgesAtBack()
 	{
-		for (ViewableEdge e : vConnections)
+		for (ViewableEdge e : getAllViewableEdges())
 		{
 			e.getFXNode().toBack();
 		}
@@ -537,12 +531,12 @@ public class ViewableGraph extends Pane implements Serializable
 
 		vAlgoSteps = null;
 		algoPlayIndex = 0;
-		for (ViewableNode one : vAllNodes)
+		for (ViewableNode one : getAllViewableNodes())
 		{
 			one.resetNodeStatus();
 		}
 
-		for (ViewableEdge e : vConnections)
+		for (ViewableEdge e : getAllViewableEdges())
 		{
 			e.resetStatus();
 		}
