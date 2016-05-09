@@ -266,10 +266,12 @@ public class ViewableNode extends Noeud
 		if (isOrNot)
 		{
 			material.setDiffuseColor(Settings.ALGO_FINDSMALLEST_COLOR);
+			labelVertexValue.setText("Is " + convertVertexValue(this.getVertexValue()) + " smallest?");
 			labelVertexValue.setTextFill(Settings.ALGO_FINDSMALLEST_COLOR);
 		} else
 		{
 			material.setDiffuseColor(originalColor);
+			labelVertexValue.setText(convertVertexValue(this.getVertexValue()));
 			labelVertexValue.setTextFill(originalColor);
 		}
 	}
@@ -279,6 +281,7 @@ public class ViewableNode extends Noeud
 		if (isOrNot)
 		{
 			material.setDiffuseColor(Settings.ALGO_SMALLEST_COLOR);
+			labelVertexValue.setText("Found " + convertVertexValue(this.getVertexValue()) + " smallest");
 			labelVertexValue.setTextFill(Settings.ALGO_SMALLEST_COLOR);
 		} else
 		{
@@ -328,6 +331,7 @@ public class ViewableNode extends Noeud
 
 	public void setAlgoNewVertexValue(long newValue)
 	{
+		setVertexValue(newValue);
 		labelVertexValue.setText(convertVertexValue(newValue));
 	}
 

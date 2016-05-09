@@ -46,7 +46,7 @@ public class ControlPanel extends HBox
 		return bStepBackButton;
 	}
 
-	public ResetButton getStopButton()
+	public ResetButton getResetButton()
 	{
 		return bResetButton;
 	}

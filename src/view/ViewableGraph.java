@@ -331,40 +331,35 @@ public class ViewableGraph extends Graph
 	{
 		stopAlgo();
 		algoPlayIndex = 0;
-		if (vAlgoSteps.size() > 0)
-			playOneStepAlgo();
-
+		playAlgo(false);
 	}
 
 	public void startAlgoOneStepForward()
 	{
 		stopAlgo();
-		isPlayingAlgo = true;
 		runAlgoDijkstraIfNotExecuted();
 		if (algoPlayIndex < vAlgoSteps.size())
 			algoPlayIndex++;
-		if (vAlgoSteps.size() > 0)
-			playOneStepAlgo();
+
+		playAlgo(false);
+
 	}
 
 	public void startAlgoOneStepBackward()
 	{
 		stopAlgo();
-		isPlayingAlgo = true;
 		runAlgoDijkstraIfNotExecuted();
 		if (algoPlayIndex > 0)
 			algoPlayIndex--;
-		if (vAlgoSteps.size() > 0)
-			playOneStepAlgo();
+
+		playAlgo(false);
 	}
 
 	public void startAlgo()
 	{
 		isPlayingAlgo = true;
 		runAlgoDijkstraIfNotExecuted();
-
-		if (vAlgoSteps.size() > 0)
-			playAlgo();
+		playAlgo(true);
 	}
 
 	private void runAlgoDijkstraIfNotExecuted()
@@ -377,26 +372,37 @@ public class ViewableGraph extends Graph
 		}
 	}
 
-	private void playAlgo()
+	private void playAlgo(boolean isStreaming)
 	{
-		longPlayTask = new Task<Void>()
+		if (vAlgoSteps.size() > 0)
 		{
-			@Override
-			protected Void call() throws Exception
+			isPlayingAlgo = true;
+			if (isStreaming)
 			{
-				while (algoPlayIndex < vAlgoSteps.size())
+				longPlayTask = new Task<Void>()
 				{
-					if (!isPlayingAlgo || isCancelled())
-						break;
+					@Override
+					protected Void call() throws Exception
+					{
+						while (algoPlayIndex < vAlgoSteps.size())
+						{
+							if (!isPlayingAlgo || isCancelled())
+								break;
 
-					playOneStepAlgo();
-					algoPlayIndex++;
-					Thread.sleep(1000);
-				}
-				return null;
+							playOneStepAlgo();
+							algoPlayIndex++;
+							Thread.sleep(1000);
+						}
+						return null;
+					}
+				};
+				new Thread(longPlayTask).start();
+			} else
+			{
+				isPlayingAlgo = false;
+				playOneStepAlgo();
 			}
-		};
-		new Thread(longPlayTask).start();
+		}
 	}
 
 	private void playOneStepAlgo()
@@ -414,7 +420,7 @@ public class ViewableGraph extends Graph
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("End of Algorithm");
 					alert.setHeaderText("Dijkstra's algorithm has finished");
-					alert.setContentText("The shortest path will be marked in white.");
+					alert.setContentText("The shortest nodes/path will be marked in white.");
 					alert.showAndWait();
 				}
 				updateControlPanel();
@@ -511,7 +517,7 @@ public class ViewableGraph extends Graph
 		if (longPlayTask != null)
 			longPlayTask.cancel();
 
-		panel.getControlButton().setPlay();
+		updateControlPanel();
 	}
 
 	public void ensureAllEdgesAtBack()
@@ -550,6 +556,10 @@ public class ViewableGraph extends Graph
 	public void updateControlPanel()
 	{
 		panel.update(algoPlayIndex, vAlgoSteps);
+		if (!isPlayingAlgo)
+			panel.getControlButton().setPlay();
+		else
+			panel.getControlButton().setPause();
 	}
 
 	public void cancelCurrentAction()
